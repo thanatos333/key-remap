@@ -6,7 +6,7 @@ Swap the roles of `` ` `` and `Alt+`` ` `` on a US keyboard under Windows + Japa
 
 ## Download
 
-**[key-remap.exe (v0.1.0)](https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe)** — single-file binary, no installation needed. All releases: [Releases](https://github.com/thanatos333/key-remap/releases)
+**[key-remap.exe (latest)](https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe)** — single-file binary, no installation needed. All releases: [Releases](https://github.com/thanatos333/key-remap/releases)
 
 - `` ` `` alone → toggle IME on/off (acts as the 半角/全角 key)
 - `Alt+`` ` `` → type the `` ` `` character itself
@@ -38,15 +38,17 @@ cargo build --release
 # -> target\release\key-remap.exe
 ```
 
-## Install (run at logon)
+## Install
 
-Put a shortcut to `key-remap.exe` in the Startup folder
-(`shell:startup`), or register a logon scheduled task.
+Just run `key-remap.exe`. On launch it registers itself in the
+HKCU `Run` key, so from the next logon on it starts automatically.
+Moving the exe is fine — the registered path is refreshed on every launch.
 
 ## Stop / uninstall
 
-End `key-remap.exe` in Task Manager and remove the Startup shortcut.
-Nothing is written to the registry.
+Run `key-remap.exe --uninstall` to remove the auto-start registration,
+then end the process in Task Manager and delete the file.
+Apart from that one Run value, nothing is written to the registry.
 
 ## Notes
 

@@ -1,6 +1,6 @@
 [package]
 name = "key-remap"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Swap ` and Alt+` on a US keyboard: ` alone toggles IME, Alt+` types `"
 license = "MIT"

@@ -119,6 +119,56 @@ extern "system" {
     fn GetAsyncKeyState(vkey: i32) -> i16;
     fn CreateMutexW(attrs: *mut c_void, initial_owner: i32, name: *const u16) -> *mut c_void;
     fn GetLastError() -> u32;
+    fn GetModuleFileNameW(hmod: *mut c_void, buf: *mut u16, size: u32) -> u32;
+    fn RegCreateKeyExW(hkey: *mut c_void, subkey: *const u16, reserved: u32, class: *const u16, options: u32, sam: u32, sa: *const c_void, out_key: *mut *mut c_void, disp: *mut u32) -> i32;
+    fn RegOpenKeyExW(hkey: *mut c_void, subkey: *const u16, options: u32, sam: u32, out_key: *mut *mut c_void) -> i32;
+    fn RegSetValueExW(hkey: *mut c_void, name: *const u16, reserved: u32, ty: u32, data: *const u8, cb: u32) -> i32;
+    fn RegDeleteValueW(hkey: *mut c_void, name: *const u16) -> i32;
+    fn RegCloseKey(hkey: *mut c_void) -> i32;
+}
+
+// ---- Logon auto-start (HKCU Run key) ----
+const HKEY_CURRENT_USER: *mut c_void = 0x8000_0001usize as *mut c_void;
+const KEY_WRITE: u32 = 0x0002_0006;
+const KEY_SET_VALUE_ONLY: u32 = 0x0002;
+const REG_SZ: u32 = 1;
+
+fn wide(s: &str) -> Vec<u16> {
+    s.encode_utf16().chain(std::iter::once(0)).collect()
+}
+
+/// Register (or refresh) this exe in the HKCU Run key so it starts at logon.
+/// Runs on every launch, so moving the exe updates the registered path.
+fn ensure_autostart() {
+    unsafe {
+        let mut buf = [0u16; 1024];
+        let n = GetModuleFileNameW(std::ptr::null_mut(), buf.as_mut_ptr(), buf.len() as u32);
+        if n == 0 {
+            return;
+        }
+        let exe = String::from_utf16_lossy(&buf[..n as usize]);
+        let subkey = wide("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+        let name = wide("key-remap");
+        let data = wide(&format!("\"{exe}\""));
+        let mut hkey: *mut c_void = std::ptr::null_mut();
+        if RegCreateKeyExW(HKEY_CURRENT_USER, subkey.as_ptr(), 0, std::ptr::null(), 0, KEY_WRITE, std::ptr::null(), &mut hkey, std::ptr::null_mut()) == 0 {
+            RegSetValueExW(hkey, name.as_ptr(), 0, REG_SZ, data.as_ptr() as *const u8, (data.len() * 2) as u32);
+            RegCloseKey(hkey);
+        }
+    }
+}
+
+/// Remove the Run key registration (`key-remap.exe --uninstall`).
+fn remove_autostart() {
+    unsafe {
+        let subkey = wide("Software\\Microsoft\\Windows\\CurrentVersion\\Run");
+        let name = wide("key-remap");
+        let mut hkey: *mut c_void = std::ptr::null_mut();
+        if RegOpenKeyExW(HKEY_CURRENT_USER, subkey.as_ptr(), 0, KEY_SET_VALUE_ONLY, &mut hkey) == 0 {
+            RegDeleteValueW(hkey, name.as_ptr());
+            RegCloseKey(hkey);
+        }
+    }
 }
 
 // ---- Shared state ----
@@ -223,6 +273,11 @@ fn type_backquote() {
 }
 
 fn main() {
+    // `key-remap.exe --uninstall` removes the auto-start registration and exits.
+    if std::env::args().skip(1).any(|a| a == "--uninstall") {
+        remove_autostart();
+        return;
+    }
     unsafe {
         // Single instance.
         let mutex_name: Vec<u16> = "KeyRemapGraveImeMutex\0".encode_utf16().collect();
@@ -230,6 +285,9 @@ fn main() {
         if GetLastError() == ERROR_ALREADY_EXISTS {
             return;
         }
+
+        // From the first launch on, start automatically at logon.
+        ensure_autostart();
 
         MAIN_THREAD.store(GetCurrentThreadId(), Ordering::SeqCst);
         let hmod = GetModuleHandleW(std::ptr::null());
