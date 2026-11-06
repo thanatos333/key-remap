@@ -20,75 +20,106 @@
 <style>
   :root{
     color-scheme:light;
-    --bg:#ffffff; --bg-soft:#f6f7f9; --panel:#ffffff; --line:#e2e5ea;
-    --text:#23262b; --muted:#5d6470; --accent:#2f54eb; --accent-soft:#eef2ff;
-    --key-top:#ffffff; --key-edge:#c9ced8; --key-text:#23262b;
-    --code-bg:#f0f1f4;
+    --bg:#ffffff; --band:#f4f6f9; --panel:#ffffff;
+    --line:#dde2ea; --line-strong:#c6cdd9;
+    --text:#1f2328; --muted:#4d5561;
+    --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e9effe;
+    --key-top:#ffffff; --key-edge:#c3c9d4; --key-text:#1f2328;
+    --code-bg:#eef0f3; --shadow:0 1px 3px rgba(20,30,60,.08),0 4px 14px rgba(20,30,60,.05);
   }
   @media (prefers-color-scheme: dark){
     :root{
       color-scheme:dark;
-      --bg:#14161a; --bg-soft:#191c21; --panel:#1b1e24; --line:#2c3038;
-      --text:#e8e9eb; --muted:#a3a9b5; --accent:#8ca6ff; --accent-soft:#232a44;
-      --key-top:#262a33; --key-edge:#101216; --key-text:#e8e9eb;
-      --code-bg:#22252c;
+      --bg:#14161a; --band:#191c21; --panel:#1d2026;
+      --line:#2e323b; --line-strong:#3a3f4a;
+      --text:#eceef1; --muted:#a9b0bc;
+      --accent:#93aaff; --accent-ink:#10131c; --accent-soft:#232a44;
+      --key-top:#262a33; --key-edge:#0f1114; --key-text:#eceef1;
+      --code-bg:#23262d; --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
     }
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;line-height:1.9;font-size:16px;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;line-height:1.85;font-size:16px;-webkit-font-smoothing:antialiased}
   a{color:var(--accent)}
-  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
-  header{border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:760px;margin:0 auto;padding:0 22px}
-  .logo{font-family:ui-monospace,"SF Mono",Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+  /* header */
+  header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
+  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
   .nav-links{display:flex;gap:22px;font-size:13.5px}
   .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
-  main{padding-bottom:30px}
-  .intro{padding:64px 0 10px}
-  h1{font-size:30px;line-height:1.55;font-weight:700;letter-spacing:.01em}
-  h1 .mono{font-family:ui-monospace,"SF Mono",Consolas,monospace}
-  .intro p{margin-top:22px;color:var(--text)}
-  .intro p.sub{color:var(--muted)}
-  .download{margin-top:32px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:11px 24px;border-radius:8px;font-size:15px}
-  @media (prefers-color-scheme: dark){ .btn{color:#10131c} }
-  .btn:hover{opacity:.88}
+  /* hero */
+  .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
+  .hero h1{font-size:clamp(26px,4.6vw,34px);line-height:1.55;font-weight:800}
+  .hero h1 .mono{font-family:ui-monospace,Consolas,monospace;color:var(--accent)}
+  .hero .lead{margin-top:20px;max-width:640px}
+  .hero .lead + .lead{margin-top:12px}
+  .quick-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  .fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow)}
+  .fact .k{font-size:12px;color:var(--muted);letter-spacing:.05em}
+  .fact .v{font-size:16.5px;font-weight:700;margin-top:2px}
+  @media (max-width:560px){ .quick-facts{grid-template-columns:1fr} }
+  .download{margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;min-height:50px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;padding:10px 26px;border-radius:9px;font-size:15.5px;box-shadow:var(--shadow)}
+  .btn:hover{opacity:.9}
   .download .meta{font-size:13px;color:var(--muted)}
-  section{padding:44px 0 6px}
-  h2{font-size:20px;font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:22px}
-  p + p{margin-top:14px}
-  .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:8px 0 4px}
-  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:62px;height:62px;padding:0 16px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:24px;font-weight:700}
+  .toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+  .toc a{font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:999px;padding:4px 14px;background:var(--panel)}
+  .toc a:hover{color:var(--text);border-color:var(--muted)}
+  /* sections */
+  section{padding:52px 0}
+  section.band{background:var(--band);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{font-family:ui-monospace,Consolas,monospace;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 9px;flex:none}
+  h2{font-size:22px;font-weight:800}
+  .sec-lead{color:var(--muted);margin-bottom:24px;max-width:640px}
+  /* keys */
+  .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:6px 0 22px}
+  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 17px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:25px;font-weight:700;box-shadow:var(--shadow)}
   .keycap.wide{font-size:16px;gap:7px}
   .keycap .plus{color:var(--muted);font-size:15px}
   .cap-box{text-align:center}
-  .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px}
-  .arrow{font-size:20px;color:var(--muted)}
-  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:4px}
-  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--muted);font-weight:600;font-size:13px;background:var(--bg-soft)}
+  .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px;font-weight:600}
+  .arrow{font-size:20px;color:var(--accent);font-weight:700}
+  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;background:var(--band)}
+  tbody tr:nth-child(even){background:var(--band)}
   tr:last-child td{border-bottom:none}
-  kbd{font-family:ui-monospace,"SF Mono",Consolas,monospace;background:var(--code-bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:13px}
-  ol.steps{padding-left:22px}
-  ol.steps li{margin-bottom:12px;padding-left:4px}
-  ul.plain{padding-left:20px}
-  ul.plain li{margin-bottom:7px}
-  code{font-family:ui-monospace,"SF Mono",Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:13.5px}
-  .demo{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:6px}
+  td.after{font-weight:700}
+  kbd{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:13px}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:13.5px}
+  /* demo */
+  .demo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:22px;box-shadow:var(--shadow)}
   .demo .demo-title{font-size:13.5px;font-weight:700;margin-bottom:12px}
   .demo-row{display:flex;align-items:center;gap:13px}
-  .ime-indicator{font-weight:700;font-size:18px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);flex:none}
-  .ime-indicator.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-  @media (prefers-color-scheme: dark){ .ime-indicator.on{color:#10131c} }
-  .demo-input{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
+  .ime-indicator{font-weight:700;font-size:18px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--band);border:1px solid var(--line);flex:none}
+  .ime-indicator.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .demo-input{flex:1;background:var(--band);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
   .demo p{font-size:13px;color:var(--muted);margin-top:12px}
-  .faq details{border-bottom:1px solid var(--line);padding:15px 2px}
+  /* steps */
+  .steps{display:grid;gap:14px;counter-reset:step}
+  .step{display:flex;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);align-items:flex-start}
+  .step .n{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:3px}
+  .step h3{font-size:16px;font-weight:700;margin-bottom:4px}
+  .step p{font-size:14.5px;color:var(--muted)}
+  /* spec */
+  ul.plain{padding-left:20px;display:grid;gap:9px}
+  .note{font-size:13.5px;color:var(--muted);margin-top:16px}
+  /* faq */
+  .faq{display:grid;gap:10px}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 20px;box-shadow:var(--shadow)}
   .faq summary{font-weight:700;font-size:15.5px;cursor:pointer}
   .faq p{font-size:14.5px;color:var(--muted);margin-top:8px}
-  .note{font-size:13.5px;color:var(--muted)}
-  footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 34px;font-size:13px;color:var(--muted)}
-  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:760px;margin:0 auto;padding:0 22px}
+  /* final */
+  .final-cta{text-align:center;padding:56px 0 64px}
+  .final-cta h2{font-size:24px;margin-bottom:10px}
+  .final-cta p{color:var(--muted);margin-bottom:24px}
+  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:780px;margin:0 auto;padding:0 22px}
   footer a{color:var(--muted)}
 </style>
 <script type="application/ld+json">
@@ -160,100 +191,134 @@
   </div>
 </header>
 
-<main class="wrap">
-
-  <div class="intro">
+<div class="hero">
+  <div class="wrap">
     <h1>US配列キーボードで、<br><span class="mono">`</span> キーひとつで日本語入力に切り替える。</h1>
-    <p>US配列のキーボードを Windows で使っていると、日本語入力のオン/オフは <kbd>Alt</kbd> + <kbd>`</kbd> の同時押しになります。半角/全角キーのある日本語キーボードと違って、1回ごとに両手が要るのが地味に面倒でした。</p>
-    <p>key-remap は、この2つのキーの役割を入れ替える小さな常駐プログラムです。<kbd>`</kbd> を1回押せば入力が切り替わり、バッククォート自体は <kbd>Alt</kbd> + <kbd>`</kbd> で入力します。自分が毎日使うために作ったものですが、同じ不便を感じている人の役に立てばと思い公開しています。</p>
+    <p class="lead">US配列のキーボードを Windows で使っていると、日本語入力のオン/オフは <kbd>Alt</kbd> + <kbd>`</kbd> の同時押しになります。半角/全角キーのある日本語キーボードと違って、1回ごとに両手が要るのが地味に面倒でした。</p>
+    <p class="lead">key-remap は、この2つのキーの役割を入れ替える小さな常駐プログラムです。<kbd>`</kbd> を1回押せば入力が切り替わり、バッククォート自体は <kbd>Alt</kbd> + <kbd>`</kbd> で入力します。自分が毎日使うために作ったものですが、同じ不便を感じている人の役に立てばと思い公開しています。</p>
+    <div class="quick-facts">
+      <div class="fact"><div class="k">対応環境</div><div class="v">Windows 10 / 11</div></div>
+      <div class="fact"><div class="k">価格</div><div class="v">無料（オープンソース）</div></div>
+      <div class="fact"><div class="k">大きさ・常駐時メモリ</div><div class="v">112 KB / 約 1 MB</div></div>
+    </div>
     <div class="download">
       <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe をダウンロード</a>
-      <span class="meta">Windows 10 / 11 · 無料 · 112 KB</span>
+      <span class="meta">インストール不要。実行するだけです。</span>
     </div>
+    <nav class="toc">
+      <a href="#keys">キーの動き</a>
+      <a href="#install">使い方</a>
+      <a href="#spec">仕様と注意</a>
+      <a href="#faq">よくある質問</a>
+    </nav>
   </div>
+</div>
 
+<main>
   <section id="keys">
-    <h2>キーの動き</h2>
-    <div class="swap">
-      <div class="cap-box">
-        <div class="keycap">`</div>
-        <div class="cap-label">押すと入力切り替え</div>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">01</span><h2>キーの動き</h2></div>
+      <p class="sec-lead">変えるのは2つだけです。それ以外のキーはこれまでどおり使えます。</p>
+      <div class="swap">
+        <div class="cap-box">
+          <div class="keycap">`</div>
+          <div class="cap-label">押すと入力切り替え</div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="cap-box">
+          <div class="keycap wide"><span>Alt</span><span class="plus">+</span><span>`</span></div>
+          <div class="cap-label">押すと ` が入力される</div>
+        </div>
       </div>
-      <div class="arrow">⇄</div>
-      <div class="cap-box">
-        <div class="keycap wide"><span>Alt</span><span class="plus">+</span><span>`</span></div>
-        <div class="cap-label">押すと ` が入力される</div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>入力</th><th>導入前</th><th>導入後</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>`</kbd></td><td>` が入力される</td><td class="after">日本語入力のオン/オフ</td></tr>
+            <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>日本語入力のオン/オフ</td><td class="after">` が入力される</td></tr>
+            <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>~ が入力される</td><td>そのまま</td></tr>
+            <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> など</td><td>各アプリのショートカット</td><td>そのまま</td></tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-    <table>
-      <tr><th>入力</th><th>導入前</th><th>導入後</th></tr>
-      <tr><td><kbd>`</kbd></td><td>` が入力される</td><td>日本語入力のオン/オフ</td></tr>
-      <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>日本語入力のオン/オフ</td><td>` が入力される</td></tr>
-      <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>~ が入力される</td><td>そのまま</td></tr>
-      <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> など</td><td>各アプリのショートカット</td><td>そのまま</td></tr>
-    </table>
-    <p style="margin-top:18px">ページ上でも試せます。下の枠が表示されている状態で <kbd>`</kbd> キーを押すと、左の「あ / A」が切り替わります。<kbd>Alt</kbd> + <kbd>`</kbd> では枠の中にバッククォートが入ります。</p>
-    <div class="demo">
-      <div class="demo-title">動作イメージ</div>
-      <div class="demo-row">
-        <div class="ime-indicator on" id="imeBox">あ</div>
-        <div class="demo-input" id="demoInput"></div>
+      <div class="demo">
+        <div class="demo-title">動作イメージ — このページで ` キーを押してみてください</div>
+        <div class="demo-row">
+          <div class="ime-indicator on" id="imeBox">あ</div>
+          <div class="demo-input" id="demoInput"></div>
+        </div>
+        <p>` 単独で左の「あ / A」が切り替わり、Alt + ` で枠の中にバッククォートが入ります。デスクトップのブラウザでお試しください。</p>
       </div>
-      <p>※ 実際のキー入力を拾うため、デスクトップのブラウザでお試しください。</p>
     </div>
   </section>
 
-  <section id="install">
-    <h2>使い方</h2>
-    <ol class="steps">
-      <li><a href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe</a> をダウンロードして、好きな場所に置きます。</li>
-      <li>ダブルクリックで実行します。この時点で入れ替えが有効になり、あわせて自動起動の登録も行われます。次回のログインからは自動で起動するので、毎回実行する必要はありません。</li>
-      <li>やめたいときは、タスクマネージャーで key-remap を終了してください。自動起動も解除する場合は <code>key-remap.exe --uninstall</code> を実行してから終了します。</li>
-    </ol>
-    <p class="note">自動起動の登録は、レジストリの <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code> に自分のパスを書き込む方法で行います。exe を移動しても、次に起動したときに新しい場所で登録し直します。</p>
+  <section id="install" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">02</span><h2>使い方</h2></div>
+      <p class="sec-lead">ダウンロードして実行するだけです。面倒な設定はありません。</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div><h3>ダウンロードして置く</h3><p><a href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe</a> をダウンロードして、好きな場所に置きます。</p></div></div>
+        <div class="step"><div class="n">2</div><div><h3>実行する</h3><p>ダブルクリックで実行します。この時点で入れ替えが有効になり、あわせて自動起動の登録も行われます。次回のログインからは自動で起動するので、毎回実行する必要はありません。</p></div></div>
+        <div class="step"><div class="n">3</div><div><h3>やめたいとき</h3><p>タスクマネージャーで key-remap を終了してください。自動起動も解除する場合は <code>key-remap.exe --uninstall</code> を実行してから終了します。</p></div></div>
+      </div>
+      <p class="note">自動起動の登録は、レジストリの <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code> に自分のパスを書き込む方法で行います。exe を移動しても、次に起動したときに新しい場所で登録し直します。</p>
+    </div>
   </section>
 
   <section id="spec">
-    <h2>仕様と注意</h2>
-    <ul class="plain">
-      <li>対応 OS は Windows 10 / 11 です。Microsoft IME、Google 日本語入力で動作を確認しています。</li>
-      <li>常駐時のメモリ使用量は約 1 MB です。キー入力があったときだけ処理が走るので、待機中に CPU を使うことはありません。</li>
-      <li>管理者権限で実行されているウィンドウの上ではキー入力を拾えません。これは Windows の仕様によるもので、その場合は key-remap 側も管理者権限で実行してください。</li>
-      <li><kbd>`</kbd> の長押しでは切り替えは1回だけです（押しっぱなしでオン/オフを繰り返しません）。<kbd>Alt</kbd> + <kbd>`</kbd> の長押しは、通常のキーと同じく連続入力になります。</li>
-      <li>実装は Rust で、外部ライブラリは使っていません。低レベルキーボードフックで入力を受け取り、SendInput で置き換えています。ソースコードは <a href="https://github.com/thanatos333/key-remap">GitHub</a> で公開しています（MIT ライセンス）。</li>
-    </ul>
-  </section>
-
-  <section id="faq">
-    <h2>よくある質問</h2>
-    <div class="faq">
-      <details>
-        <summary>US配列（英語配列）キーボードで日本語入力（IME）を切り替えるには？</summary>
-        <p>Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。</p>
-      </details>
-      <details>
-        <summary>半角/全角キーがないキーボードでも使えますか？</summary>
-        <p>はい。半角/全角キーのない US配列キーボードのために作ったツールで、` キーがその代わりになります。</p>
-      </details>
-      <details>
-        <summary>バッククォート（`）やチルダ（~）は打てなくなりますか？</summary>
-        <p>打てます。バッククォートは Alt + ` 、チルダは Shift + ` で、これまでどおり入力できます。</p>
-      </details>
-      <details>
-        <summary>key-remap は無料ですか？</summary>
-        <p>無料です。ソースコードも MIT ライセンスで公開しています。</p>
-      </details>
-      <details>
-        <summary>インストールは必要ですか？</summary>
-        <p>必要ありません。exe を実行するだけです。初回起動時に自動起動の登録も済むので、次回のログインからは自動で起動します。</p>
-      </details>
-      <details>
-        <summary>対応環境を教えてください。</summary>
-        <p>Windows 10 / 11 で、Microsoft IME や Google 日本語入力などの日本語 IME と組み合わせて使えます。</p>
-      </details>
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">03</span><h2>仕様と注意</h2></div>
+      <p class="sec-lead">使う前に知っておいてほしいことをまとめました。</p>
+      <ul class="plain">
+        <li>対応 OS は Windows 10 / 11 です。Microsoft IME、Google 日本語入力で動作を確認しています。</li>
+        <li>常駐時のメモリ使用量は約 1 MB です。キー入力があったときだけ処理が走るので、待機中に CPU を使うことはありません。</li>
+        <li>管理者権限で実行されているウィンドウの上ではキー入力を拾えません。これは Windows の仕様によるもので、その場合は key-remap 側も管理者権限で実行してください。</li>
+        <li><kbd>`</kbd> の長押しでは切り替えは1回だけです（押しっぱなしでオン/オフを繰り返しません）。<kbd>Alt</kbd> + <kbd>`</kbd> の長押しは、通常のキーと同じく連続入力になります。</li>
+        <li>実装は Rust で、外部ライブラリは使っていません。低レベルキーボードフックで入力を受け取り、SendInput で置き換えています。ソースコードは <a href="https://github.com/thanatos333/key-remap">GitHub</a> で公開しています（MIT ライセンス）。</li>
+      </ul>
     </div>
   </section>
 
+  <section id="faq" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">04</span><h2>よくある質問</h2></div>
+      <p class="sec-lead">問い合わせの前に、こちらで解決するかもしれません。</p>
+      <div class="faq">
+        <details>
+          <summary>US配列（英語配列）キーボードで日本語入力（IME）を切り替えるには？</summary>
+          <p>Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。</p>
+        </details>
+        <details>
+          <summary>半角/全角キーがないキーボードでも使えますか？</summary>
+          <p>はい。半角/全角キーのない US配列キーボードのために作ったツールで、` キーがその代わりになります。</p>
+        </details>
+        <details>
+          <summary>バッククォート（`）やチルダ（~）は打てなくなりますか？</summary>
+          <p>打てます。バッククォートは Alt + ` 、チルダは Shift + ` で、これまでどおり入力できます。</p>
+        </details>
+        <details>
+          <summary>key-remap は無料ですか？</summary>
+          <p>無料です。ソースコードも MIT ライセンスで公開しています。</p>
+        </details>
+        <details>
+          <summary>インストールは必要ですか？</summary>
+          <p>必要ありません。exe を実行するだけです。初回起動時に自動起動の登録も済むので、次回のログインからは自動で起動します。</p>
+        </details>
+        <details>
+          <summary>対応環境を教えてください。</summary>
+          <p>Windows 10 / 11 で、Microsoft IME や Google 日本語入力などの日本語 IME と組み合わせて使えます。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="wrap">
+      <h2>まずは実行してみてください</h2>
+      <p>合わなければ、終了してファイルを消すだけです。</p>
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe をダウンロード</a>
+    </div>
+  </section>
 </main>
 
 <footer>
