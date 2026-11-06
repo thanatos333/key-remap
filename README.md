@@ -2,6 +2,10 @@
 
 Swap the roles of `` ` `` and `Alt+`` ` `` on a US keyboard under Windows + Japanese IME.
 
+## Download
+
+**[key-remap.exe (v0.1.0)](https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe)** — single-file binary, no installation needed. All releases: [Releases](https://github.com/thanatos333/key-remap/releases)
+
 - `` ` `` alone → toggle IME on/off (acts as the 半角/全角 key)
 - `Alt+`` ` `` → type the `` ` `` character itself
 - `Shift+`` ` `` (~), `Ctrl+`` ` ``, `Win+`` ` `` … are left untouched
