@@ -33,12 +33,12 @@
   @media (prefers-color-scheme: dark){
     :root{
       color-scheme:dark;
-      --bg:#1a2338; --band:#212d49; --panel:#24304d;
-      --line:#36466a; --line-strong:#475d8a;
-      --text:#ebeff8; --muted:#aebadd;
-      --accent:#9db4ff; --accent-ink:#131c30; --accent-soft:#2d3d64;
-      --key-top:#2b3a5c; --key-edge:#131c30; --key-text:#ebeff8;
-      --code-bg:#273452; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
+      --bg:#121a2a; --band:#172136; --panel:#1a2740;
+      --line:#2b3c5e; --line-strong:#3a4f78;
+      --text:#e9edf7; --muted:#a3b0ca;
+      --accent:#93aaff; --accent-ink:#101828; --accent-soft:#243354;
+      --key-top:#22304e; --key-edge:#0c1322; --key-text:#e9edf7;
+      --code-bg:#1e2c47; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
     }
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -247,18 +247,18 @@
         </div>
         <div class="kb-row">
           <div class="kb-key mod" style="--u:1.5">Tab</div>
-          <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key" data-k="i">I</div><div class="kb-key" data-k="o">O</div><div class="kb-key">P</div>
+          <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key" data-k="e">E</div><div class="kb-key">R</div><div class="kb-key" data-k="t">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key" data-k="i">I</div><div class="kb-key" data-k="o">O</div><div class="kb-key">P</div>
           <div class="kb-key">[</div><div class="kb-key">]</div>
           <div class="kb-key" style="--u:1.5">\</div>
         </div>
         <div class="kb-row">
           <div class="kb-key mod" style="--u:1.75">Caps</div>
-          <div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key" data-k="g">G</div><div class="kb-key" data-k="h">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div>
+          <div class="kb-key" data-k="a">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key" data-k="g">G</div><div class="kb-key" data-k="h">H</div><div class="kb-key">J</div><div class="kb-key" data-k="k">K</div><div class="kb-key" data-k="l">L</div>
           <div class="kb-key">;</div><div class="kb-key">'</div>
           <div class="kb-key mod" style="--u:2.25">Enter</div>
         </div>
         <div class="kb-row">
-          <div class="kb-key mod" style="--u:2.25">Shift</div>
+          <div class="kb-key mod" data-k="shift" style="--u:2.25">Shift</div>
           <div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key" data-k="n">N</div><div class="kb-key">M</div>
           <div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div>
           <div class="kb-key mod" style="--u:2.75">Shift</div>
@@ -272,7 +272,7 @@
           <div class="kb-key mod" style="--u:1.25">Ctrl</div>
         </div>
       </div>
-      <p class="kb-caption">A US-layout keyboard. The <kbd>`</kbd> key at the top left is the star — the animation loops the real workflow: toggle the IME on, type in romaji, switch back, then Alt + ` for a backquote.</p>
+      <p class="kb-caption">A US-layout keyboard. The <kbd>`</kbd> key at the top left is the star — the animation loops the real workflow: type "konnichiha" for こんにちは, toggle to English for "Hello", then Alt + ` for a backquote and Shift + ` for a tilde, and back to Japanese.</p>
 
       <div class="swap">
         <div class="cap-box">
@@ -423,37 +423,53 @@
       badge.textContent = on ? 'あ' : 'A';
       badge.classList.toggle('on', on);
     }
-    async function typeRomaji() {
-      // typing "nihongo" converts to にほんご
-      const seq = [['n', 'n'], ['i', 'に'], ['h', 'にh'], ['o', 'にほ'], ['n', 'にほn'], ['g', 'にほんg'], ['o', 'にほんご']];
-      text.textContent = '';
+    async function typeKeys(seq) {
       for (const [k, shown] of seq) {
-        await press(k, 160);
+        await press(k, 150);
         text.textContent = shown;
-        await sleep(110);
+        await sleep(100);
       }
+    }
+    function typeKonnichiha() {
+      // typing "konnichiha" converts to こんにちは
+      return typeKeys([['k', 'k'], ['o', 'こ'], ['n', 'こn'], ['n', 'こん'], ['i', 'こんに'], ['t', 'こんにt'], ['i', 'こんにち'], ['h', 'こんにちh'], ['a', 'こんにちは']]);
+    }
+    function typeHello() {
+      return typeKeys([['h', 'H'], ['e', 'He'], ['l', 'Hel'], ['l', 'Hell'], ['o', 'Hello']]);
     }
     async function loop() {
       for (;;) {
-        setIme(false); text.textContent = '';
-        await sleep(1100);
-        await press('grave', 320);
-        setIme(true);
-        await sleep(450);
-        await typeRomaji();
-        await sleep(1300);
+        // Japanese input: こんにちは
+        setIme(true); text.textContent = '';
+        await sleep(800);
+        await typeKonnichiha();
+        await sleep(1200);
+        // ` alone: IME off, then Hello
         await press('grave', 320);
         setIme(false);
         text.textContent = '';
-        await sleep(450);
+        await sleep(400);
+        await typeHello();
+        await sleep(900);
+        // Alt + ` types a backquote
         if (keys.alt) keys.alt.classList.add('press');
         await sleep(120);
         await press('grave', 300);
-        text.textContent = 'const tick = `';
+        text.textContent = 'Hello`';
         if (keys.alt) keys.alt.classList.remove('press');
-        await sleep(1500);
+        await sleep(800);
+        // Shift + ` types a tilde
+        if (keys.shift) keys.shift.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'Hello`~';
+        if (keys.shift) keys.shift.classList.remove('press');
+        await sleep(1400);
+        // ` alone: back to Japanese input
+        await press('grave', 320);
+        setIme(true);
         text.textContent = '';
-        await sleep(600);
+        await sleep(500);
       }
     }
     loop();
