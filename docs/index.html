@@ -6,6 +6,9 @@
 <title>key-remap — US配列キーボードで ` キーひとつでIME切り替え｜半角/全角キーの代わり</title>
 <meta name="description" content="US配列（英語配列）キーボードには半角/全角キーがありません。key-remap は ` キー単独で日本語入力（IME）のオン/オフ、Alt+` でバッククォート入力に入れ替える無料のWindows常駐ツール。インストール不要・オープンソース。">
 <link rel="canonical" href="https://thanatos333.github.io/key-remap/">
+<link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
+<link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
+<link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="pkGKsy_cuPoLISQIVBtxgSDSIVatcBdSyz6QyM7DYRg">
 <meta property="og:type" content="website">
@@ -14,6 +17,7 @@
 <meta property="og:description" content="US配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。無料・インストール不要。">
 <meta property="og:url" content="https://thanatos333.github.io/key-remap/">
 <meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="key-remap — US配列で ` キーひとつでIME切り替え">
 <meta name="twitter:description" content="US配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。">
@@ -30,12 +34,12 @@
   @media (prefers-color-scheme: dark){
     :root{
       color-scheme:dark;
-      --bg:#14161a; --band:#191c21; --panel:#1d2026;
-      --line:#2e323b; --line-strong:#3a3f4a;
-      --text:#eceef1; --muted:#a9b0bc;
-      --accent:#93aaff; --accent-ink:#10131c; --accent-soft:#232a44;
-      --key-top:#262a33; --key-edge:#0f1114; --key-text:#eceef1;
-      --code-bg:#23262d; --shadow:0 1px 3px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+      --bg:#1a2338; --band:#212d49; --panel:#24304d;
+      --line:#36466a; --line-strong:#475d8a;
+      --text:#ebeff8; --muted:#aebadd;
+      --accent:#9db4ff; --accent-ink:#131c30; --accent-soft:#2d3d64;
+      --key-top:#2b3a5c; --key-edge:#131c30; --key-text:#ebeff8;
+      --code-bg:#273452; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
     }
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -43,13 +47,13 @@
   body{background:var(--bg);color:var(--text);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;line-height:1.85;font-size:16px;-webkit-font-smoothing:antialiased}
   a{color:var(--accent)}
   .wrap{max-width:780px;margin:0 auto;padding:0 22px}
-  /* header */
   header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
   .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
-  .nav-links{display:flex;gap:22px;font-size:13.5px}
+  .nav-links{display:flex;gap:20px;font-size:13.5px;align-items:center}
   .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
+  .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
   /* hero */
   .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
   .hero h1{font-size:clamp(26px,4.6vw,34px);line-height:1.55;font-weight:800}
@@ -75,7 +79,21 @@
   .sec-num{font-family:ui-monospace,Consolas,monospace;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 9px;flex:none}
   h2{font-size:22px;font-weight:800}
   .sec-lead{color:var(--muted);margin-bottom:24px;max-width:640px}
-  /* keys */
+  /* animated keyboard */
+  .kb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin:4px 0 10px}
+  .kb-screen{display:flex;align-items:center;gap:12px;background:var(--band);border:1px solid var(--line);border-radius:9px;padding:8px 14px;margin-bottom:14px;min-height:48px}
+  .kb-badge{font-weight:700;font-size:15px;width:38px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);flex:none}
+  .kb-badge.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .kb-text{font-family:ui-monospace,Consolas,monospace;font-size:15.5px;min-height:1.4em;white-space:pre}
+  .kb-row{display:flex;gap:5px;margin-bottom:5px}
+  .kb-row:last-child{margin-bottom:0}
+  .kb-key{flex:var(--u,1) 1 0;height:38px;display:flex;align-items:center;justify-content:center;background:var(--key-top);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:6px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace;color:var(--key-text);transition:background .12s ease,transform .12s ease;user-select:none}
+  .kb-key.mod{font-size:10.5px;color:var(--muted);font-family:inherit}
+  .kb-key.grave{border-color:var(--accent);color:var(--accent);font-weight:700}
+  .kb-key.press{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);transform:translateY(2px)}
+  .kb-caption{font-size:13px;color:var(--muted);margin-bottom:24px}
+  @media (max-width:560px){ .kb-key{height:29px;font-size:9.5px;border-radius:4px} .kb-key.mod{font-size:8px} .kb{padding:10px} }
+  /* swap + table */
   .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:6px 0 22px}
   .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 17px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:25px;font-weight:700;box-shadow:var(--shadow)}
   .keycap.wide{font-size:16px;gap:7px}
@@ -101,12 +119,11 @@
   .demo-input{flex:1;background:var(--band);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
   .demo p{font-size:13px;color:var(--muted);margin-top:12px}
   /* steps */
-  .steps{display:grid;gap:14px;counter-reset:step}
+  .steps{display:grid;gap:14px}
   .step{display:flex;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);align-items:flex-start}
   .step .n{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:3px}
   .step h3{font-size:16px;font-weight:700;margin-bottom:4px}
   .step p{font-size:14.5px;color:var(--muted)}
-  /* spec */
   ul.plain{padding-left:20px;display:grid;gap:9px}
   .note{font-size:13.5px;color:var(--muted);margin-top:16px}
   /* faq */
@@ -121,6 +138,10 @@
   footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--muted)}
   .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:780px;margin:0 auto;padding:0 22px}
   footer a{color:var(--muted)}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .kb-key{transition:none}
+  }
 </style>
 <script type="application/ld+json">
 {
@@ -135,7 +156,8 @@
   "license": "https://opensource.org/licenses/MIT",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
   "description": "US配列キーボードで ` キー単独を日本語入力（IME）のオン/オフ切り替えに、Alt+` をバッククォート入力に入れ替えるWindows用常駐ユーティリティ。半角/全角キーのない英語配列キーボード向け。",
-  "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" }
+  "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
+  "inLanguage": "ja"
 }
 </script>
 <script type="application/ld+json">
@@ -187,6 +209,7 @@
       <a href="#install">使い方</a>
       <a href="#faq">FAQ</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
+      <a class="lang" href="en/">English</a>
     </nav>
   </div>
 </header>
@@ -219,6 +242,47 @@
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">01</span><h2>キーの動き</h2></div>
       <p class="sec-lead">変えるのは2つだけです。それ以外のキーはこれまでどおり使えます。</p>
+
+      <div class="kb" aria-hidden="true">
+        <div class="kb-screen">
+          <div class="kb-badge" id="kbIme">A</div>
+          <div class="kb-text" id="kbText"></div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key grave" data-k="grave">`</div>
+          <div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div>
+          <div class="kb-key">-</div><div class="kb-key">=</div>
+          <div class="kb-key mod" style="--u:2">Backspace</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.5">Tab</div>
+          <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key" data-k="i">I</div><div class="kb-key" data-k="o">O</div><div class="kb-key">P</div>
+          <div class="kb-key">[</div><div class="kb-key">]</div>
+          <div class="kb-key" style="--u:1.5">\</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.75">Caps</div>
+          <div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key" data-k="g">G</div><div class="kb-key" data-k="h">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div>
+          <div class="kb-key">;</div><div class="kb-key">'</div>
+          <div class="kb-key mod" style="--u:2.25">Enter</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:2.25">Shift</div>
+          <div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key" data-k="n">N</div><div class="kb-key">M</div>
+          <div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div>
+          <div class="kb-key mod" style="--u:2.75">Shift</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+          <div class="kb-key mod" style="--u:1.25">Win</div>
+          <div class="kb-key mod" data-k="alt" style="--u:1.25">Alt</div>
+          <div class="kb-key" style="--u:6.25"></div>
+          <div class="kb-key mod" style="--u:1.25">Alt</div>
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+        </div>
+      </div>
+      <p class="kb-caption">US配列キーボードの図です。左上の <kbd>`</kbd> が主役で、アニメーションは実際の動作（ IME切り替え → ローマ字入力 → Alt+` でバッククォート）を繰り返し再生しています。</p>
+
       <div class="swap">
         <div class="cap-box">
           <div class="keycap">`</div>
@@ -324,29 +388,88 @@
 <footer>
   <div class="foot">
     <span>key-remap — MIT License</span>
-    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">リリース一覧</a></span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">リリース一覧</a> · <a href="en/">English</a></span>
   </div>
 </footer>
 
 <script>
-  // 動作イメージ: 本物と同じキー割り当てをページ内で再現する
+  // インタラクティブデモ: 本物と同じキー割り当てをページ内で再現する
   const imeBox = document.getElementById('imeBox');
   const demoInput = document.getElementById('demoInput');
-  let imeOn = true;
-  let typed = '';
+  let demoImeOn = true;
+  let demoTyped = '';
   document.addEventListener('keydown', (e) => {
     if (e.code !== 'Backquote') return;
     e.preventDefault();
     if (e.altKey) {
-      typed += '`';
+      demoTyped += '`';
     } else if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
       if (e.repeat) return;
-      imeOn = !imeOn;
-      imeBox.textContent = imeOn ? 'あ' : 'A';
-      imeBox.classList.toggle('on', imeOn);
+      demoImeOn = !demoImeOn;
+      imeBox.textContent = demoImeOn ? 'あ' : 'A';
+      imeBox.classList.toggle('on', demoImeOn);
     }
-    demoInput.textContent = typed;
+    demoInput.textContent = demoTyped;
   });
+
+  // キーボードアニメーション: 実際の使い方をループ再生する
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const keys = {};
+    document.querySelectorAll('.kb-key[data-k]').forEach((el) => { keys[el.dataset.k] = el; });
+    const badge = document.getElementById('kbIme');
+    const text = document.getElementById('kbText');
+    if (!keys.grave || !badge || !text) return;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    async function press(name, hold) {
+      const el = keys[name];
+      if (!el) return;
+      el.classList.add('press');
+      await sleep(hold || 220);
+      el.classList.remove('press');
+    }
+    function setIme(on) {
+      badge.textContent = on ? 'あ' : 'A';
+      badge.classList.toggle('on', on);
+    }
+    async function typeRomaji() {
+      // 「nihongo」を打つと「にほんご」になる流れ
+      const seq = [['n', 'n'], ['i', 'に'], ['h', 'にh'], ['o', 'にほ'], ['n', 'にほn'], ['g', 'にほんg'], ['o', 'にほんご']];
+      text.textContent = '';
+      for (const [k, shown] of seq) {
+        await press(k, 160);
+        text.textContent = shown;
+        await sleep(110);
+      }
+    }
+    async function loop() {
+      for (;;) {
+        setIme(false); text.textContent = '';
+        await sleep(1100);
+        // ` 単独押しで IME オン
+        await press('grave', 320);
+        setIme(true);
+        await sleep(450);
+        await typeRomaji();
+        await sleep(1300);
+        // ` 単独押しで IME オフ
+        await press('grave', 320);
+        setIme(false);
+        text.textContent = '';
+        await sleep(450);
+        // Alt + ` でバッククォートを入力
+        if (keys.alt) keys.alt.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'const tick = `';
+        if (keys.alt) keys.alt.classList.remove('press');
+        await sleep(1500);
+        text.textContent = '';
+        await sleep(600);
+      }
+    }
+    loop();
+  })();
 </script>
 </body>
 </html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>key-remap — Toggle Japanese IME with the ` key on a US keyboard</title>
+<meta name="description" content="A tiny free Windows utility for US (English) keyboards, which have no Hankaku/Zenkaku key: press ` alone to toggle Japanese input (IME) on/off, and Alt+` to type a backquote. No installation, open source.">
+<link rel="canonical" href="https://thanatos333.github.io/key-remap/en/">
+<link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
+<link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
+<link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="key-remap">
+<meta property="og:title" content="key-remap — Toggle Japanese IME with the ` key on a US keyboard">
+<meta property="og:description" content="A US keyboard has no Hankaku/Zenkaku key. key-remap lets the ` key toggle Japanese input instead. Free, no installation.">
+<meta property="og:url" content="https://thanatos333.github.io/key-remap/en/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="key-remap — Toggle Japanese IME with the ` key">
+<meta name="twitter:description" content="A tiny Windows utility that swaps ` and Alt+` so a US keyboard gets a one-key IME toggle.">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#ffffff; --band:#f4f6f9; --panel:#ffffff;
+    --line:#dde2ea; --line-strong:#c6cdd9;
+    --text:#1f2328; --muted:#4d5561;
+    --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e9effe;
+    --key-top:#ffffff; --key-edge:#c3c9d4; --key-text:#1f2328;
+    --code-bg:#eef0f3; --shadow:0 1px 3px rgba(20,30,60,.08),0 4px 14px rgba(20,30,60,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --bg:#1a2338; --band:#212d49; --panel:#24304d;
+      --line:#36466a; --line-strong:#475d8a;
+      --text:#ebeff8; --muted:#aebadd;
+      --accent:#9db4ff; --accent-ink:#131c30; --accent-soft:#2d3d64;
+      --key-top:#2b3a5c; --key-edge:#131c30; --key-text:#ebeff8;
+      --code-bg:#273452; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
+  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
+  .nav-links{display:flex;gap:20px;font-size:13.5px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
+  .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
+  .hero h1{font-size:clamp(26px,4.6vw,34px);line-height:1.5;font-weight:800}
+  .hero h1 .mono{font-family:ui-monospace,Consolas,monospace;color:var(--accent)}
+  .hero .lead{margin-top:20px;max-width:640px}
+  .hero .lead + .lead{margin-top:12px}
+  .quick-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  .fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow)}
+  .fact .k{font-size:12px;color:var(--muted);letter-spacing:.05em}
+  .fact .v{font-size:16.5px;font-weight:700;margin-top:2px}
+  @media (max-width:560px){ .quick-facts{grid-template-columns:1fr} }
+  .download{margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;min-height:50px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;padding:10px 26px;border-radius:9px;font-size:15.5px;box-shadow:var(--shadow)}
+  .btn:hover{opacity:.9}
+  .download .meta{font-size:13px;color:var(--muted)}
+  .toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+  .toc a{font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:999px;padding:4px 14px;background:var(--panel)}
+  .toc a:hover{color:var(--text);border-color:var(--muted)}
+  section{padding:52px 0}
+  section.band{background:var(--band);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{font-family:ui-monospace,Consolas,monospace;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 9px;flex:none}
+  h2{font-size:22px;font-weight:800}
+  .sec-lead{color:var(--muted);margin-bottom:24px;max-width:640px}
+  .kb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin:4px 0 10px}
+  .kb-screen{display:flex;align-items:center;gap:12px;background:var(--band);border:1px solid var(--line);border-radius:9px;padding:8px 14px;margin-bottom:14px;min-height:48px}
+  .kb-badge{font-weight:700;font-size:15px;width:38px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);flex:none}
+  .kb-badge.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .kb-text{font-family:ui-monospace,Consolas,monospace;font-size:15.5px;min-height:1.4em;white-space:pre}
+  .kb-row{display:flex;gap:5px;margin-bottom:5px}
+  .kb-row:last-child{margin-bottom:0}
+  .kb-key{flex:var(--u,1) 1 0;height:38px;display:flex;align-items:center;justify-content:center;background:var(--key-top);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:6px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace;color:var(--key-text);transition:background .12s ease,transform .12s ease;user-select:none}
+  .kb-key.mod{font-size:10.5px;color:var(--muted);font-family:inherit}
+  .kb-key.grave{border-color:var(--accent);color:var(--accent);font-weight:700}
+  .kb-key.press{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);transform:translateY(2px)}
+  .kb-caption{font-size:13px;color:var(--muted);margin-bottom:24px}
+  @media (max-width:560px){ .kb-key{height:29px;font-size:9.5px;border-radius:4px} .kb-key.mod{font-size:8px} .kb{padding:10px} }
+  .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:6px 0 22px}
+  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 17px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:25px;font-weight:700;box-shadow:var(--shadow)}
+  .keycap.wide{font-size:16px;gap:7px}
+  .keycap .plus{color:var(--muted);font-size:15px}
+  .cap-box{text-align:center}
+  .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px;font-weight:600}
+  .arrow{font-size:20px;color:var(--accent);font-weight:700}
+  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;background:var(--band)}
+  tbody tr:nth-child(even){background:var(--band)}
+  tr:last-child td{border-bottom:none}
+  td.after{font-weight:700}
+  kbd{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:13px}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:13.5px}
+  .demo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:22px;box-shadow:var(--shadow)}
+  .demo .demo-title{font-size:13.5px;font-weight:700;margin-bottom:12px}
+  .demo-row{display:flex;align-items:center;gap:13px}
+  .ime-indicator{font-weight:700;font-size:18px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--band);border:1px solid var(--line);flex:none}
+  .ime-indicator.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .demo-input{flex:1;background:var(--band);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
+  .demo p{font-size:13px;color:var(--muted);margin-top:12px}
+  .steps{display:grid;gap:14px}
+  .step{display:flex;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);align-items:flex-start}
+  .step .n{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:3px}
+  .step h3{font-size:16px;font-weight:700;margin-bottom:4px}
+  .step p{font-size:14.5px;color:var(--muted)}
+  ul.plain{padding-left:20px;display:grid;gap:9px}
+  .note{font-size:13.5px;color:var(--muted);margin-top:16px}
+  .faq{display:grid;gap:10px}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 20px;box-shadow:var(--shadow)}
+  .faq summary{font-weight:700;font-size:15.5px;cursor:pointer}
+  .faq p{font-size:14.5px;color:var(--muted);margin-top:8px}
+  .final-cta{text-align:center;padding:56px 0 64px}
+  .final-cta h2{font-size:24px;margin-bottom:10px}
+  .final-cta p{color:var(--muted);margin-bottom:24px}
+  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:780px;margin:0 auto;padding:0 22px}
+  footer a{color:var(--muted)}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .kb-key{transition:none}
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "key-remap",
+  "url": "https://thanatos333.github.io/key-remap/en/",
+  "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
+  "softwareVersion": "0.2.0",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "UtilitiesApplication",
+  "license": "https://opensource.org/licenses/MIT",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "A Windows utility that swaps the roles of the ` key and Alt+` on a US keyboard layout: ` alone toggles the Japanese IME on/off, Alt+` types the backquote. For US keyboards without a Hankaku/Zenkaku key.",
+  "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
+  "inLanguage": "en"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I toggle the Japanese IME on a US (English) keyboard?",
+      "acceptedAnswer": { "@type": "Answer", "text": "By default on Windows it is Alt + ` together. With key-remap running, a single press of ` toggles Japanese input instead." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on keyboards without a Hankaku/Zenkaku key?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. key-remap was made exactly for US-layout keyboards that lack that key; the ` key takes its place." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I still type a backquote (`) and tilde (~)?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The backquote moves to Alt + `, and the tilde stays on Shift + `, exactly as before." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is key-remap free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, it is free, and the source code is published under the MIT License." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to install it?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Just run the exe. On first launch it also registers itself for auto-start, so from the next logon it starts on its own." }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the system requirements?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 or 11, with a Japanese IME such as Microsoft IME or Google Japanese Input." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="./">` key-remap</a>
+    <nav class="nav-links">
+      <a href="#keys">Keys</a>
+      <a href="#install">How to use</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/thanatos333/key-remap">GitHub</a>
+      <a class="lang" href="../">日本語</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>On a US keyboard, toggle Japanese input with a single <span class="mono">`</span> key.</h1>
+    <p class="lead">If you use a US-layout keyboard on Windows, turning Japanese input on and off takes <kbd>Alt</kbd> + <kbd>`</kbd> — both hands, every time, because there is no Hankaku/Zenkaku key like on a Japanese keyboard. It gets old fast.</p>
+    <p class="lead">key-remap is a small resident program that swaps the roles of these two keys. One press of <kbd>`</kbd> toggles input, and the backquote itself moves to <kbd>Alt</kbd> + <kbd>`</kbd>. I built it for my own daily use and published it in case it helps anyone with the same annoyance.</p>
+    <div class="quick-facts">
+      <div class="fact"><div class="k">Platform</div><div class="v">Windows 10 / 11</div></div>
+      <div class="fact"><div class="k">Price</div><div class="v">Free, open source</div></div>
+      <div class="fact"><div class="k">Size / resident memory</div><div class="v">112 KB / about 1 MB</div></div>
+    </div>
+    <div class="download">
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">Download key-remap.exe</a>
+      <span class="meta">No installation. Just run it.</span>
+    </div>
+    <nav class="toc">
+      <a href="#keys">How the keys work</a>
+      <a href="#install">How to use</a>
+      <a href="#spec">Details &amp; notes</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section id="keys">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">01</span><h2>How the keys work</h2></div>
+      <p class="sec-lead">Only two keys change. Everything else stays exactly as it was.</p>
+
+      <div class="kb" aria-hidden="true">
+        <div class="kb-screen">
+          <div class="kb-badge" id="kbIme">A</div>
+          <div class="kb-text" id="kbText"></div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key grave" data-k="grave">`</div>
+          <div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div>
+          <div class="kb-key">-</div><div class="kb-key">=</div>
+          <div class="kb-key mod" style="--u:2">Backspace</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.5">Tab</div>
+          <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key">E</div><div class="kb-key">R</div><div class="kb-key">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key" data-k="i">I</div><div class="kb-key" data-k="o">O</div><div class="kb-key">P</div>
+          <div class="kb-key">[</div><div class="kb-key">]</div>
+          <div class="kb-key" style="--u:1.5">\</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.75">Caps</div>
+          <div class="kb-key">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key" data-k="g">G</div><div class="kb-key" data-k="h">H</div><div class="kb-key">J</div><div class="kb-key">K</div><div class="kb-key">L</div>
+          <div class="kb-key">;</div><div class="kb-key">'</div>
+          <div class="kb-key mod" style="--u:2.25">Enter</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:2.25">Shift</div>
+          <div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key" data-k="n">N</div><div class="kb-key">M</div>
+          <div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div>
+          <div class="kb-key mod" style="--u:2.75">Shift</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+          <div class="kb-key mod" style="--u:1.25">Win</div>
+          <div class="kb-key mod" data-k="alt" style="--u:1.25">Alt</div>
+          <div class="kb-key" style="--u:6.25"></div>
+          <div class="kb-key mod" style="--u:1.25">Alt</div>
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+        </div>
+      </div>
+      <p class="kb-caption">A US-layout keyboard. The <kbd>`</kbd> key at the top left is the star — the animation loops the real workflow: toggle the IME on, type in romaji, switch back, then Alt + ` for a backquote.</p>
+
+      <div class="swap">
+        <div class="cap-box">
+          <div class="keycap">`</div>
+          <div class="cap-label">press to toggle input</div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="cap-box">
+          <div class="keycap wide"><span>Alt</span><span class="plus">+</span><span>`</span></div>
+          <div class="cap-label">press to type `</div>
+        </div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Input</th><th>Before</th><th>After</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>`</kbd></td><td>types `</td><td class="after">toggles Japanese input on/off</td></tr>
+            <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>toggles Japanese input on/off</td><td class="after">types `</td></tr>
+            <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>types ~</td><td>unchanged</td></tr>
+            <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> etc.</td><td>app shortcuts</td><td>unchanged</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="demo">
+        <div class="demo-title">Try it — press the ` key while this page is focused</div>
+        <div class="demo-row">
+          <div class="ime-indicator on" id="imeBox">あ</div>
+          <div class="demo-input" id="demoInput"></div>
+        </div>
+        <p>` alone flips the あ / A indicator; Alt + ` types a backquote into the box. Best tried in a desktop browser.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">02</span><h2>How to use</h2></div>
+      <p class="sec-lead">Download, run, done. There are no settings to fiddle with.</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div><h3>Download and put it anywhere</h3><p>Download <a href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe</a> and drop it wherever you like.</p></div></div>
+        <div class="step"><div class="n">2</div><div><h3>Run it</h3><p>Double-click to run. The swap takes effect immediately, and the tool registers itself for auto-start at the same time, so from your next logon it starts on its own — no need to launch it again.</p></div></div>
+        <div class="step"><div class="n">3</div><div><h3>To stop</h3><p>End key-remap in Task Manager. To also remove the auto-start registration, run <code>key-remap.exe --uninstall</code> first.</p></div></div>
+      </div>
+      <p class="note">Auto-start registration writes the exe's own path to <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code> in the registry. If you move the exe, it re-registers the new location the next time it runs.</p>
+    </div>
+  </section>
+
+  <section id="spec">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">03</span><h2>Details and notes</h2></div>
+      <p class="sec-lead">A few things worth knowing before you use it.</p>
+      <ul class="plain">
+        <li>Runs on Windows 10 / 11. Tested with Microsoft IME and Google Japanese Input.</li>
+        <li>Resident memory use is about 1 MB. It only does work when a key is pressed, so it uses no CPU while idle.</li>
+        <li>It cannot see keystrokes in windows that run with administrator privileges — that is a Windows restriction. If you need it there, run key-remap itself as administrator.</li>
+        <li>Holding <kbd>`</kbd> toggles only once (it will not flip on/off repeatedly). Holding <kbd>Alt</kbd> + <kbd>`</kbd> repeats the backquote like a normal key.</li>
+        <li>Written in Rust with no external libraries. It uses a low-level keyboard hook and SendInput to do the swap. Source is on <a href="https://github.com/thanatos333/key-remap">GitHub</a> under the MIT License.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">04</span><h2>FAQ</h2></div>
+      <p class="sec-lead">These might answer it before you have to ask.</p>
+      <div class="faq">
+        <details>
+          <summary>How do I toggle the Japanese IME on a US (English) keyboard?</summary>
+          <p>By default on Windows it is Alt + ` together. With key-remap running, a single press of ` toggles Japanese input instead.</p>
+        </details>
+        <details>
+          <summary>Does it work on keyboards without a Hankaku/Zenkaku key?</summary>
+          <p>Yes. key-remap was made exactly for US-layout keyboards that lack that key; the ` key takes its place.</p>
+        </details>
+        <details>
+          <summary>Can I still type a backquote (`) and tilde (~)?</summary>
+          <p>Yes. The backquote moves to Alt + `, and the tilde stays on Shift + `, exactly as before.</p>
+        </details>
+        <details>
+          <summary>Is key-remap free?</summary>
+          <p>Yes, it is free, and the source code is published under the MIT License.</p>
+        </details>
+        <details>
+          <summary>Do I need to install it?</summary>
+          <p>No. Just run the exe. On first launch it also registers itself for auto-start, so from the next logon it starts on its own.</p>
+        </details>
+        <details>
+          <summary>What are the system requirements?</summary>
+          <p>Windows 10 or 11, with a Japanese IME such as Microsoft IME or Google Japanese Input.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="wrap">
+      <h2>Just try running it</h2>
+      <p>If it is not for you, quit it and delete the file. That is all.</p>
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">Download key-remap.exe</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>key-remap — MIT License</span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">日本語</a></span>
+  </div>
+</footer>
+
+<script>
+  // Interactive demo: the same key behavior as the real tool, in the page
+  const imeBox = document.getElementById('imeBox');
+  const demoInput = document.getElementById('demoInput');
+  let demoImeOn = true;
+  let demoTyped = '';
+  document.addEventListener('keydown', (e) => {
+    if (e.code !== 'Backquote') return;
+    e.preventDefault();
+    if (e.altKey) {
+      demoTyped += '`';
+    } else if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      if (e.repeat) return;
+      demoImeOn = !demoImeOn;
+      imeBox.textContent = demoImeOn ? 'あ' : 'A';
+      imeBox.classList.toggle('on', demoImeOn);
+    }
+    demoInput.textContent = demoTyped;
+  });
+
+  // Keyboard animation: loops the real workflow
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const keys = {};
+    document.querySelectorAll('.kb-key[data-k]').forEach((el) => { keys[el.dataset.k] = el; });
+    const badge = document.getElementById('kbIme');
+    const text = document.getElementById('kbText');
+    if (!keys.grave || !badge || !text) return;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    async function press(name, hold) {
+      const el = keys[name];
+      if (!el) return;
+      el.classList.add('press');
+      await sleep(hold || 220);
+      el.classList.remove('press');
+    }
+    function setIme(on) {
+      badge.textContent = on ? 'あ' : 'A';
+      badge.classList.toggle('on', on);
+    }
+    async function typeRomaji() {
+      // typing "nihongo" converts to にほんご
+      const seq = [['n', 'n'], ['i', 'に'], ['h', 'にh'], ['o', 'にほ'], ['n', 'にほn'], ['g', 'にほんg'], ['o', 'にほんご']];
+      text.textContent = '';
+      for (const [k, shown] of seq) {
+        await press(k, 160);
+        text.textContent = shown;
+        await sleep(110);
+      }
+    }
+    async function loop() {
+      for (;;) {
+        setIme(false); text.textContent = '';
+        await sleep(1100);
+        await press('grave', 320);
+        setIme(true);
+        await sleep(450);
+        await typeRomaji();
+        await sleep(1300);
+        await press('grave', 320);
+        setIme(false);
+        text.textContent = '';
+        await sleep(450);
+        if (keys.alt) keys.alt.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'const tick = `';
+        if (keys.alt) keys.alt.classList.remove('press');
+        await sleep(1500);
+        text.textContent = '';
+        await sleep(600);
+      }
+    }
+    loop();
+  })();
+</script>
+</body>
+</html>
