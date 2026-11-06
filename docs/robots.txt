@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thanatos333.github.io/key-remap/sitemap.xml

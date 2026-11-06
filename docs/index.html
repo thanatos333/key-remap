@@ -3,8 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>key-remap — ` キーひとつで、英かな切り替え</title>
-<meta name="description" content="US配列キーボードで ` キー単独をIME切り替えに。Alt+` でバッククォート入力。104KBの小さなWindows常駐ツール。">
+<title>key-remap — US配列キーボードで ` キーひとつでIME切り替え｜半角/全角キーの代わり</title>
+<meta name="description" content="US配列（英語配列）キーボードには半角/全角キーがありません。key-remap は ` キー単独で日本語入力（IME）のオン/オフ、Alt+` でバッククォート入力に入れ替える無料のWindows常駐ツール。104KB・メモリ約1MB・インストール不要・オープンソース。">
+<link rel="canonical" href="https://thanatos333.github.io/key-remap/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="key-remap">
+<meta property="og:title" content="key-remap — US配列キーボードで ` キーひとつでIME切り替え">
+<meta property="og:description" content="` キー単独でIME切り替え、Alt+` で ` 入力。半角/全角キーのないUS配列のための、104KBの小さなWindows常駐ツール。">
+<meta property="og:url" content="https://thanatos333.github.io/key-remap/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="key-remap — US配列で ` キーひとつでIME切り替え">
+<meta name="twitter:description" content="` キー単独でIME切り替え、Alt+` で ` 入力。無料・104KB・インストール不要のWindows常駐ツール。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
@@ -90,7 +101,68 @@
   footer a{text-decoration:none}
   footer a:hover{color:var(--text)}
   .mono{font-family:"JetBrains Mono",monospace}
+  /* faq */
+  .faq{max-width:680px;margin:0 auto;display:grid;gap:12px}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
+  .faq summary{font-weight:900;font-size:15.5px;cursor:pointer;list-style:none}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"Q. ";color:var(--accent);font-family:"JetBrains Mono",monospace}
+  .faq p{font-size:14px;color:var(--muted);margin-top:10px}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "key-remap",
+  "url": "https://thanatos333.github.io/key-remap/",
+  "downloadUrl": "https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe",
+  "softwareVersion": "0.1.0",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "UtilitiesApplication",
+  "license": "https://opensource.org/licenses/MIT",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+  "description": "US配列キーボードで ` キー単独を日本語入力（IME）のオン/オフ切り替えに、Alt+` をバッククォート入力に入れ替えるWindows用常駐ユーティリティ。半角/全角キーのない英語配列キーボード向け。",
+  "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "US配列（英語配列）キーボードで日本語入力（IME）を切り替えるにはどうすればいいですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows の標準では Alt + `（バッククォート）が IME のオン/オフ切り替えですが、両手が必要で面倒です。key-remap を使うと、` キー単独で切り替えられるようになります。" }
+    },
+    {
+      "@type": "Question",
+      "name": "半角/全角キーがないキーボードでも使えますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "はい。むしろ半角/全角キーのない US配列キーボードのために作られたツールです。` キーが半角/全角キーの代わりになります。" }
+    },
+    {
+      "@type": "Question",
+      "name": "バッククォート（`）やチルダ（~）は打てなくなりますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "打てます。バッククォートは Alt + ` で入力でき、チルダは Shift + ` で従来どおり入力できます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "key-remap は無料ですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "無料です。ソースコードも MIT ライセンスで公開されているオープンソースソフトウェアです。" }
+    },
+    {
+      "@type": "Question",
+      "name": "インストールやレジストリの変更は必要ですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "不要です。key-remap.exe を実行するだけで動作し、レジストリは変更しません。アンインストールはプロセスを終了してファイルを削除するだけです。" }
+    },
+    {
+      "@type": "Question",
+      "name": "対応環境を教えてください。",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 / 11 と、Microsoft IME や Google 日本語入力などの日本語 IME で動作します。常駐時のメモリ使用量は約1MB、実行ファイルは104KBです。" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -101,6 +173,7 @@
       <a href="#features">特徴</a>
       <a href="#keys">キーの動き</a>
       <a href="#install">導入方法</a>
+      <a href="#faq">FAQ</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
     </nav>
     <a class="btn small" href="https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe">ダウンロード</a>
@@ -211,6 +284,41 @@
       <div class="step"><div class="n">01</div><div><h3>ダウンロード</h3><p><a href="https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe">key-remap.exe</a> を好きな場所に保存します。</p></div></div>
       <div class="step"><div class="n">02</div><div><h3>実行</h3><p>ダブルクリックで起動。それだけですぐに入れ替えが効き始めます。</p></div></div>
       <div class="step"><div class="n">03</div><div><h3>自動起動（任意）</h3><p><code>Win + R</code> → <code>shell:startup</code> で開くフォルダに、exe のショートカットを置けば、ログインのたびに自動で起動します。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">FAQ</div>
+      <h2>よくある質問</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>US配列（英語配列）キーボードで日本語入力（IME）を切り替えるには？</summary>
+        <p>Windows の標準では Alt + `（バッククォート）が IME のオン/オフ切り替えですが、両手が必要で面倒です。key-remap を使うと、` キー単独で切り替えられるようになります。</p>
+      </details>
+      <details>
+        <summary>半角/全角キーがないキーボードでも使えますか？</summary>
+        <p>はい。むしろ半角/全角キーのない US配列キーボードのために作られたツールです。` キーが半角/全角キーの代わりになります。</p>
+      </details>
+      <details>
+        <summary>バッククォート（`）やチルダ（~）は打てなくなりますか？</summary>
+        <p>打てます。バッククォートは Alt + ` で入力でき、チルダは Shift + ` で従来どおり入力できます。</p>
+      </details>
+      <details>
+        <summary>key-remap は無料ですか？</summary>
+        <p>無料です。ソースコードも MIT ライセンスで公開されているオープンソースソフトウェアです。</p>
+      </details>
+      <details>
+        <summary>インストールやレジストリの変更は必要ですか？</summary>
+        <p>不要です。key-remap.exe を実行するだけで動作し、レジストリは変更しません。アンインストールはプロセスを終了してファイルを削除するだけです。</p>
+      </details>
+      <details>
+        <summary>対応環境を教えてください。</summary>
+        <p>Windows 10 / 11 と、Microsoft IME や Google 日本語入力などの日本語 IME で動作します。常駐時のメモリ使用量は約1MB、実行ファイルは104KBです。</p>
+      </details>
     </div>
   </div>
 </section>
