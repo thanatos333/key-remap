@@ -4,111 +4,92 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>key-remap — US配列キーボードで ` キーひとつでIME切り替え｜半角/全角キーの代わり</title>
-<meta name="description" content="US配列（英語配列）キーボードには半角/全角キーがありません。key-remap は ` キー単独で日本語入力（IME）のオン/オフ、Alt+` でバッククォート入力に入れ替える無料のWindows常駐ツール。104KB・メモリ約1MB・インストール不要・オープンソース。">
+<meta name="description" content="US配列（英語配列）キーボードには半角/全角キーがありません。key-remap は ` キー単独で日本語入力（IME）のオン/オフ、Alt+` でバッククォート入力に入れ替える無料のWindows常駐ツール。インストール不要・オープンソース。">
 <link rel="canonical" href="https://thanatos333.github.io/key-remap/">
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="pkGKsy_cuPoLISQIVBtxgSDSIVatcBdSyz6QyM7DYRg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="key-remap">
 <meta property="og:title" content="key-remap — US配列キーボードで ` キーひとつでIME切り替え">
-<meta property="og:description" content="` キー単独でIME切り替え、Alt+` で ` 入力。半角/全角キーのないUS配列のための、104KBの小さなWindows常駐ツール。">
+<meta property="og:description" content="US配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。無料・インストール不要。">
 <meta property="og:url" content="https://thanatos333.github.io/key-remap/">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="key-remap — US配列で ` キーひとつでIME切り替え">
-<meta name="twitter:description" content="` キー単独でIME切り替え、Alt+` で ` 入力。無料・104KB・インストール不要のWindows常駐ツール。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet">
+<meta name="twitter:description" content="US配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。">
 <style>
   :root{
-    --bg:#0b0e14; --bg2:#0e1220; --panel:#131828; --line:#232a42;
-    --text:#e8ecf6; --muted:#9aa5c4; --accent:#ffd166; --accent2:#7ee0b8;
-    --key-top:#2a3152; --key-side:#171c30;
+    color-scheme:light;
+    --bg:#ffffff; --bg-soft:#f6f7f9; --panel:#ffffff; --line:#e2e5ea;
+    --text:#23262b; --muted:#5d6470; --accent:#2f54eb; --accent-soft:#eef2ff;
+    --key-top:#ffffff; --key-edge:#c9ced8; --key-text:#23262b;
+    --code-bg:#f0f1f4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --bg:#14161a; --bg-soft:#191c21; --panel:#1b1e24; --line:#2c3038;
+      --text:#e8e9eb; --muted:#a3a9b5; --accent:#8ca6ff; --accent-soft:#232a44;
+      --key-top:#262a33; --key-edge:#101216; --key-text:#e8e9eb;
+      --code-bg:#22252c;
+    }
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:"Zen Kaku Gothic New","Inter",sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}
-  a{color:inherit}
-  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
-  /* header */
-  header{position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);background:rgba(11,14,20,.72);border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:60px}
-  .logo{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:18px;letter-spacing:.02em}
-  .logo .tick{color:var(--accent)}
-  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted)}
-  .nav-links a{text-decoration:none}
+  body{background:var(--bg);color:var(--text);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;line-height:1.9;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+  header{border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:760px;margin:0 auto;padding:0 22px}
+  .logo{font-family:ui-monospace,"SF Mono",Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
+  .nav-links{display:flex;gap:22px;font-size:13.5px}
+  .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
-  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#1a1405;font-weight:900;text-decoration:none;padding:12px 26px;border-radius:999px;font-size:15px;box-shadow:0 6px 24px rgba(255,209,102,.25);transition:transform .15s ease, box-shadow .15s ease}
-  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,209,102,.35)}
-  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
-  .btn.small{padding:8px 18px;font-size:13px}
-  /* hero */
-  .hero{padding:96px 0 72px;text-align:center;background:radial-gradient(720px 380px at 50% -60px,rgba(255,209,102,.13),transparent 65%),radial-gradient(600px 300px at 85% 0,rgba(126,224,184,.08),transparent 60%)}
-  .badge{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent2);border:1px solid rgba(126,224,184,.4);border-radius:999px;padding:4px 14px;margin-bottom:26px;letter-spacing:.06em}
-  h1{font-size:clamp(38px,6.4vw,64px);font-weight:900;line-height:1.25;letter-spacing:.01em}
-  h1 .hl{color:var(--accent)}
-  .lead{margin:26px auto 0;max-width:640px;color:var(--muted);font-size:17px}
-  /* keycaps */
-  .swap{display:flex;align-items:center;justify-content:center;gap:22px;margin:52px 0 8px;flex-wrap:wrap}
-  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:76px;height:76px;padding:0 20px;background:linear-gradient(180deg,var(--key-top),#1d2340);border-radius:14px;border:1px solid #343c60;box-shadow:0 6px 0 var(--key-side),0 12px 24px rgba(0,0,0,.45);font-family:"JetBrains Mono",monospace;font-size:30px;font-weight:700;color:var(--text)}
-  .keycap.wide{font-size:19px;gap:8px}
-  .keycap .plus{color:var(--muted);font-size:20px}
-  .keycap small{position:absolute}
-  .cap-label{font-size:12.5px;color:var(--muted);margin-top:14px;font-family:"JetBrains Mono",monospace}
+  main{padding-bottom:30px}
+  .intro{padding:64px 0 10px}
+  h1{font-size:30px;line-height:1.55;font-weight:700;letter-spacing:.01em}
+  h1 .mono{font-family:ui-monospace,"SF Mono",Consolas,monospace}
+  .intro p{margin-top:22px;color:var(--text)}
+  .intro p.sub{color:var(--muted)}
+  .download{margin-top:32px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:11px 24px;border-radius:8px;font-size:15px}
+  @media (prefers-color-scheme: dark){ .btn{color:#10131c} }
+  .btn:hover{opacity:.88}
+  .download .meta{font-size:13px;color:var(--muted)}
+  section{padding:44px 0 6px}
+  h2{font-size:20px;font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:22px}
+  p + p{margin-top:14px}
+  .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:8px 0 4px}
+  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:62px;height:62px;padding:0 16px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:24px;font-weight:700}
+  .keycap.wide{font-size:16px;gap:7px}
+  .keycap .plus{color:var(--muted);font-size:15px}
   .cap-box{text-align:center}
-  .arrow{font-size:30px;color:var(--accent);animation:nudge 2.2s ease-in-out infinite}
-  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
-  .hero .cta{margin-top:46px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .hero .note{margin-top:16px;font-size:12.5px;color:var(--muted);font-family:"JetBrains Mono",monospace}
-  /* demo */
-  .demo{margin:26px auto 0;max-width:560px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;text-align:left}
-  .demo h3{font-size:13px;color:var(--muted);font-weight:700;letter-spacing:.08em;margin-bottom:12px}
-  .demo-row{display:flex;align-items:center;gap:14px}
-  .ime-indicator{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:20px;width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#1d2340;border:1px solid #343c60;transition:all .2s}
-  .ime-indicator.on{background:var(--accent);color:#1a1405;border-color:var(--accent)}
-  .demo-input{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:10px;min-height:52px;padding:12px 14px;font-family:"JetBrains Mono",monospace;font-size:16px;color:var(--text);overflow:hidden;white-space:nowrap}
-  .demo p{font-size:12.5px;color:var(--muted);margin-top:12px}
-  /* sections */
-  section{padding:76px 0}
-  .sec-head{text-align:center;margin-bottom:44px}
-  .sec-head .kicker{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--accent);letter-spacing:.14em}
-  h2{font-size:clamp(26px,4vw,36px);font-weight:900;margin-top:8px}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}
-  .card .icon{font-size:26px;margin-bottom:10px}
-  .card h3{font-size:17px;font-weight:900;margin-bottom:8px}
-  .card p{font-size:14px;color:var(--muted)}
-  .card .num{font-family:"JetBrains Mono",monospace;color:var(--accent2);font-weight:700}
-  /* table */
-  .table-wrap{max-width:680px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-  table{width:100%;border-collapse:collapse;font-size:15px}
-  th,td{padding:15px 20px;text-align:left;border-bottom:1px solid var(--line)}
-  th{color:var(--muted);font-size:12.5px;letter-spacing:.08em;background:var(--bg2)}
+  .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px}
+  .arrow{font-size:20px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:4px}
+  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;background:var(--bg-soft)}
   tr:last-child td{border-bottom:none}
-  td kbd{font-family:"JetBrains Mono",monospace;background:#1d2340;border:1px solid #343c60;border-bottom-width:3px;border-radius:6px;padding:2px 9px;font-size:13.5px}
-  td.after{color:var(--accent2);font-weight:700}
-  /* steps */
-  .steps{max-width:680px;margin:0 auto;display:grid;gap:14px}
-  .step{display:flex;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 24px;align-items:flex-start}
-  .step .n{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:20px;color:var(--accent);line-height:1.3}
-  .step h3{font-size:16px;font-weight:900}
-  .step p{font-size:14px;color:var(--muted)}
-  .step code{font-family:"JetBrains Mono",monospace;font-size:12.5px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:1px 7px;color:var(--accent2)}
-  /* footer cta */
-  .final{background:radial-gradient(600px 260px at 50% 120%,rgba(255,209,102,.12),transparent 65%);text-align:center}
-  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13px}
-  .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  footer a{text-decoration:none}
-  footer a:hover{color:var(--text)}
-  .mono{font-family:"JetBrains Mono",monospace}
-  /* faq */
-  .faq{max-width:680px;margin:0 auto;display:grid;gap:12px}
-  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 22px}
-  .faq summary{font-weight:900;font-size:15.5px;cursor:pointer;list-style:none}
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary::before{content:"Q. ";color:var(--accent);font-family:"JetBrains Mono",monospace}
-  .faq p{font-size:14px;color:var(--muted);margin-top:10px}
+  kbd{font-family:ui-monospace,"SF Mono",Consolas,monospace;background:var(--code-bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:13px}
+  ol.steps{padding-left:22px}
+  ol.steps li{margin-bottom:12px;padding-left:4px}
+  ul.plain{padding-left:20px}
+  ul.plain li{margin-bottom:7px}
+  code{font-family:ui-monospace,"SF Mono",Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:13.5px}
+  .demo{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:6px}
+  .demo .demo-title{font-size:13.5px;font-weight:700;margin-bottom:12px}
+  .demo-row{display:flex;align-items:center;gap:13px}
+  .ime-indicator{font-weight:700;font-size:18px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);flex:none}
+  .ime-indicator.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  @media (prefers-color-scheme: dark){ .ime-indicator.on{color:#10131c} }
+  .demo-input{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,"SF Mono",Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
+  .demo p{font-size:13px;color:var(--muted);margin-top:12px}
+  .faq details{border-bottom:1px solid var(--line);padding:15px 2px}
+  .faq summary{font-weight:700;font-size:15.5px;cursor:pointer}
+  .faq p{font-size:14.5px;color:var(--muted);margin-top:8px}
+  .note{font-size:13.5px;color:var(--muted)}
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 34px;font-size:13px;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:760px;margin:0 auto;padding:0 22px}
+  footer a{color:var(--muted)}
 </style>
 <script type="application/ld+json">
 {
@@ -116,8 +97,8 @@
   "@type": "SoftwareApplication",
   "name": "key-remap",
   "url": "https://thanatos333.github.io/key-remap/",
-  "downloadUrl": "https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe",
-  "softwareVersion": "0.1.0",
+  "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
+  "softwareVersion": "0.2.0",
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
@@ -134,32 +115,32 @@
     {
       "@type": "Question",
       "name": "US配列（英語配列）キーボードで日本語入力（IME）を切り替えるにはどうすればいいですか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "Windows の標準では Alt + `（バッククォート）が IME のオン/オフ切り替えですが、両手が必要で面倒です。key-remap を使うと、` キー単独で切り替えられるようになります。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。" }
     },
     {
       "@type": "Question",
       "name": "半角/全角キーがないキーボードでも使えますか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "はい。むしろ半角/全角キーのない US配列キーボードのために作られたツールです。` キーが半角/全角キーの代わりになります。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "はい。半角/全角キーのない US配列キーボードのために作ったツールで、` キーがその代わりになります。" }
     },
     {
       "@type": "Question",
       "name": "バッククォート（`）やチルダ（~）は打てなくなりますか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "打てます。バッククォートは Alt + ` で入力でき、チルダは Shift + ` で従来どおり入力できます。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "打てます。バッククォートは Alt + ` 、チルダは Shift + ` で、これまでどおり入力できます。" }
     },
     {
       "@type": "Question",
       "name": "key-remap は無料ですか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "無料です。ソースコードも MIT ライセンスで公開されているオープンソースソフトウェアです。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "無料です。ソースコードも MIT ライセンスで公開しています。" }
     },
     {
       "@type": "Question",
-      "name": "インストールやレジストリの変更は必要ですか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "不要です。key-remap.exe を実行するだけで動作し、レジストリは変更しません。アンインストールはプロセスを終了してファイルを削除するだけです。" }
+      "name": "インストールは必要ですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "必要ありません。exe を実行するだけです。初回起動時に自動起動の登録も済むので、次回のログインからは自動で起動します。" }
     },
     {
       "@type": "Question",
       "name": "対応環境を教えてください。",
-      "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 / 11 と、Microsoft IME や Google 日本語入力などの日本語 IME で動作します。常駐時のメモリ使用量は約1MB、実行ファイルは104KBです。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 / 11 で、Microsoft IME や Google 日本語入力などの日本語 IME と組み合わせて使えます。" }
     }
   ]
 }
@@ -168,189 +149,126 @@
 <body>
 
 <header>
-  <div class="wrap nav">
-    <div class="logo"><span class="tick">`</span> key-remap</div>
+  <div class="nav">
+    <a class="logo" href="./">` key-remap</a>
     <nav class="nav-links">
-      <a href="#features">特徴</a>
       <a href="#keys">キーの動き</a>
-      <a href="#install">導入方法</a>
+      <a href="#install">使い方</a>
       <a href="#faq">FAQ</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
     </nav>
-    <a class="btn small" href="https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe">ダウンロード</a>
   </div>
 </header>
 
-<div class="hero">
-  <div class="wrap">
-    <span class="badge">WINDOWS · US KEYBOARD · IME</span>
-    <h1><span class="hl">`</span> キーひとつで、<br>英かな切り替え。</h1>
-    <p class="lead">US配列キーボードの IME 切り替えは <span class="mono">Alt + `</span> が標準。でも、切り替える回数とバッククォートを打つ回数、どっちが多いですか？ key-remap はこの2つの役割を入れ替える、小さな常駐ツールです。</p>
+<main class="wrap">
 
+  <div class="intro">
+    <h1>US配列キーボードで、<br><span class="mono">`</span> キーひとつで日本語入力に切り替える。</h1>
+    <p>US配列のキーボードを Windows で使っていると、日本語入力のオン/オフは <kbd>Alt</kbd> + <kbd>`</kbd> の同時押しになります。半角/全角キーのある日本語キーボードと違って、1回ごとに両手が要るのが地味に面倒でした。</p>
+    <p>key-remap は、この2つのキーの役割を入れ替える小さな常駐プログラムです。<kbd>`</kbd> を1回押せば入力が切り替わり、バッククォート自体は <kbd>Alt</kbd> + <kbd>`</kbd> で入力します。自分が毎日使うために作ったものですが、同じ不便を感じている人の役に立てばと思い公開しています。</p>
+    <div class="download">
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe をダウンロード</a>
+      <span class="meta">Windows 10 / 11 · 無料 · 112 KB</span>
+    </div>
+  </div>
+
+  <section id="keys">
+    <h2>キーの動き</h2>
     <div class="swap">
       <div class="cap-box">
         <div class="keycap">`</div>
-        <div class="cap-label">→ IME 切り替え</div>
+        <div class="cap-label">押すと入力切り替え</div>
       </div>
       <div class="arrow">⇄</div>
       <div class="cap-box">
         <div class="keycap wide"><span>Alt</span><span class="plus">+</span><span>`</span></div>
-        <div class="cap-label">→ ` を入力</div>
+        <div class="cap-label">押すと ` が入力される</div>
       </div>
     </div>
-
-    <div class="cta">
-      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe">⬇ key-remap.exe をダウンロード</a>
-      <a class="btn ghost" href="https://github.com/thanatos333/key-remap">GitHub で見る</a>
-    </div>
-    <p class="note">v0.1.0 · 104 KB · インストール不要 · MIT License</p>
-
+    <table>
+      <tr><th>入力</th><th>導入前</th><th>導入後</th></tr>
+      <tr><td><kbd>`</kbd></td><td>` が入力される</td><td>日本語入力のオン/オフ</td></tr>
+      <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>日本語入力のオン/オフ</td><td>` が入力される</td></tr>
+      <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>~ が入力される</td><td>そのまま</td></tr>
+      <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> など</td><td>各アプリのショートカット</td><td>そのまま</td></tr>
+    </table>
+    <p style="margin-top:18px">ページ上でも試せます。下の枠が表示されている状態で <kbd>`</kbd> キーを押すと、左の「あ / A」が切り替わります。<kbd>Alt</kbd> + <kbd>`</kbd> では枠の中にバッククォートが入ります。</p>
     <div class="demo">
-      <h3>▶ ちょっと体験 — このページで ` キーを押してみてください</h3>
+      <div class="demo-title">動作イメージ</div>
       <div class="demo-row">
         <div class="ime-indicator on" id="imeBox">あ</div>
-        <div class="demo-input" id="demoInput">ここに入力されます…</div>
+        <div class="demo-input" id="demoInput"></div>
       </div>
-      <p>` 単独で IME のオン/オフが切り替わり、Alt + ` で ` が入力されます（実際のツールと同じ動きです）。</p>
+      <p>※ 実際のキー入力を拾うため、デスクトップのブラウザでお試しください。</p>
     </div>
-  </div>
-</div>
+  </section>
 
-<section id="features">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">FEATURES</div>
-      <h2>常駐するからこそ、とことん軽く。</h2>
-    </div>
-    <div class="cards">
-      <div class="card">
-        <div class="icon">🪶</div>
-        <h3>メモリ約1MB</h3>
-        <p>実行ファイルは <span class="num">104 KB</span>。常駐時のプライベートメモリは約 <span class="num">0.9 MB</span>、CPU はキー入力の瞬間だけ。ポーリングもタイマーもありません。</p>
-      </div>
-      <div class="card">
-        <div class="icon">🦀</div>
-        <h3>Rust ネイティブ</h3>
-        <p>依存ライブラリなし、Win32 API 直叩きの単体 exe。低レベルキーボードフックで確実に拾い、邪魔なキーは通しません。</p>
-      </div>
-      <div class="card">
-        <div class="icon">🧼</div>
-        <h3>レジストリを汚さない</h3>
-        <p>インストール不要。exe を置いて実行するだけ。やめるときはプロセスを終了してファイルを消せば終わりです。</p>
-      </div>
-      <div class="card">
-        <div class="icon">🎹</div>
-        <h3>打ち心地の作り込み</h3>
-        <p>` の長押しで IME が暴走しないよう、切り替えは1押下につき1回だけ。Alt + ` の長押しは `` ` `` の連続入力になります。</p>
-      </div>
-      <div class="card">
-        <div class="icon">🔓</div>
-        <h3>オープンソース</h3>
-        <p>MIT ライセンスで全ソースを公開。仕組みは単純で、コードは1ファイル。改造も自由です。</p>
-      </div>
-      <div class="card">
-        <div class="icon">🚪</div>
-        <h3>他のキーはそのまま</h3>
-        <p>Shift + ` （~）や Ctrl + ` は素通り。変えるのは ` と Alt + ` の2つだけです。</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <section id="install">
+    <h2>使い方</h2>
+    <ol class="steps">
+      <li><a href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe</a> をダウンロードして、好きな場所に置きます。</li>
+      <li>ダブルクリックで実行します。この時点で入れ替えが有効になり、あわせて自動起動の登録も行われます。次回のログインからは自動で起動するので、毎回実行する必要はありません。</li>
+      <li>やめたいときは、タスクマネージャーで key-remap を終了してください。自動起動も解除する場合は <code>key-remap.exe --uninstall</code> を実行してから終了します。</li>
+    </ol>
+    <p class="note">自動起動の登録は、レジストリの <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code> に自分のパスを書き込む方法で行います。exe を移動しても、次に起動したときに新しい場所で登録し直します。</p>
+  </section>
 
-<section id="keys" style="background:var(--bg2)">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">KEY BEHAVIOR</div>
-      <h2>キーの動き</h2>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <tr><th>入力</th><th>標準（US配列 + IME）</th><th>key-remap 導入後</th></tr>
-        <tr><td><kbd>`</kbd></td><td>` を入力</td><td class="after">IME オン/オフ切り替え</td></tr>
-        <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>IME オン/オフ切り替え</td><td class="after">` を入力</td></tr>
-        <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>~ を入力</td><td>~ を入力（変更なし）</td></tr>
-        <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> など</td><td>アプリのショートカット</td><td>そのまま（変更なし）</td></tr>
-      </table>
-    </div>
-  </div>
-</section>
+  <section id="spec">
+    <h2>仕様と注意</h2>
+    <ul class="plain">
+      <li>対応 OS は Windows 10 / 11 です。Microsoft IME、Google 日本語入力で動作を確認しています。</li>
+      <li>常駐時のメモリ使用量は約 1 MB です。キー入力があったときだけ処理が走るので、待機中に CPU を使うことはありません。</li>
+      <li>管理者権限で実行されているウィンドウの上ではキー入力を拾えません。これは Windows の仕様によるもので、その場合は key-remap 側も管理者権限で実行してください。</li>
+      <li><kbd>`</kbd> の長押しでは切り替えは1回だけです（押しっぱなしでオン/オフを繰り返しません）。<kbd>Alt</kbd> + <kbd>`</kbd> の長押しは、通常のキーと同じく連続入力になります。</li>
+      <li>実装は Rust で、外部ライブラリは使っていません。低レベルキーボードフックで入力を受け取り、SendInput で置き換えています。ソースコードは <a href="https://github.com/thanatos333/key-remap">GitHub</a> で公開しています（MIT ライセンス）。</li>
+    </ul>
+  </section>
 
-<section id="install">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">INSTALL</div>
-      <h2>導入は3ステップ</h2>
-    </div>
-    <div class="steps">
-      <div class="step"><div class="n">01</div><div><h3>ダウンロード</h3><p><a href="https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe">key-remap.exe</a> を好きな場所に保存します。</p></div></div>
-      <div class="step"><div class="n">02</div><div><h3>実行</h3><p>ダブルクリックで起動。それだけですぐに入れ替えが効き始めます。</p></div></div>
-      <div class="step"><div class="n">03</div><div><h3>自動起動（任意）</h3><p><code>Win + R</code> → <code>shell:startup</code> で開くフォルダに、exe のショートカットを置けば、ログインのたびに自動で起動します。</p></div></div>
-    </div>
-  </div>
-</section>
-
-<section id="faq" style="background:var(--bg2)">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">FAQ</div>
-      <h2>よくある質問</h2>
-    </div>
+  <section id="faq">
+    <h2>よくある質問</h2>
     <div class="faq">
       <details>
         <summary>US配列（英語配列）キーボードで日本語入力（IME）を切り替えるには？</summary>
-        <p>Windows の標準では Alt + `（バッククォート）が IME のオン/オフ切り替えですが、両手が必要で面倒です。key-remap を使うと、` キー単独で切り替えられるようになります。</p>
+        <p>Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。</p>
       </details>
       <details>
         <summary>半角/全角キーがないキーボードでも使えますか？</summary>
-        <p>はい。むしろ半角/全角キーのない US配列キーボードのために作られたツールです。` キーが半角/全角キーの代わりになります。</p>
+        <p>はい。半角/全角キーのない US配列キーボードのために作ったツールで、` キーがその代わりになります。</p>
       </details>
       <details>
         <summary>バッククォート（`）やチルダ（~）は打てなくなりますか？</summary>
-        <p>打てます。バッククォートは Alt + ` で入力でき、チルダは Shift + ` で従来どおり入力できます。</p>
+        <p>打てます。バッククォートは Alt + ` 、チルダは Shift + ` で、これまでどおり入力できます。</p>
       </details>
       <details>
         <summary>key-remap は無料ですか？</summary>
-        <p>無料です。ソースコードも MIT ライセンスで公開されているオープンソースソフトウェアです。</p>
+        <p>無料です。ソースコードも MIT ライセンスで公開しています。</p>
       </details>
       <details>
-        <summary>インストールやレジストリの変更は必要ですか？</summary>
-        <p>不要です。key-remap.exe を実行するだけで動作し、レジストリは変更しません。アンインストールはプロセスを終了してファイルを削除するだけです。</p>
+        <summary>インストールは必要ですか？</summary>
+        <p>必要ありません。exe を実行するだけです。初回起動時に自動起動の登録も済むので、次回のログインからは自動で起動します。</p>
       </details>
       <details>
         <summary>対応環境を教えてください。</summary>
-        <p>Windows 10 / 11 と、Microsoft IME や Google 日本語入力などの日本語 IME で動作します。常駐時のメモリ使用量は約1MB、実行ファイルは104KBです。</p>
+        <p>Windows 10 / 11 で、Microsoft IME や Google 日本語入力などの日本語 IME と組み合わせて使えます。</p>
       </details>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="final">
-  <div class="wrap">
-    <h2>その指の動き、<br>今日から1キー分ラクに。</h2>
-    <div class="cta" style="margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe">⬇ 無料ダウンロード</a>
-      <a class="btn ghost" href="https://github.com/thanatos333/key-remap/releases">リリース一覧</a>
-    </div>
-  </div>
-</section>
+</main>
 
 <footer>
-  <div class="wrap foot">
-    <div class="mono">` key-remap — MIT License</div>
-    <div>
-      <a href="https://github.com/thanatos333/key-remap">GitHub</a> ·
-      <a href="https://github.com/thanatos333/key-remap/releases">Releases</a>
-    </div>
+  <div class="foot">
+    <span>key-remap — MIT License</span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">リリース一覧</a></span>
   </div>
 </footer>
 
 <script>
-  // Mini demo: mirror the tool's behavior inside this page.
+  // 動作イメージ: 本物と同じキー割り当てをページ内で再現する
   const imeBox = document.getElementById('imeBox');
   const demoInput = document.getElementById('demoInput');
   let imeOn = true;
   let typed = '';
-  const PLACEHOLDER = 'ここに入力されます…';
   document.addEventListener('keydown', (e) => {
     if (e.code !== 'Backquote') return;
     e.preventDefault();
@@ -362,7 +280,7 @@
       imeBox.textContent = imeOn ? 'あ' : 'A';
       imeBox.classList.toggle('on', imeOn);
     }
-    demoInput.textContent = typed || PLACEHOLDER;
+    demoInput.textContent = typed;
   });
 </script>
 </body>

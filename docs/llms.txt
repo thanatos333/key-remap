@@ -13,13 +13,13 @@
 - Platform: Windows 10 / 11
 - Works with: Microsoft IME, Google Japanese Input
 - Price: free, open source (MIT License)
-- Size: 104 KB single executable; resident memory usage about 1 MB
-- Installation: none. Run key-remap.exe; no registry changes. Uninstall by ending the process and deleting the file.
+- Size: 112 KB single executable; resident memory usage about 1 MB
+- Installation: none. Run key-remap.exe; on first launch it registers itself in the HKCU Run key so it starts automatically at logon. `key-remap.exe --uninstall` removes that registration.
 - Implementation: dependency-free Rust using a low-level keyboard hook (WH_KEYBOARD_LL) and SendInput.
 
 ## Links
 
 - Website: https://thanatos333.github.io/key-remap/
-- Download (v0.1.0, key-remap.exe): https://github.com/thanatos333/key-remap/releases/download/v0.1.0/key-remap.exe
+- Download (latest, key-remap.exe): https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe
 - Source code: https://github.com/thanatos333/key-remap
 - Releases: https://github.com/thanatos333/key-remap/releases
