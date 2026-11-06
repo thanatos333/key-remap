@@ -1,0 +1,13 @@
+[package]
+name = "key-remap"
+version = "0.1.0"
+edition = "2021"
+description = "Swap ` and Alt+` on a US keyboard: ` alone toggles IME, Alt+` types `"
+license = "MIT"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
