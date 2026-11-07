@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>key-remap — Toggle Japanese IME with the ` key on a US keyboard</title>
-<meta name="description" content="A tiny free Windows utility for US (English) keyboards, which have no Hankaku/Zenkaku key: press ` alone to toggle Japanese input (IME) on/off, and Alt+` to type a backquote. No installation, open source.">
+<title>key-remap — Toggle Japanese input with the ` key on a US keyboard (Windows 11 / 10)</title>
+<meta name="description" content="Can't switch to Japanese input on a US (English) keyboard, or tired of the Alt+` shortcut? key-remap is a tiny free Windows 11 / 10 utility: press ` alone to toggle Japanese input (IME) on/off, and Alt+` to type a backquote. Works on compact 60% keyboards too. No installation, open source.">
 <link rel="canonical" href="https://thanatos333.github.io/key-remap/en/">
 <link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
@@ -12,13 +12,13 @@
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="key-remap">
-<meta property="og:title" content="key-remap — Toggle Japanese IME with the ` key on a US keyboard">
+<meta property="og:title" content="key-remap — Toggle Japanese input with the ` key on a US keyboard (Windows 11 / 10)">
 <meta property="og:description" content="A US keyboard has no Hankaku/Zenkaku key. key-remap lets the ` key toggle Japanese input instead. Free, no installation.">
 <meta property="og:url" content="https://thanatos333.github.io/key-remap/en/">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ja_JP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="key-remap — Toggle Japanese IME with the ` key">
+<meta name="twitter:title" content="key-remap — Toggle Japanese input with the ` key (Windows 11 / 10)">
 <meta name="twitter:description" content="A tiny Windows utility that swaps ` and Alt+` so a US keyboard gets a one-key IME toggle.">
 <style>
   :root{
@@ -146,7 +146,7 @@
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "A Windows utility that swaps the roles of the ` key and Alt+` on a US keyboard layout: ` alone toggles the Japanese IME on/off, Alt+` types the backquote. For US keyboards without a Hankaku/Zenkaku key.",
+  "description": "A Windows utility that swaps the roles of the ` key and Alt+` on a US keyboard layout: ` alone toggles the Japanese IME on/off, Alt+` types the backquote. For US keyboards without a Hankaku/Zenkaku key, including compact 60% keyboards. Windows 11 / 10.",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
   "inLanguage": "en"
 }
@@ -159,12 +159,22 @@
     {
       "@type": "Question",
       "name": "How do I toggle the Japanese IME on a US (English) keyboard?",
-      "acceptedAnswer": { "@type": "Answer", "text": "By default on Windows it is Alt + ` together. With key-remap running, a single press of ` toggles Japanese input instead." }
+      "acceptedAnswer": { "@type": "Answer", "text": "By default on Windows it is Alt + ` together. With key-remap running, a single press of ` toggles Japanese input instead, so switching between romaji input and half-width alphanumeric feels just like the Hankaku/Zenkaku key." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why can't I switch to Japanese input on a US keyboard?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Because a US keyboard has no Hankaku/Zenkaku key, there is no single key for switching like on a Japanese keyboard. The standard Windows shortcut is Alt + `. If that feels awkward or hard to reach, key-remap lets a single press of ` do the switching instead." }
     },
     {
       "@type": "Question",
       "name": "Does it work on keyboards without a Hankaku/Zenkaku key?",
       "acceptedAnswer": { "@type": "Answer", "text": "Yes. key-remap was made exactly for US-layout keyboards that lack that key; the ` key takes its place." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on a 60% keyboard?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. On compact English-layout keyboards without a Hankaku/Zenkaku key, the ` key becomes the toggle. On models where ` shares the Esc key and is typed with Fn, key-remap picks up that input and toggles as well." }
     },
     {
       "@type": "Question",
@@ -180,6 +190,11 @@
       "@type": "Question",
       "name": "Do I need to install it?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. Just run the exe. On first launch it also registers itself for auto-start, so from the next logon it starts on its own." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work on Windows 11? Do I need to change any settings?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, it works on Windows 11 and Windows 10. There are no Windows settings to change; just run the exe, and switching to Japanese input on an English keyboard gets easier right away." }
     },
     {
       "@type": "Question",
@@ -341,11 +356,19 @@
       <div class="faq">
         <details>
           <summary>How do I toggle the Japanese IME on a US (English) keyboard?</summary>
-          <p>By default on Windows it is Alt + ` together. With key-remap running, a single press of ` toggles Japanese input instead.</p>
+          <p>By default on Windows it is Alt + ` together. With key-remap running, a single press of ` toggles Japanese input instead, so switching between romaji input and half-width alphanumeric feels just like the Hankaku/Zenkaku key.</p>
+        </details>
+        <details>
+          <summary>Why can't I switch to Japanese input on a US keyboard?</summary>
+          <p>Because a US keyboard has no Hankaku/Zenkaku key, there is no single key for switching like on a Japanese keyboard. The standard Windows shortcut is Alt + `. If that feels awkward or hard to reach, key-remap lets a single press of ` do the switching instead.</p>
         </details>
         <details>
           <summary>Does it work on keyboards without a Hankaku/Zenkaku key?</summary>
           <p>Yes. key-remap was made exactly for US-layout keyboards that lack that key; the ` key takes its place.</p>
+        </details>
+        <details>
+          <summary>Does it work on a 60% keyboard?</summary>
+          <p>Yes. On compact English-layout keyboards without a Hankaku/Zenkaku key, the ` key becomes the toggle. On models where ` shares the Esc key and is typed with Fn, key-remap picks up that input and toggles as well.</p>
         </details>
         <details>
           <summary>Can I still type a backquote (`) and tilde (~)?</summary>
@@ -358,6 +381,10 @@
         <details>
           <summary>Do I need to install it?</summary>
           <p>No. Just run the exe. On first launch it also registers itself for auto-start, so from the next logon it starts on its own.</p>
+        </details>
+        <details>
+          <summary>Does it work on Windows 11? Do I need to change any settings?</summary>
+          <p>Yes, it works on Windows 11 and Windows 10. There are no Windows settings to change; just run the exe, and switching to Japanese input on an English keyboard gets easier right away.</p>
         </details>
         <details>
           <summary>What are the system requirements?</summary>

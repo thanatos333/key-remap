@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>key-remap — US配列キーボードで ` キーひとつでIME切り替え｜半角/全角キーの代わり</title>
-<meta name="description" content="US配列（英語配列）キーボードには半角/全角キーがありません。key-remap は ` キー単独で日本語入力（IME）のオン/オフ、Alt+` でバッククォート入力に入れ替える無料のWindows常駐ツール。インストール不要・オープンソース。">
+<title>key-remap — USキーボードの日本語入力切り替えを ` キーひとつで｜Windows 11・英語配列対応</title>
+<meta name="description" content="USキーボード（英語配列）で日本語入力に切り替えられない、Alt+` のショートカットが押しにくい。そんな不便を解消する無料のWindows用ツールです。` キー単独でローマ字入力（IME）のオン/オフ、Alt+` でバッククォート入力。半角/全角キーがない60%キーボードでも使えます。Windows 11 / 10 対応、インストール不要。">
 <link rel="canonical" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
@@ -13,14 +13,14 @@
 <meta name="google-site-verification" content="pkGKsy_cuPoLISQIVBtxgSDSIVatcBdSyz6QyM7DYRg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="key-remap">
-<meta property="og:title" content="key-remap — US配列キーボードで ` キーひとつでIME切り替え">
-<meta property="og:description" content="US配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。無料・インストール不要。">
+<meta property="og:title" content="key-remap — USキーボードの日本語入力切り替えを ` キーひとつで">
+<meta property="og:description" content="英語配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。Windows 11対応、無料・インストール不要。">
 <meta property="og:url" content="https://thanatos333.github.io/key-remap/">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="key-remap — US配列で ` キーひとつでIME切り替え">
-<meta name="twitter:description" content="US配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。">
+<meta name="twitter:title" content="key-remap — USキーボードの日本語入力切り替えを ` キーひとつで">
+<meta name="twitter:description" content="英語配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。Windows 11対応。">
 <style>
   :root{
     color-scheme:light;
@@ -155,7 +155,7 @@
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
-  "description": "US配列キーボードで ` キー単独を日本語入力（IME）のオン/オフ切り替えに、Alt+` をバッククォート入力に入れ替えるWindows用常駐ユーティリティ。半角/全角キーのない英語配列キーボード向け。",
+  "description": "US配列キーボードで ` キー単独を日本語入力（IME）のオン/オフ切り替えに、Alt+` をバッククォート入力に入れ替えるWindows用常駐ユーティリティ。半角/全角キーのない英語配列キーボードや60%キーボード向け。Windows 11 / 10 対応。",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
   "inLanguage": "ja"
 }
@@ -168,12 +168,22 @@
     {
       "@type": "Question",
       "name": "US配列（英語配列）キーボードで日本語入力（IME）を切り替えるにはどうすればいいですか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。ローマ字入力と半角英数の切り替えが、半角/全角キーと同じ感覚でできるようになります。" }
+    },
+    {
+      "@type": "Question",
+      "name": "USキーボードで日本語入力に切り替えできないのはなぜですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "USキーボードには半角/全角キーがないため、日本語キーボードのように1つのキーでは切り替えられないのが理由です。Windows 標準の切り替えキーは Alt + ` です。これが押しにくい、届きにくいと感じる場合は、key-remap を実行しておけば ` キー単独で切り替えられます。" }
     },
     {
       "@type": "Question",
       "name": "半角/全角キーがないキーボードでも使えますか？",
       "acceptedAnswer": { "@type": "Answer", "text": "はい。半角/全角キーのない US配列キーボードのために作ったツールで、` キーがその代わりになります。" }
+    },
+    {
+      "@type": "Question",
+      "name": "60%キーボードでも使えますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "使えます。半角/全角キーのない小型の英語配列キーボードでも、` キーが切り替えキーになります。Esc と兼用で Fn キーとの同時押しで ` を入力する機種でも、その入力を拾って切り替えます。" }
     },
     {
       "@type": "Question",
@@ -189,6 +199,11 @@
       "@type": "Question",
       "name": "インストールは必要ですか？",
       "acceptedAnswer": { "@type": "Answer", "text": "必要ありません。exe を実行するだけです。初回起動時に自動起動の登録も済むので、次回のログインからは自動で起動します。" }
+    },
+    {
+      "@type": "Question",
+      "name": "Windows 11 でも使えますか？設定は必要ですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "はい、Windows 11 と Windows 10 に対応しています。Windows 側の設定変更は不要で、exe を実行するだけです。英語配列キーボードを Windows 11 で使うときの日本語入力切り替えが、そのまま楽になります。" }
     },
     {
       "@type": "Question",
@@ -216,8 +231,8 @@
 
 <div class="hero">
   <div class="wrap">
-    <h1>US配列キーボードで、<br><span class="mono">`</span> キーひとつで日本語入力に切り替える。</h1>
-    <p class="lead">US配列のキーボードを Windows で使っていると、日本語入力のオン/オフは <kbd>Alt</kbd> + <kbd>`</kbd> の同時押しになります。半角/全角キーのある日本語キーボードと違って、1回ごとに両手が要るのが地味に面倒でした。</p>
+    <h1>US配列（英語配列）キーボードで、<br><span class="mono">`</span> キーひとつで日本語入力に切り替える。</h1>
+    <p class="lead">US配列のキーボードを Windows で使っていると、日本語入力（ローマ字入力）のオン/オフは <kbd>Alt</kbd> + <kbd>`</kbd> の同時押しになります。半角/全角キーのある日本語キーボードと違って、1回ごとに両手が要るのが地味に面倒でした。</p>
     <p class="lead">key-remap は、この2つのキーの役割を入れ替える小さな常駐プログラムです。<kbd>`</kbd> を1回押せば入力が切り替わり、バッククォート自体は <kbd>Alt</kbd> + <kbd>`</kbd> で入力します。自分が毎日使うために作ったものですが、同じ不便を感じている人の役に立てばと思い公開しています。</p>
     <div class="quick-facts">
       <div class="fact"><div class="k">対応環境</div><div class="v">Windows 10 / 11</div></div>
@@ -350,11 +365,19 @@
       <div class="faq">
         <details>
           <summary>US配列（英語配列）キーボードで日本語入力（IME）を切り替えるには？</summary>
-          <p>Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。</p>
+          <p>Windows の標準では Alt と ` の同時押しが切り替えですが、key-remap を実行しておくと ` キーを1回押すだけで切り替わるようになります。ローマ字入力と半角英数の切り替えが、半角/全角キーと同じ感覚でできるようになります。</p>
+        </details>
+        <details>
+          <summary>USキーボードで日本語入力に切り替えできないのはなぜ？</summary>
+          <p>USキーボードには半角/全角キーがないため、日本語キーボードのように1つのキーでは切り替えられないのが理由です。Windows 標準の切り替えキーは Alt + ` です。これが押しにくい、届きにくいと感じる場合は、key-remap を実行しておけば ` キー単独で切り替えられます。</p>
         </details>
         <details>
           <summary>半角/全角キーがないキーボードでも使えますか？</summary>
           <p>はい。半角/全角キーのない US配列キーボードのために作ったツールで、` キーがその代わりになります。</p>
+        </details>
+        <details>
+          <summary>60%キーボードでも使えますか？</summary>
+          <p>使えます。半角/全角キーのない小型の英語配列キーボードでも、` キーが切り替えキーになります。Esc と兼用で Fn キーとの同時押しで ` を入力する機種でも、その入力を拾って切り替えます。</p>
         </details>
         <details>
           <summary>バッククォート（`）やチルダ（~）は打てなくなりますか？</summary>
@@ -367,6 +390,10 @@
         <details>
           <summary>インストールは必要ですか？</summary>
           <p>必要ありません。exe を実行するだけです。初回起動時に自動起動の登録も済むので、次回のログインからは自動で起動します。</p>
+        </details>
+        <details>
+          <summary>Windows 11 でも使えますか？設定は必要ですか？</summary>
+          <p>はい、Windows 11 と Windows 10 に対応しています。Windows 側の設定変更は不要で、exe を実行するだけです。英語配列キーボードを Windows 11 で使うときの日本語入力切り替えが、そのまま楽になります。</p>
         </details>
         <details>
           <summary>対応環境を教えてください。</summary>
