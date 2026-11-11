@@ -21,6 +21,7 @@
 
 - Website (Japanese): https://thanatos333.github.io/key-remap/
 - Website (English): https://thanatos333.github.io/key-remap/en/
+- Website (Traditional Chinese): https://thanatos333.github.io/key-remap/zh-tw/
 - Download (latest, key-remap.exe): https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe
 - Source code: https://github.com/thanatos333/key-remap
 - Releases: https://github.com/thanatos333/key-remap/releases

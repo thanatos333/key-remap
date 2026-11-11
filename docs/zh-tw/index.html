@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>key-remap — 在美式鍵盤上，用 ` 鍵一鍵切換日文輸入（Windows 11 / 10）</title>
+<meta name="description" content="在美式（英文）鍵盤上無法順利切換日文輸入，或是受夠了 Alt+` 組合鍵？key-remap 是一款小巧免費的 Windows 11 / 10 工具：按一下 ` 即可開關日文輸入（IME），Alt+` 則輸入反引號。小型 60% 鍵盤也能用。免安裝、開源。">
+<link rel="canonical" href="https://thanatos333.github.io/key-remap/zh-tw/">
+<link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
+<link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
+<link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/">
+<link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="key-remap">
+<meta property="og:title" content="key-remap — 在美式鍵盤上，用 ` 鍵一鍵切換日文輸入（Windows 11 / 10）">
+<meta property="og:description" content="美式鍵盤沒有半角/全角鍵。key-remap 讓 ` 鍵代替它來切換日文輸入。免費、免安裝。">
+<meta property="og:url" content="https://thanatos333.github.io/key-remap/zh-tw/">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="key-remap — 用 ` 鍵切換日文輸入（Windows 11 / 10）">
+<meta name="twitter:description" content="一款小巧的 Windows 工具，交換 ` 與 Alt+` 的角色，讓美式鍵盤也能一鍵切換 IME。">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#ffffff; --band:#f4f6f9; --panel:#ffffff;
+    --line:#dde2ea; --line-strong:#c6cdd9;
+    --text:#1f2328; --muted:#4d5561;
+    --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e9effe; --key-accent:#e8590c;
+    --key-top:#ffffff; --key-edge:#c3c9d4; --key-text:#1f2328;
+    --code-bg:#eef0f3; --shadow:0 1px 3px rgba(20,30,60,.08),0 4px 14px rgba(20,30,60,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --bg:#121a2a; --band:#172136; --panel:#1a2740;
+      --line:#2b3c5e; --line-strong:#3a4f78;
+      --text:#e9edf7; --muted:#a3b0ca;
+      --accent:#93aaff; --accent-ink:#101828; --accent-soft:#243354; --key-accent:#ffa94d;
+      --key-top:#22304e; --key-edge:#0c1322; --key-text:#e9edf7;
+      --code-bg:#1e2c47; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
+  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
+  .nav-links{display:flex;gap:20px;font-size:13.5px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
+  .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
+  .hero h1{font-size:clamp(26px,4.6vw,34px);line-height:1.5;font-weight:800}
+  .hero h1 .mono{font-family:ui-monospace,Consolas,monospace;color:var(--key-accent)}
+  .hero .lead{margin-top:20px;max-width:640px}
+  .hero .lead + .lead{margin-top:12px}
+  .quick-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  .fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow)}
+  .fact .k{font-size:12px;color:var(--muted);letter-spacing:.05em}
+  .fact .v{font-size:16.5px;font-weight:700;margin-top:2px}
+  @media (max-width:560px){ .quick-facts{grid-template-columns:1fr} }
+  .download{margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;min-height:50px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;padding:10px 26px;border-radius:9px;font-size:15.5px;box-shadow:var(--shadow)}
+  .btn:hover{opacity:.9}
+  .download .meta{font-size:13px;color:var(--muted)}
+  .toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+  .toc a{font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:999px;padding:4px 14px;background:var(--panel)}
+  .toc a:hover{color:var(--text);border-color:var(--muted)}
+  section{padding:52px 0}
+  section.band{background:var(--band);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{font-family:ui-monospace,Consolas,monospace;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 9px;flex:none}
+  h2{font-size:22px;font-weight:800}
+  .sec-lead{color:var(--muted);margin-bottom:24px;max-width:640px}
+  .kb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin:4px 0 10px}
+  .kb-screen{display:flex;align-items:center;gap:12px;background:var(--band);border:1px solid var(--line);border-radius:9px;padding:8px 14px;margin-bottom:14px;min-height:48px}
+  .kb-badge{font-weight:700;font-size:15px;width:38px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);flex:none}
+  .kb-badge.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .kb-text{font-family:ui-monospace,Consolas,monospace;font-size:15.5px;min-height:1.4em;white-space:pre}
+  .kb-row{display:flex;gap:5px;margin-bottom:5px}
+  .kb-row:last-child{margin-bottom:0}
+  .kb-key{flex:var(--u,1) 1 0;height:38px;display:flex;align-items:center;justify-content:center;background:var(--key-top);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:6px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace;color:var(--key-text);transition:background .12s ease,transform .12s ease;user-select:none}
+  .kb-key.mod{font-size:10.5px;color:var(--muted);font-family:inherit}
+  .kb-key.grave{border-color:var(--accent);color:var(--accent);font-weight:700}
+  .kb-key.press{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);transform:translateY(2px)}
+  .kb-caption{font-size:13px;color:var(--muted);margin-bottom:24px}
+  @media (max-width:560px){ .kb-key{height:29px;font-size:9.5px;border-radius:4px} .kb-key.mod{font-size:8px} .kb{padding:10px} }
+  .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:6px 0 22px}
+  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 17px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:25px;font-weight:700;box-shadow:var(--shadow)}
+  .keycap.wide{font-size:16px;gap:7px}
+  .keycap .plus{color:var(--muted);font-size:15px}
+  .cap-box{text-align:center}
+  .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px;font-weight:600}
+  .arrow{font-size:20px;color:var(--accent);font-weight:700}
+  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;background:var(--band)}
+  tbody tr:nth-child(even){background:var(--band)}
+  tr:last-child td{border-bottom:none}
+  td.after{font-weight:700}
+  kbd{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:13px}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:13.5px}
+  .demo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:22px;box-shadow:var(--shadow)}
+  .demo .demo-title{font-size:13.5px;font-weight:700;margin-bottom:12px}
+  .demo-row{display:flex;align-items:center;gap:13px}
+  .ime-indicator{font-weight:700;font-size:18px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--band);border:1px solid var(--line);flex:none}
+  .ime-indicator.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .demo-input{flex:1;background:var(--band);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
+  .demo p{font-size:13px;color:var(--muted);margin-top:12px}
+  .steps{display:grid;gap:14px}
+  .step{display:flex;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);align-items:flex-start}
+  .step .n{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:3px}
+  .step h3{font-size:16px;font-weight:700;margin-bottom:4px}
+  .step p{font-size:14.5px;color:var(--muted)}
+  ul.plain{padding-left:20px;display:grid;gap:9px}
+  .note{font-size:13.5px;color:var(--muted);margin-top:16px}
+  .faq{display:grid;gap:10px}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 20px;box-shadow:var(--shadow)}
+  .faq summary{font-weight:700;font-size:15.5px;cursor:pointer}
+  .faq p{font-size:14.5px;color:var(--muted);margin-top:8px}
+  .final-cta{text-align:center;padding:56px 0 64px}
+  .final-cta h2{font-size:24px;margin-bottom:10px}
+  .final-cta p{color:var(--muted);margin-bottom:24px}
+  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:780px;margin:0 auto;padding:0 22px}
+  footer a{color:var(--muted)}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .kb-key{transition:none}
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "key-remap",
+  "url": "https://thanatos333.github.io/key-remap/zh-tw/",
+  "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
+  "softwareVersion": "0.2.0",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "UtilitiesApplication",
+  "license": "https://opensource.org/licenses/MIT",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
+  "description": "一款 Windows 工具，交換美式鍵盤上 ` 鍵與 Alt+` 的角色：按 ` 切換日文 IME 開關，Alt+` 輸入反引號。適合沒有半角/全角鍵的美式鍵盤，包括小型 60% 鍵盤。Windows 11 / 10。",
+  "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
+  "inLanguage": "zh-TW"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "在美式（英文）鍵盤上，要如何切換日文 IME？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 預設是同時按 Alt + `。執行 key-remap 之後，按一下 ` 就能切換日文輸入，在羅馬字輸入與半形英數之間切換，就像半角/全角鍵一樣。" }
+    },
+    {
+      "@type": "Question",
+      "name": "為什麼在美式鍵盤上無法順利切換到日文輸入？",
+      "acceptedAnswer": { "@type": "Answer", "text": "因為美式鍵盤沒有半角/全角鍵，不像日式鍵盤可以用單一按鍵切換。Windows 的標準快捷鍵是 Alt + `。如果覺得難按或不好觸及，key-remap 讓你按一下 ` 就能切換。" }
+    },
+    {
+      "@type": "Question",
+      "name": "沒有半角/全角鍵的鍵盤也能用嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "可以。key-remap 正是為了沒有這個鍵的美式鍵盤而做的，由 ` 鍵來代替它。" }
+    },
+    {
+      "@type": "Question",
+      "name": "60% 鍵盤也能用嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "可以。在沒有半角/全角鍵的小型英文鍵盤上，` 鍵就是切換鍵。若是 ` 與 Esc 共用、需要搭配 Fn 輸入的機種，key-remap 也能讀到那個輸入並進行切換。" }
+    },
+    {
+      "@type": "Question",
+      "name": "還能輸入反引號（`）和波浪號（~）嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "可以。反引號改到 Alt + `，波浪號維持 Shift + `，和以前一樣。" }
+    },
+    {
+      "@type": "Question",
+      "name": "key-remap 是免費的嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "是免費的，原始碼也以 MIT 授權公開。" }
+    },
+    {
+      "@type": "Question",
+      "name": "需要安裝嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "不需要。執行 exe 即可。首次啟動時會一併完成自動啟動註冊，下次登入起會自動啟動。" }
+    },
+    {
+      "@type": "Question",
+      "name": "Windows 11 也能用嗎？需要改設定嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "可以，支援 Windows 11 與 Windows 10。不需要變更任何 Windows 設定，執行 exe 即可，在英文鍵盤上切換日文輸入馬上變輕鬆。" }
+    },
+    {
+      "@type": "Question",
+      "name": "系統需求是什麼？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 或 11，搭配 Microsoft IME 或 Google 日文輸入法等日文 IME。" }
+    },
+    {
+      "@type": "Question",
+      "name": "key-remap 是鍵盤對應（keymap）編輯器嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "不是。key-remap 不是通用的鍵盤對應編輯器，也不能任意重新對應按鍵。它只對鍵盤對應做一項修改——` 鍵與 Alt + ` 交換角色——而且完全沒有設定畫面。如果你需要重新對應很多按鍵，PowerToys Keyboard Manager 這類通用工具會更合適。" }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="./">` key-remap</a>
+    <nav class="nav-links">
+      <a href="#keys">按鍵方式</a>
+      <a href="#install">使用方法</a>
+      <a href="#faq">常見問題</a>
+      <a href="https://github.com/thanatos333/key-remap">GitHub</a>
+      <a class="lang" href="../">Language: 日本語</a>
+      <a class="lang" href="../en/">Language: English</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>在美式鍵盤上，用單一 <span class="mono">`</span> 鍵切換日文輸入。</h1>
+    <p class="lead">在 Windows 上使用美式鍵盤時，開關日文輸入需要同時按 <kbd>Alt</kbd> + <kbd>`</kbd>，每次都要兩隻手，因為美式鍵盤沒有日式鍵盤上的半角/全角鍵。用久了真的很煩。</p>
+    <p class="lead">key-remap 是一款小巧的常駐程式，交換這兩個鍵的角色。按一下 <kbd>`</kbd> 就能切換輸入，反引號本身則改到 <kbd>Alt</kbd> + <kbd>`</kbd>。可以把它想成是對鍵盤對應（keymap）的一行修改：只有這兩個項目互換位置，其他部分完全不動。這是我為了自己每天使用而做的工具，想說有相同困擾的人或許也用得上，就公開了。</p>
+    <div class="quick-facts">
+      <div class="fact"><div class="k">平台</div><div class="v">Windows 10 / 11</div></div>
+      <div class="fact"><div class="k">價格</div><div class="v">免費、開源</div></div>
+      <div class="fact"><div class="k">大小 / 常駐記憶體</div><div class="v">112 KB / 約 1 MB</div></div>
+    </div>
+    <div class="download">
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">下載 key-remap.exe</a>
+      <span class="meta">免安裝，執行即可。</span>
+    </div>
+    <nav class="toc">
+      <a href="#keys">按鍵如何運作</a>
+      <a href="#install">使用方法</a>
+      <a href="#spec">詳細與注意事項</a>
+      <a href="#faq">常見問題</a>
+      <a href="#compare">其他做法</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section id="keys">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">01</span><h2>按鍵如何運作</h2></div>
+      <p class="sec-lead">只改變兩個鍵，其他鍵全部維持原樣。</p>
+
+      <div class="kb" aria-hidden="true">
+        <div class="kb-screen">
+          <div class="kb-badge" id="kbIme">A</div>
+          <div class="kb-text" id="kbText"></div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key grave" data-k="grave">`</div>
+          <div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div>
+          <div class="kb-key">-</div><div class="kb-key">=</div>
+          <div class="kb-key mod" style="--u:2">Backspace</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.5">Tab</div>
+          <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key" data-k="e">E</div><div class="kb-key">R</div><div class="kb-key" data-k="t">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key" data-k="i">I</div><div class="kb-key" data-k="o">O</div><div class="kb-key">P</div>
+          <div class="kb-key">[</div><div class="kb-key">]</div>
+          <div class="kb-key" style="--u:1.5">\</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.75">Caps</div>
+          <div class="kb-key" data-k="a">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key" data-k="g">G</div><div class="kb-key" data-k="h">H</div><div class="kb-key">J</div><div class="kb-key" data-k="k">K</div><div class="kb-key" data-k="l">L</div>
+          <div class="kb-key">;</div><div class="kb-key">'</div>
+          <div class="kb-key mod" style="--u:2.25">Enter</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" data-k="shift" style="--u:2.25">Shift</div>
+          <div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key" data-k="n">N</div><div class="kb-key">M</div>
+          <div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div>
+          <div class="kb-key mod" style="--u:2.75">Shift</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+          <div class="kb-key mod" style="--u:1.25">Win</div>
+          <div class="kb-key mod" data-k="alt" style="--u:1.25">Alt</div>
+          <div class="kb-key" style="--u:6.25"></div>
+          <div class="kb-key mod" style="--u:1.25">Alt</div>
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+        </div>
+      </div>
+      <p class="kb-caption">美式鍵盤。左上角的 <kbd>`</kbd> 鍵是主角——動畫會循環播放實際的使用流程：輸入「konnichiha」轉換成こんにちは、切換到英文輸入「Hello」、再用 Alt + ` 輸入反引號、Shift + ` 輸入波浪號，最後回到日文輸入。</p>
+
+      <div class="swap">
+        <div class="cap-box">
+          <div class="keycap">`</div>
+          <div class="cap-label">按下切換輸入</div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="cap-box">
+          <div class="keycap wide"><span>Alt</span><span class="plus">+</span><span>`</span></div>
+          <div class="cap-label">按下輸入 `</div>
+        </div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>輸入</th><th>變更前</th><th>變更後</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>`</kbd></td><td>輸入 `</td><td class="after">切換日文輸入開/關</td></tr>
+            <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>切換日文輸入開/關</td><td class="after">輸入 `</td></tr>
+            <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>輸入 ~</td><td>不變</td></tr>
+            <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> 等</td><td>應用程式快捷鍵</td><td>不變</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="demo">
+        <div class="demo-title">試試看——讓這個頁面取得焦點後，按下 ` 鍵</div>
+        <div class="demo-row">
+          <div class="ime-indicator on" id="imeBox">あ</div>
+          <div class="demo-input" id="demoInput"></div>
+        </div>
+        <p>單獨按 ` 會切換 あ / A 指示燈；Alt + ` 會在框內輸入反引號。建議用桌上型瀏覽器試。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">02</span><h2>使用方法</h2></div>
+      <p class="sec-lead">下載、執行、完成。沒有任何設定要調。</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div><h3>下載，放在任何地方</h3><p>下載 <a href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe</a>，放在你喜歡的位置即可。</p></div></div>
+        <div class="step"><div class="n">2</div><div><h3>執行它</h3><p>雙擊執行。交換立即生效，同時工具會把自己註冊為自動啟動，下次登入起會自己啟動，不必每次手動開。</p></div></div>
+        <div class="step"><div class="n">3</div><div><h3>要停止時</h3><p>在工作管理員中結束 key-remap。若要一併移除自動啟動註冊，先執行 <code>key-remap.exe --uninstall</code>。</p></div></div>
+      </div>
+      <p class="note">自動啟動的註冊方式，是把 exe 自己的路徑寫入登錄檔的 <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code>。移動 exe 也沒關係，下次啟動時會以新位置重新註冊。</p>
+    </div>
+  </section>
+
+  <section id="spec">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">03</span><h2>詳細與注意事項</h2></div>
+      <p class="sec-lead">使用前值得知道的幾件事。</p>
+      <ul class="plain">
+        <li>支援 Windows 10 / 11。已在 Microsoft IME 與 Google 日文輸入法上確認運作。</li>
+        <li>常駐記憶體約 1 MB。只有在按鍵時才處理，待機時不耗 CPU。</li>
+        <li>無法讀取以系統管理員權限執行的視窗中的按鍵——這是 Windows 的限制。若需要在那種視窗使用，請讓 key-remap 也以系統管理員權限執行。</li>
+        <li>長按 <kbd>`</kbd> 只會切換一次（不會反覆開關）。長按 <kbd>Alt</kbd> + <kbd>`</kbd> 則和一般按鍵一樣連續輸入。</li>
+        <li>以 Rust 撰寫，不使用外部函式庫。使用低階鍵盤鉤子接收輸入，再以 SendInput 替換。原始碼在 <a href="https://github.com/thanatos333/key-remap">GitHub</a> 以 MIT 授權公開。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">04</span><h2>常見問題</h2></div>
+      <p class="sec-lead">在詢問之前，先看看這裡能不能解決。</p>
+      <div class="faq">
+        <details>
+          <summary>在美式（英文）鍵盤上，要如何切換日文 IME？</summary>
+          <p>Windows 預設是同時按 Alt + `。執行 key-remap 之後，按一下 ` 就能切換日文輸入，在羅馬字輸入與半形英數之間切換，就像半角/全角鍵一樣。</p>
+        </details>
+        <details>
+          <summary>為什麼在美式鍵盤上無法順利切換到日文輸入？</summary>
+          <p>因為美式鍵盤沒有半角/全角鍵，不像日式鍵盤可以用單一按鍵切換。Windows 的標準快捷鍵是 Alt + `。如果覺得難按或不好觸及，key-remap 讓你按一下 ` 就能切換。</p>
+        </details>
+        <details>
+          <summary>沒有半角/全角鍵的鍵盤也能用嗎？</summary>
+          <p>可以。key-remap 正是為了沒有這個鍵的美式鍵盤而做的，由 ` 鍵來代替它。</p>
+        </details>
+        <details>
+          <summary>60% 鍵盤也能用嗎？</summary>
+          <p>可以。在沒有半角/全角鍵的小型英文鍵盤上，` 鍵就是切換鍵。若是 ` 與 Esc 共用、需要搭配 Fn 輸入的機種，key-remap 也能讀到那個輸入並進行切換。</p>
+        </details>
+        <details>
+          <summary>還能輸入反引號（`）和波浪號（~）嗎？</summary>
+          <p>可以。反引號改到 Alt + `，波浪號維持 Shift + `，和以前一樣。</p>
+        </details>
+        <details>
+          <summary>key-remap 是免費的嗎？</summary>
+          <p>是免費的，原始碼也以 MIT 授權公開。</p>
+        </details>
+        <details>
+          <summary>需要安裝嗎？</summary>
+          <p>不需要。執行 exe 即可。首次啟動時會一併完成自動啟動註冊，下次登入起會自動啟動。</p>
+        </details>
+        <details>
+          <summary>Windows 11 也能用嗎？需要改設定嗎？</summary>
+          <p>可以，支援 Windows 11 與 Windows 10。不需要變更任何 Windows 設定，執行 exe 即可，在英文鍵盤上切換日文輸入馬上變輕鬆。</p>
+        </details>
+        <details>
+          <summary>系統需求是什麼？</summary>
+          <p>Windows 10 或 11，搭配 Microsoft IME 或 Google 日文輸入法等日文 IME。</p>
+        </details>
+        <details>
+          <summary>key-remap 是鍵盤對應（keymap）編輯器嗎？</summary>
+          <p>不是。key-remap 不是通用的鍵盤對應編輯器，也不能任意重新對應按鍵。它只對鍵盤對應做一項修改——` 鍵與 Alt + ` 交換角色——而且完全沒有設定畫面。如果你需要重新對應很多按鍵，PowerToys Keyboard Manager 這類通用工具會更合適。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">05</span><h2>其他做法</h2></div>
+      <p class="sec-lead">想要一鍵切換 IME，有幾種做法。以下是常見方式的比較，方便你挑選適合自己的。</p>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>做法</th><th>需要什麼</th><th>備註</th></tr></thead>
+          <tbody>
+            <tr><td>Windows 預設</td><td>什麼都不用——照常用 <kbd>Alt</kbd> + <kbd>`</kbd></td><td>零設定，但永遠是兩鍵組合，每次都要按</td></tr>
+            <tr><td>PowerToys Keyboard Manager</td><td>安裝 PowerToys 並設定對應</td><td>功能完整的通用鍵盤對應工具。但只為這一個交換來說，安裝體積偏大，設定也藏在大型工具裡面</td></tr>
+            <tr><td>AutoHotkey</td><td>安裝 AutoHotkey 並寫一小段腳本</td><td>非常有彈性——但腳本要自己寫、自己維護，AutoHotkey 執行環境也會常駐</td></tr>
+            <tr><td>登錄檔（Scancode Map）</td><td>編輯登錄檔並重新開機</td><td>Windows 內建，但只能把一個普通鍵換成另一個普通鍵，無法把普通鍵與 Alt + 鍵的組合互換，所以做不到這項交換（開發 key-remap 時確認過）</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">執行一個 112 KB 的 exe</td><td class="after">單一用途：只有這項交換、沒有設定、常駐約 1 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">如果你已經在用 PowerToys 或 AutoHotkey 做其他對應，把這項交換加在那邊也完全合理。key-remap 是為了「只想改這一項」的情況而存在的。</p>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="wrap">
+      <h2>先執行看看就好</h2>
+      <p>如果不合適，結束它並刪除檔案，就這樣。</p>
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">下載 key-remap.exe</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>key-remap — MIT License</span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">版本列表</a> · <a href="../">Language: 日本語</a> · <a href="../en/">Language: English</a></span>
+  </div>
+</footer>
+
+<script>
+  // Interactive demo: the same key behavior as the real tool, in the page
+  const imeBox = document.getElementById('imeBox');
+  const demoInput = document.getElementById('demoInput');
+  let demoImeOn = true;
+  let demoTyped = '';
+  document.addEventListener('keydown', (e) => {
+    if (e.code !== 'Backquote') return;
+    e.preventDefault();
+    if (e.altKey) {
+      demoTyped += '`';
+    } else if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      if (e.repeat) return;
+      demoImeOn = !demoImeOn;
+      imeBox.textContent = demoImeOn ? 'あ' : 'A';
+      imeBox.classList.toggle('on', demoImeOn);
+    }
+    demoInput.textContent = demoTyped;
+  });
+
+  // Keyboard animation: loops the real workflow
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const keys = {};
+    document.querySelectorAll('.kb-key[data-k]').forEach((el) => { keys[el.dataset.k] = el; });
+    const badge = document.getElementById('kbIme');
+    const text = document.getElementById('kbText');
+    if (!keys.grave || !badge || !text) return;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    async function press(name, hold) {
+      const el = keys[name];
+      if (!el) return;
+      el.classList.add('press');
+      await sleep(hold || 220);
+      el.classList.remove('press');
+    }
+    function setIme(on) {
+      badge.textContent = on ? 'あ' : 'A';
+      badge.classList.toggle('on', on);
+    }
+    async function typeKeys(seq) {
+      for (const [k, shown] of seq) {
+        await press(k, 150);
+        text.textContent = shown;
+        await sleep(100);
+      }
+    }
+    function typeKonnichiha() {
+      // typing "konnichiha" converts to こんにちは
+      return typeKeys([['k', 'k'], ['o', 'こ'], ['n', 'こn'], ['n', 'こん'], ['i', 'こんに'], ['t', 'こんにt'], ['i', 'こんにち'], ['h', 'こんにちh'], ['a', 'こんにちは']]);
+    }
+    function typeHello() {
+      return typeKeys([['h', 'H'], ['e', 'He'], ['l', 'Hel'], ['l', 'Hell'], ['o', 'Hello']]);
+    }
+    async function loop() {
+      for (;;) {
+        // Japanese input: こんにちは
+        setIme(true); text.textContent = '';
+        await sleep(800);
+        await typeKonnichiha();
+        await sleep(1200);
+        // ` alone: IME off, then Hello
+        await press('grave', 320);
+        setIme(false);
+        text.textContent = '';
+        await sleep(400);
+        await typeHello();
+        await sleep(900);
+        // Alt + ` types a backquote
+        if (keys.alt) keys.alt.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'Hello`';
+        if (keys.alt) keys.alt.classList.remove('press');
+        await sleep(800);
+        // Shift + ` types a tilde
+        if (keys.shift) keys.shift.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'Hello`~';
+        if (keys.shift) keys.shift.classList.remove('press');
+        await sleep(1400);
+        // ` alone: back to Japanese input
+        await press('grave', 320);
+        setIme(true);
+        text.textContent = '';
+        await sleep(500);
+      }
+    }
+    loop();
+  })();
+</script>
+</body>
+</html>

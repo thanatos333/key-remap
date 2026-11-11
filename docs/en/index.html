@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://thanatos333.github.io/key-remap/en/">
 <link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
+<link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/">
 <link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
@@ -17,6 +18,7 @@
 <meta property="og:url" content="https://thanatos333.github.io/key-remap/en/">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:locale:alternate" content="zh_TW">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="key-remap — Toggle Japanese input with the ` key (Windows 11 / 10)">
 <meta name="twitter:description" content="A tiny Windows utility that swaps ` and Alt+` so a US keyboard gets a one-key IME toggle.">
@@ -200,6 +202,11 @@
       "@type": "Question",
       "name": "What are the system requirements?",
       "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 or 11, with a Japanese IME such as Microsoft IME or Google Japanese Input." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is key-remap a keymap editor?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. key-remap is not a general keymap editor, and it cannot remap arbitrary keys. It makes exactly one change to the keymap — the ` key and Alt + ` swap roles — and there is no settings screen at all. If you need to remap many keys, a general-purpose tool such as PowerToys Keyboard Manager is the better fit." }
     }
   ]
 }
@@ -215,7 +222,8 @@
       <a href="#install">How to use</a>
       <a href="#faq">FAQ</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
-      <a class="lang" href="../">日本語</a>
+      <a class="lang" href="../">Language: 日本語</a>
+      <a class="lang" href="../zh-tw/">Language: 繁體中文</a>
     </nav>
   </div>
 </header>
@@ -224,7 +232,7 @@
   <div class="wrap">
     <h1>On a US keyboard, toggle Japanese input with a single <span class="mono">`</span> key.</h1>
     <p class="lead">If you use a US-layout keyboard on Windows, turning Japanese input on and off takes <kbd>Alt</kbd> + <kbd>`</kbd> — both hands, every time, because there is no Hankaku/Zenkaku key like on a Japanese keyboard. It gets old fast.</p>
-    <p class="lead">key-remap is a small resident program that swaps the roles of these two keys. One press of <kbd>`</kbd> toggles input, and the backquote itself moves to <kbd>Alt</kbd> + <kbd>`</kbd>. I built it for my own daily use and published it in case it helps anyone with the same annoyance.</p>
+    <p class="lead">key-remap is a small resident program that swaps the roles of these two keys. One press of <kbd>`</kbd> toggles input, and the backquote itself moves to <kbd>Alt</kbd> + <kbd>`</kbd>. Think of it as a one-line change to your keymap: those two entries trade places, and nothing else in the keymap is touched. I built it for my own daily use and published it in case it helps anyone with the same annoyance.</p>
     <div class="quick-facts">
       <div class="fact"><div class="k">Platform</div><div class="v">Windows 10 / 11</div></div>
       <div class="fact"><div class="k">Price</div><div class="v">Free, open source</div></div>
@@ -239,6 +247,7 @@
       <a href="#install">How to use</a>
       <a href="#spec">Details &amp; notes</a>
       <a href="#faq">FAQ</a>
+      <a href="#compare">Other approaches</a>
     </nav>
   </div>
 </div>
@@ -390,7 +399,31 @@
           <summary>What are the system requirements?</summary>
           <p>Windows 10 or 11, with a Japanese IME such as Microsoft IME or Google Japanese Input.</p>
         </details>
+        <details>
+          <summary>Is key-remap a keymap editor?</summary>
+          <p>No. key-remap is not a general keymap editor, and it cannot remap arbitrary keys. It makes exactly one change to the keymap — the ` key and Alt + ` swap roles — and there is no settings screen at all. If you need to remap many keys, a general-purpose tool such as PowerToys Keyboard Manager is the better fit.</p>
+        </details>
       </div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">05</span><h2>Other approaches</h2></div>
+      <p class="sec-lead">A one-key IME toggle can be approached in several ways. Here is how the common ones compare, so you can pick what fits you.</p>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Approach</th><th>What it takes</th><th>Good to know</th></tr></thead>
+          <tbody>
+            <tr><td>Windows default</td><td>Nothing — use <kbd>Alt</kbd> + <kbd>`</kbd> as is</td><td>Zero setup, but it stays a two-key chord, every single time</td></tr>
+            <tr><td>PowerToys Keyboard Manager</td><td>Install PowerToys and configure the remap</td><td>A capable general keymap remapper. For this one swap it is a large install, and the setting lives inside a big utility</td></tr>
+            <tr><td>AutoHotkey</td><td>Install AutoHotkey and write a small script</td><td>Very flexible — but you write and maintain the script, and the AutoHotkey runtime stays resident</td></tr>
+            <tr><td>Registry (Scancode Map)</td><td>Edit the registry and reboot</td><td>Built into Windows, but it can only swap one plain key for another. It cannot swap a plain key with an Alt + key combination, so it cannot make this particular swap (checked while building key-remap)</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">Run one 112 KB exe</td><td class="after">Single-purpose: only this swap, no settings, about 1 MB resident</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">If you already use PowerToys or AutoHotkey for other remaps, adding this swap there is perfectly reasonable. key-remap exists for the case where this is the only change you want.</p>
     </div>
   </section>
 
@@ -406,7 +439,7 @@
 <footer>
   <div class="foot">
     <span>key-remap — MIT License</span>
-    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">日本語</a></span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">Language: 日本語</a> · <a href="../zh-tw/">Language: 繁體中文</a></span>
   </div>
 </footer>
 
