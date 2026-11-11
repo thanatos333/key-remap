@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>key-remap — 미국식 키보드에서 ` 키 하나로 일본어 입력 전환 (Windows 11 / 10)</title>
+<meta name="description" content="미국식(영문) 키보드에서 일본어 입력 전환이 잘 안 되거나 Alt+` 조합 키가 지겹다면? key-remap은 작고 무료인 Windows 11 / 10 도구입니다. ` 한 번으로 일본어 입력(IME)을 켜고 끄고, Alt+` 로는 백쿼트를 입력합니다. 작은 60% 키보드에서도 쓸 수 있습니다. 설치 불필요, 오픈소스.">
+<link rel="canonical" href="https://thanatos333.github.io/key-remap/ko/">
+<link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
+<link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
+<link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/">
+<link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/">
+<link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="key-remap">
+<meta property="og:title" content="key-remap — 미국식 키보드에서 ` 키 하나로 일본어 입력 전환 (Windows 11 / 10)">
+<meta property="og:description" content="미국식 키보드에는 반각/전각 키가 없습니다. key-remap이 ` 키로 그 역할을 대신해 일본어 입력을 전환합니다. 무료, 설치 불필요.">
+<meta property="og:url" content="https://thanatos333.github.io/key-remap/ko/">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="zh_TW">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="key-remap — ` 키로 일본어 입력 전환 (Windows 11 / 10)">
+<meta name="twitter:description" content="작은 Windows 도구. ` 와 Alt+` 의 역할을 맞바꿔, 미국식 키보드에서도 한 번에 IME를 전환합니다.">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#ffffff; --band:#f4f6f9; --panel:#ffffff;
+    --line:#dde2ea; --line-strong:#c6cdd9;
+    --text:#1f2328; --muted:#4d5561;
+    --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e9effe; --key-accent:#e8590c;
+    --key-top:#ffffff; --key-edge:#c3c9d4; --key-text:#1f2328;
+    --code-bg:#eef0f3; --shadow:0 1px 3px rgba(20,30,60,.08),0 4px 14px rgba(20,30,60,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --bg:#121a2a; --band:#172136; --panel:#1a2740;
+      --line:#2b3c5e; --line-strong:#3a4f78;
+      --text:#e9edf7; --muted:#a3b0ca;
+      --accent:#93aaff; --accent-ink:#101828; --accent-soft:#243354; --key-accent:#ffa94d;
+      --key-top:#22304e; --key-edge:#0c1322; --key-text:#e9edf7;
+      --code-bg:#1e2c47; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
+  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none;white-space:nowrap;flex:none}
+  .nav-links{display:flex;gap:20px;font-size:13.5px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
+  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .lang-sel{border:none;background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer;padding:1px 0}
+  .lang-sel:focus{outline:none}
+  .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
+  .hero h1{font-size:clamp(26px,4.6vw,34px);line-height:1.5;font-weight:800}
+  .hero h1 .mono{font-family:ui-monospace,Consolas,monospace;color:var(--key-accent)}
+  .hero .lead{margin-top:20px;max-width:640px}
+  .hero .lead + .lead{margin-top:12px}
+  .quick-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  .fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow)}
+  .fact .k{font-size:12px;color:var(--muted);letter-spacing:.05em}
+  .fact .v{font-size:16.5px;font-weight:700;margin-top:2px}
+  @media (max-width:560px){ .quick-facts{grid-template-columns:1fr} }
+  .download{margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;min-height:50px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;padding:10px 26px;border-radius:9px;font-size:15.5px;box-shadow:var(--shadow)}
+  .btn:hover{opacity:.9}
+  .download .meta{font-size:13px;color:var(--muted)}
+  .toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+  .toc a{font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:999px;padding:4px 14px;background:var(--panel)}
+  .toc a:hover{color:var(--text);border-color:var(--muted)}
+  section{padding:52px 0}
+  section.band{background:var(--band);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{font-family:ui-monospace,Consolas,monospace;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 9px;flex:none}
+  h2{font-size:22px;font-weight:800}
+  .sec-lead{color:var(--muted);margin-bottom:24px;max-width:640px}
+  .kb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin:4px 0 10px}
+  .kb-screen{display:flex;align-items:center;gap:12px;background:var(--band);border:1px solid var(--line);border-radius:9px;padding:8px 14px;margin-bottom:14px;min-height:48px}
+  .kb-badge{font-weight:700;font-size:15px;width:38px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);flex:none}
+  .kb-badge.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .kb-text{font-family:ui-monospace,Consolas,monospace;font-size:15.5px;min-height:1.4em;white-space:pre}
+  .kb-row{display:flex;gap:5px;margin-bottom:5px}
+  .kb-row:last-child{margin-bottom:0}
+  .kb-key{flex:var(--u,1) 1 0;height:38px;display:flex;align-items:center;justify-content:center;background:var(--key-top);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:6px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace;color:var(--key-text);transition:background .12s ease,transform .12s ease;user-select:none}
+  .kb-key.mod{font-size:10.5px;color:var(--muted);font-family:inherit}
+  .kb-key.grave{border-color:var(--accent);color:var(--accent);font-weight:700}
+  .kb-key.press{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);transform:translateY(2px)}
+  .kb-caption{font-size:13px;color:var(--muted);margin-bottom:24px}
+  @media (max-width:560px){ .kb-key{height:29px;font-size:9.5px;border-radius:4px} .kb-key.mod{font-size:8px} .kb{padding:10px} }
+  .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:6px 0 22px}
+  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 17px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:25px;font-weight:700;box-shadow:var(--shadow)}
+  .keycap.wide{font-size:16px;gap:7px}
+  .keycap .plus{color:var(--muted);font-size:15px}
+  .cap-box{text-align:center}
+  .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px;font-weight:600}
+  .arrow{font-size:20px;color:var(--accent);font-weight:700}
+  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:auto;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;background:var(--band)}
+  tbody tr:nth-child(even){background:var(--band)}
+  tr:last-child td{border-bottom:none}
+  td.after{font-weight:700}
+  kbd{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:13px}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:13.5px}
+  .demo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:22px;box-shadow:var(--shadow)}
+  .demo .demo-title{font-size:13.5px;font-weight:700;margin-bottom:12px}
+  .demo-row{display:flex;align-items:center;gap:13px}
+  .ime-indicator{font-weight:700;font-size:18px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--band);border:1px solid var(--line);flex:none}
+  .ime-indicator.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .demo-input{flex:1;background:var(--band);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
+  .demo p{font-size:13px;color:var(--muted);margin-top:12px}
+  .steps{display:grid;gap:14px}
+  .step{display:flex;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);align-items:flex-start}
+  .step .n{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:3px}
+  .step h3{font-size:16px;font-weight:700;margin-bottom:4px}
+  .step p{font-size:14.5px;color:var(--muted)}
+  ul.plain{padding-left:20px;display:grid;gap:9px}
+  .note{font-size:13.5px;color:var(--muted);margin-top:16px}
+  .faq{display:grid;gap:10px}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 20px;box-shadow:var(--shadow)}
+  .faq summary{font-weight:700;font-size:15.5px;cursor:pointer}
+  .faq p{font-size:14.5px;color:var(--muted);margin-top:8px}
+  .final-cta{text-align:center;padding:56px 0 64px}
+  .final-cta h2{font-size:24px;margin-bottom:10px}
+  .final-cta p{color:var(--muted);margin-bottom:24px}
+  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:780px;margin:0 auto;padding:0 22px}
+  footer a{color:var(--muted)}
+  @media (max-width:640px){
+    .nav{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;gap:8px 14px}
+    .nav-links{order:3;flex-basis:100%;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{white-space:nowrap}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .kb-key{transition:none}
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "key-remap",
+  "url": "https://thanatos333.github.io/key-remap/ko/",
+  "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
+  "softwareVersion": "0.2.0",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "UtilitiesApplication",
+  "license": "https://opensource.org/licenses/MIT",
+  "fileSize": "112 KB",
+  "featureList": "` 키 하나로 일본어 입력(IME) 켜기/끄기, Alt+` 로 백쿼트 입력, 설치 불필요, 자동 시작, 상주 메모리 약 1 MB, 오픈소스(MIT 라이선스)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+  "description": "미국식 키보드에서 ` 키와 Alt+` 의 역할을 맞바꾸는 Windows 도구입니다. ` 를 누르면 일본어 IME가 전환되고, Alt+` 로는 백쿼트를 입력합니다. 반각/전각 키가 없는 미국식 키보드에 적합하며, 작은 60% 키보드에서도 쓸 수 있습니다. Windows 11 / 10.",
+  "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
+  "inLanguage": "ko"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "미국식(영문) 키보드에서 일본어 IME는 어떻게 전환하나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 기본값은 Alt + ` 동시 입력입니다. key-remap을 실행하면 ` 한 번으로 일본어 입력을 전환할 수 있어, 로마자 입력과 반각 영숫자 사이를 반각/전각 키처럼 오갈 수 있습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "미국식 키보드에서 일본어 입력으로 잘 전환되지 않는 이유는 무엇인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "미국식 키보드에는 반각/전각 키가 없어서, 일본어 키보드처럼 키 하나로 전환할 수 없기 때문입니다. Windows의 표준 단축키는 Alt + ` 입니다. 누르기 어렵거나 손이 닿기 힘들다면 key-remap으로 ` 한 번에 전환할 수 있습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "반각/전각 키가 없는 키보드에서도 쓸 수 있나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "네. 반각/전각 키가 없는 미국식 키보드를 위해 만든 도구로, ` 키가 그 역할을 대신합니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "60% 키보드에서도 쓸 수 있나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "네. 반각/전각 키가 없는 작은 영문 키보드에서 ` 키가 전환 키가 됩니다. ` 가 Esc와 함께 있어 Fn과 함께 입력하는 기종에서도, 그 입력을 읽어 전환합니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "백쿼트(`)와 틸드(~)도 계속 입력할 수 있나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "네. 백쿼트는 Alt + ` 로, 틸드는 Shift + ` 로, 지금까지와 같습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "key-remap은 무료인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "네, 무료입니다. 소스 코드도 MIT 라이선스로 공개되어 있습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "설치가 필요한가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "필요 없습니다. exe를 실행하기만 하면 됩니다. 처음 실행할 때 자동 시작 등록도 함께 이루어져, 다음 로그인부터는 자동으로 실행됩니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "Windows 11에서도 되나요? 설정을 바꿔야 하나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "네, Windows 11과 Windows 10을 지원합니다. Windows 설정을 변경할 필요 없이 exe를 실행하면, 영문 키보드에서 일본어 입력 전환이 바로 편해집니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "시스템 요구 사항은 무엇인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 또는 11, 그리고 Microsoft IME나 Google 일본어 입력 같은 일본어 IME입니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "key-remap은 키맵 편집기인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "아닙니다. key-remap은 범용 키맵 편집기가 아니며, 임의의 키를 다시 매핑할 수도 없습니다. 키맵 변경은 딱 하나, ` 키와 Alt + ` 의 역할 맞바꾸기뿐이며 설정 화면도 없습니다. 여러 키를 바꾸려면 PowerToys Keyboard Manager 같은 범용 도구가 더 적합합니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "한국어 입력과 일본어 입력을 자주 오가는데, 누를 키를 줄일 수 있나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "줄일 수 있는 건 후반부입니다. Win + Space로 한국어와 일본어 사이를 오가는 부분은 그대로지만, 일본어 입력으로 들어간 뒤에는 원래 Alt + ` 로 하던 히라가나와 영숫자 사이의 전환이 ` 한 번으로 끝납니다. 오갈 때마다 조합 키 하나가 줄어듭니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "레지스트리를 건드리기 싫고 PowerToys도 설치하기 싫습니다. 더 간단한 방법이 있나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "key-remap은 설치가 필요 없습니다. 다운로드한 exe를 실행하기만 하면 됩니다. 키보드 매핑용 레지스트리(Scancode Map)를 건드리지 않고, 자동 시작만 현재 사용자 범위에 등록합니다. 제거할 때는 key-remap.exe --uninstall 을 실행하세요." }
+    },
+    {
+      "@type": "Question",
+      "name": "미국식 키보드에는 반각/전각 키가 없는데, 일본어 입력은 어떻게 켜고 끄나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows에 내장된 대체 방법은 Alt + `, 즉 Esc 아래에 있는 그 키입니다. key-remap을 실행한 뒤에는 ` 한 번으로 일본어 입력을 켜고 끌 수 있어, 두 키를 동시에 누를 필요가 없습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "이렇게 전용 키가 없는 문제는 다른 언어에도 있나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "네. 일본어의 반각/전각 키, 한국어의 한/영 키처럼 언어마다 입력 전환 전용 키가 있는데, 미국식 키보드는 그런 키들을 빼놓습니다. 그래서 각 언어가 조합 키나 메뉴로 대신하게 됩니다. key-remap이 다루는 것은 일본어 입력의 전환입니다." }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "key-remap 사용법",
+  "inLanguage": "ko",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "다운로드해서 원하는 곳에 두기",
+      "text": "key-remap.exe를 다운로드해 원하는 위치에 둡니다."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "실행하기",
+      "text": "더블클릭으로 실행합니다. 교환이 즉시 적용되고, 자동 시작 등록도 함께 이루어집니다."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "중지하려면",
+      "text": "작업 관리자에서 key-remap을 종료합니다. 자동 시작 등록까지 지우려면 먼저 key-remap.exe --uninstall 을 실행하세요."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="./">` key-remap</a>
+    <nav class="nav-links">
+      <a href="#keys">키 동작</a>
+      <a href="#install">사용법</a>
+      <a href="#faq">자주 묻는 질문</a>
+      <a href="https://github.com/thanatos333/key-remap">GitHub</a>
+    </nav>
+    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="../en/">English</option><option value="../zh-tw/">繁體中文</option><option value="" selected>한국어</option></select></label>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>미국식 키보드에서, <span class="mono">`</span> 키 하나로 일본어 입력을 전환합니다.</h1>
+    <p class="lead">Windows에서 미국식 키보드를 쓰면 일본어 입력을 켜고 끌 때마다 <kbd>Alt</kbd> + <kbd>`</kbd>(` 는 Esc 아래에 있는 키)를 동시에 눌러야 합니다. 미국식 키보드에는 일본어 키보드의 반각/전각 키가 없기 때문입니다. 한국어의 한/영 키가 미국식 키보드에서 사라지는 것과 똑같은 일이고, 쓰다 보면 정말 번거롭습니다.</p>
+    <p class="lead">key-remap은 이 두 키의 역할을 맞바꾸는 작은 상주 프로그램입니다. <kbd>`</kbd> 한 번이면 입력이 전환되고, 백쿼트 자체는 <kbd>Alt</kbd> + <kbd>`</kbd> 로 입력합니다. 키맵으로 치면 딱 한 줄의 변경입니다. 두 항목만 자리를 바꾸고 나머지는 전혀 건드리지 않습니다. 매일 직접 쓰려고 만든 도구를, 같은 불편을 겪는 분들께도 도움이 될까 싶어 공개합니다.</p>
+    <div class="quick-facts">
+      <div class="fact"><div class="k">플랫폼</div><div class="v">Windows 10 / 11</div></div>
+      <div class="fact"><div class="k">가격</div><div class="v">무료, 오픈소스</div></div>
+      <div class="fact"><div class="k">크기 / 상주 메모리</div><div class="v">112 KB / 약 1 MB</div></div>
+    </div>
+    <div class="download">
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe 다운로드</a>
+      <span class="meta">설치 불필요. 실행만 하면 됩니다.</span>
+    </div>
+    <nav class="toc">
+      <a href="#keys">키 동작 방식</a>
+      <a href="#install">사용법</a>
+      <a href="#spec">상세 및 주의 사항</a>
+      <a href="#faq">자주 묻는 질문</a>
+      <a href="#compare">다른 방법들</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section id="keys">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">01</span><h2>키 동작 방식</h2></div>
+      <p class="sec-lead">두 개의 키만 바꾸고, 나머지 키는 전부 그대로입니다.</p>
+
+      <div class="kb" aria-hidden="true">
+        <div class="kb-screen">
+          <div class="kb-badge" id="kbIme">A</div>
+          <div class="kb-text" id="kbText"></div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key grave" data-k="grave">`</div>
+          <div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div>
+          <div class="kb-key">-</div><div class="kb-key">=</div>
+          <div class="kb-key mod" style="--u:2">Backspace</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.5">Tab</div>
+          <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key" data-k="e">E</div><div class="kb-key">R</div><div class="kb-key" data-k="t">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key" data-k="i">I</div><div class="kb-key" data-k="o">O</div><div class="kb-key">P</div>
+          <div class="kb-key">[</div><div class="kb-key">]</div>
+          <div class="kb-key" style="--u:1.5">\</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.75">Caps</div>
+          <div class="kb-key" data-k="a">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key" data-k="g">G</div><div class="kb-key" data-k="h">H</div><div class="kb-key">J</div><div class="kb-key" data-k="k">K</div><div class="kb-key" data-k="l">L</div>
+          <div class="kb-key">;</div><div class="kb-key">'</div>
+          <div class="kb-key mod" style="--u:2.25">Enter</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" data-k="shift" style="--u:2.25">Shift</div>
+          <div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key">V</div><div class="kb-key">B</div><div class="kb-key" data-k="n">N</div><div class="kb-key">M</div>
+          <div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div>
+          <div class="kb-key mod" style="--u:2.75">Shift</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+          <div class="kb-key mod" style="--u:1.25">Win</div>
+          <div class="kb-key mod" data-k="alt" style="--u:1.25">Alt</div>
+          <div class="kb-key" style="--u:6.25"></div>
+          <div class="kb-key mod" style="--u:1.25">Alt</div>
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+        </div>
+      </div>
+      <p class="kb-caption">미국식 키보드. 왼쪽 위의 <kbd>`</kbd> 키가 주인공입니다. 애니메이션이 실제 사용 흐름을 반복 재생합니다. "konnichiha"를 입력해 こんにちは로 변환하고, 영문 입력으로 바꿔 "Hello"를 쓰고, Alt + ` 로 백쿼트, Shift + ` 로 틸드를 입력한 뒤 다시 일본어 입력으로 돌아옵니다.</p>
+
+      <div class="swap">
+        <div class="cap-box">
+          <div class="keycap">`</div>
+          <div class="cap-label">누르면 입력 전환</div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="cap-box">
+          <div class="keycap wide"><span>Alt</span><span class="plus">+</span><span>`</span></div>
+          <div class="cap-label">누르면 ` 입력</div>
+        </div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>입력</th><th>바꾸기 전</th><th>바꾼 뒤</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>`</kbd></td><td>` 입력</td><td class="after">일본어 입력 켜기/끄기</td></tr>
+            <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>일본어 입력 켜기/끄기</td><td class="after">` 입력</td></tr>
+            <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>~ 입력</td><td>변경 없음</td></tr>
+            <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> 등</td><td>앱 단축키</td><td>변경 없음</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="demo">
+        <div class="demo-title">직접 해 보세요 — 이 페이지를 클릭한 뒤 ` 키를 눌러 보세요</div>
+        <div class="demo-row">
+          <div class="ime-indicator on" id="imeBox">あ</div>
+          <div class="demo-input" id="demoInput"></div>
+        </div>
+        <p>` 만 누르면 あ / A 표시가 전환되고, Alt + ` 를 누르면 상자에 백쿼트가 입력됩니다. 데스크톱 브라우저에서 해 보세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">02</span><h2>사용법</h2></div>
+      <p class="sec-lead">다운로드, 실행, 끝. 조정할 설정이 없습니다.</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div><h3>다운로드해서 원하는 곳에 두기</h3><p><a href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe</a>를 다운로드해 원하는 위치에 둡니다.</p></div></div>
+        <div class="step"><div class="n">2</div><div><h3>실행하기</h3><p>더블클릭으로 실행합니다. 교환이 즉시 적용되고 자동 시작도 등록되어, 다음 로그인부터는 스스로 실행되니 매번 켤 필요가 없습니다.</p></div></div>
+        <div class="step"><div class="n">3</div><div><h3>중지하려면</h3><p>작업 관리자에서 key-remap을 종료합니다. 자동 시작 등록까지 지우려면 먼저 <code>key-remap.exe --uninstall</code> 을 실행하세요.</p></div></div>
+      </div>
+      <p class="note">자동 시작은 exe 자신의 경로를 레지스트리 <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code> 에 기록하는 방식으로 등록됩니다. exe를 옮겨도 괜찮습니다. 다음 실행 때 새 위치로 다시 등록합니다.</p>
+    </div>
+  </section>
+
+  <section id="spec">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">03</span><h2>상세 및 주의 사항</h2></div>
+      <p class="sec-lead">사용하기 전에 알아 두면 좋은 것들입니다.</p>
+      <ul class="plain">
+        <li>Windows 10 / 11을 지원합니다. Microsoft IME와 Google 일본어 입력에서 동작을 확인했습니다.</li>
+        <li>상주 메모리는 약 1 MB. 키를 누를 때만 처리하고, 대기 중에는 CPU를 쓰지 않습니다.</li>
+        <li>관리자 권한으로 실행 중인 창의 키 입력은 읽을 수 없습니다. Windows의 제한입니다. 그런 창에서도 쓰려면 key-remap도 관리자 권한으로 실행하세요.</li>
+        <li><kbd>`</kbd> 를 길게 눌러도 전환은 한 번만 일어납니다(반복해서 켜고 꺼지지 않습니다). <kbd>Alt</kbd> + <kbd>`</kbd> 를 길게 누르면 일반 키처럼 연속 입력됩니다.</li>
+        <li>Rust로 만들었고 외부 라이브러리를 쓰지 않습니다. 저수준 키보드 후크로 입력을 받아 SendInput으로 바꿔 보냅니다. 소스 코드는 <a href="https://github.com/thanatos333/key-remap">GitHub</a> 에 MIT 라이선스로 공개되어 있습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">04</span><h2>자주 묻는 질문</h2></div>
+      <p class="sec-lead">문의하기 전에, 여기서 해결되지 않는지 먼저 확인해 보세요.</p>
+      <div class="faq">
+        <details>
+          <summary>미국식(영문) 키보드에서 일본어 IME는 어떻게 전환하나요?</summary>
+          <p>Windows 기본값은 Alt + ` 동시 입력입니다. key-remap을 실행하면 ` 한 번으로 일본어 입력을 전환할 수 있어, 로마자 입력과 반각 영숫자 사이를 반각/전각 키처럼 오갈 수 있습니다.</p>
+        </details>
+        <details>
+          <summary>미국식 키보드에서 일본어 입력으로 잘 전환되지 않는 이유는 무엇인가요?</summary>
+          <p>미국식 키보드에는 반각/전각 키가 없어서, 일본어 키보드처럼 키 하나로 전환할 수 없기 때문입니다. Windows의 표준 단축키는 Alt + ` 입니다. 누르기 어렵거나 손이 닿기 힘들다면 key-remap으로 ` 한 번에 전환할 수 있습니다.</p>
+        </details>
+        <details>
+          <summary>반각/전각 키가 없는 키보드에서도 쓸 수 있나요?</summary>
+          <p>네. 반각/전각 키가 없는 미국식 키보드를 위해 만든 도구로, ` 키가 그 역할을 대신합니다.</p>
+        </details>
+        <details>
+          <summary>60% 키보드에서도 쓸 수 있나요?</summary>
+          <p>네. 반각/전각 키가 없는 작은 영문 키보드에서 ` 키가 전환 키가 됩니다. ` 가 Esc와 함께 있어 Fn과 함께 입력하는 기종에서도, 그 입력을 읽어 전환합니다.</p>
+        </details>
+        <details>
+          <summary>백쿼트(`)와 틸드(~)도 계속 입력할 수 있나요?</summary>
+          <p>네. 백쿼트는 Alt + ` 로, 틸드는 Shift + ` 로, 지금까지와 같습니다.</p>
+        </details>
+        <details>
+          <summary>key-remap은 무료인가요?</summary>
+          <p>네, 무료입니다. 소스 코드도 MIT 라이선스로 공개되어 있습니다.</p>
+        </details>
+        <details>
+          <summary>설치가 필요한가요?</summary>
+          <p>필요 없습니다. exe를 실행하기만 하면 됩니다. 처음 실행할 때 자동 시작 등록도 함께 이루어져, 다음 로그인부터는 자동으로 실행됩니다.</p>
+        </details>
+        <details>
+          <summary>Windows 11에서도 되나요? 설정을 바꿔야 하나요?</summary>
+          <p>네, Windows 11과 Windows 10을 지원합니다. Windows 설정을 변경할 필요 없이 exe를 실행하면, 영문 키보드에서 일본어 입력 전환이 바로 편해집니다.</p>
+        </details>
+        <details>
+          <summary>시스템 요구 사항은 무엇인가요?</summary>
+          <p>Windows 10 또는 11, 그리고 Microsoft IME나 Google 일본어 입력 같은 일본어 IME입니다.</p>
+        </details>
+        <details>
+          <summary>key-remap은 키맵 편집기인가요?</summary>
+          <p>아닙니다. key-remap은 범용 키맵 편집기가 아니며, 임의의 키를 다시 매핑할 수도 없습니다. 키맵 변경은 딱 하나, ` 키와 Alt + ` 의 역할 맞바꾸기뿐이며 설정 화면도 없습니다. 여러 키를 바꾸려면 PowerToys Keyboard Manager 같은 범용 도구가 더 적합합니다.</p>
+        </details>
+        <details>
+          <summary>한국어 입력과 일본어 입력을 자주 오가는데, 누를 키를 줄일 수 있나요?</summary>
+          <p>줄일 수 있는 건 후반부입니다. <kbd>Win</kbd> + <kbd>Space</kbd>로 한국어와 일본어 사이를 오가는 부분은 그대로지만, 일본어 입력으로 들어간 뒤에는 원래 <kbd>Alt</kbd> + <kbd>`</kbd> 로 하던 히라가나와 영숫자 사이의 전환이 <kbd>`</kbd> 한 번으로 끝납니다. 오갈 때마다 조합 키 하나가 줄어듭니다.</p>
+        </details>
+        <details>
+          <summary>레지스트리를 건드리기 싫고 PowerToys도 설치하기 싫습니다. 더 간단한 방법이 있나요?</summary>
+          <p>key-remap은 설치가 필요 없습니다. 다운로드한 exe를 실행하기만 하면 됩니다. 키보드 매핑용 레지스트리(Scancode Map)를 건드리지 않고, 자동 시작만 현재 사용자 범위에 등록합니다. 제거할 때는 key-remap.exe --uninstall 을 실행하세요.</p>
+        </details>
+        <details>
+          <summary>미국식 키보드에는 반각/전각 키가 없는데, 일본어 입력은 어떻게 켜고 끄나요?</summary>
+          <p>Windows에 내장된 대체 방법은 <kbd>Alt</kbd> + <kbd>`</kbd>, 즉 Esc 아래에 있는 그 키입니다. key-remap을 실행한 뒤에는 <kbd>`</kbd> 한 번으로 일본어 입력을 켜고 끌 수 있어, 두 키를 동시에 누를 필요가 없습니다.</p>
+                <details>
+          <summary>이렇게 전용 키가 없는 문제는 다른 언어에도 있나요?</summary>
+          <p>네. 일본어의 반각/전각 키, 한국어의 한/영 키처럼 언어마다 입력 전환 전용 키가 있는데, 미국식 키보드는 그런 키들을 빼놓습니다. 그래서 각 언어가 조합 키나 메뉴로 대신하게 됩니다. key-remap이 다루는 것은 일본어 입력의 전환입니다.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">05</span><h2>다른 방법들</h2></div>
+      <p class="sec-lead">한 번에 IME를 전환하는 방법은 몇 가지가 있습니다. 흔한 방법들을 비교했으니 자신에게 맞는 것을 고르세요.</p>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>방법</th><th>필요한 것</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>Windows 기본</td><td>아무것도 필요 없음 — <kbd>Alt</kbd> + <kbd>`</kbd> 를 그대로 사용</td><td>설정은 없지만, 영원히 두 키 조합을 매번 눌러야 합니다</td></tr>
+            <tr><td>Microsoft 일본어 IME의 키 설정</td><td>IME 설정에서 "키 및 터치 사용자 지정" 열기</td><td>Ctrl + Space 같은 조합 키에는 IME 켜기/끄기를 지정할 수 있지만, 단일 키로는 지정할 수 없습니다</td></tr>
+            <tr><td>PowerToys Keyboard Manager</td><td>PowerToys를 설치하고 매핑 설정</td><td>기능이 완전한 범용 키보드 매핑 도구입니다. 하지만 이 한 가지 교환만을 위해서는 설치가 크고, 설정이 큰 도구 안에 있습니다. 또 Keyboard Manager로 IME 전환 키를 다시 매핑할 때의 호환성 문제가 PowerToys 공식 저장소에 기록되어 있습니다</td></tr>
+            <tr><td>AutoHotkey</td><td>AutoHotkey를 설치하고 짧은 스크립트 작성</td><td>매우 유연하지만, 스크립트를 직접 쓰고 유지해야 하고 AutoHotkey 런타임이 상주합니다</td></tr>
+            <tr><td>레지스트리(Scancode Map)</td><td>레지스트리를 편집하고 재부팅</td><td>Windows 내장 방식이지만 일반 키끼리의 교환만 가능합니다. 일반 키와 Alt + 키 조합은 맞바꿀 수 없어 이 교환은 할 수 없습니다(key-remap 개발 과정에서 확인)</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">112 KB exe를 실행할 뿐</td><td class="after">단일 용도: 이 교환 하나, 설정 없음, 상주 약 1 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">이미 PowerToys나 AutoHotkey로 다른 매핑을 쓰고 있다면, 이 교환을 거기에 더하는 것도 충분히 합리적입니다. key-remap은 "바꾸고 싶은 게 이 한 가지뿐"인 경우를 위한 도구입니다.</p>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="wrap">
+      <h2>일단 실행해 보세요</h2>
+      <p>마음에 들지 않으면 종료하고 파일을 지우면 됩니다. 그게 전부입니다.</p>
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe 다운로드</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>key-remap — MIT License</span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">릴리스 목록</a> · <a href="../">日本語</a> · <a href="../en/">English</a> · <a href="../zh-tw/">繁體中文</a></span>
+  </div>
+</footer>
+
+<script>
+  // Interactive demo: the same key behavior as the real tool, in the page
+  const imeBox = document.getElementById('imeBox');
+  const demoInput = document.getElementById('demoInput');
+  let demoImeOn = true;
+  let demoTyped = '';
+  document.addEventListener('keydown', (e) => {
+    if (e.code !== 'Backquote') return;
+    e.preventDefault();
+    if (e.altKey) {
+      demoTyped += '`';
+    } else if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      if (e.repeat) return;
+      demoImeOn = !demoImeOn;
+      imeBox.textContent = demoImeOn ? 'あ' : 'A';
+      imeBox.classList.toggle('on', demoImeOn);
+    }
+    demoInput.textContent = demoTyped;
+  });
+
+  // Keyboard animation: loops the real workflow
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const keys = {};
+    document.querySelectorAll('.kb-key[data-k]').forEach((el) => { keys[el.dataset.k] = el; });
+    const badge = document.getElementById('kbIme');
+    const text = document.getElementById('kbText');
+    if (!keys.grave || !badge || !text) return;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    async function press(name, hold) {
+      const el = keys[name];
+      if (!el) return;
+      el.classList.add('press');
+      await sleep(hold || 220);
+      el.classList.remove('press');
+    }
+    function setIme(on) {
+      badge.textContent = on ? 'あ' : 'A';
+      badge.classList.toggle('on', on);
+    }
+    async function typeKeys(seq) {
+      for (const [k, shown] of seq) {
+        await press(k, 150);
+        text.textContent = shown;
+        await sleep(100);
+      }
+    }
+    function typeKonnichiha() {
+      // typing "konnichiha" converts to こんにちは
+      return typeKeys([['k', 'k'], ['o', 'こ'], ['n', 'こn'], ['n', 'こん'], ['i', 'こんに'], ['t', 'こんにt'], ['i', 'こんにち'], ['h', 'こんにちh'], ['a', 'こんにちは']]);
+    }
+    function typeHello() {
+      return typeKeys([['h', 'H'], ['e', 'He'], ['l', 'Hel'], ['l', 'Hell'], ['o', 'Hello']]);
+    }
+    async function loop() {
+      for (;;) {
+        // Japanese input: こんにちは
+        setIme(true); text.textContent = '';
+        await sleep(800);
+        await typeKonnichiha();
+        await sleep(1200);
+        // ` alone: IME off, then Hello
+        await press('grave', 320);
+        setIme(false);
+        text.textContent = '';
+        await sleep(400);
+        await typeHello();
+        await sleep(900);
+        // Alt + ` types a backquote
+        if (keys.alt) keys.alt.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'Hello`';
+        if (keys.alt) keys.alt.classList.remove('press');
+        await sleep(800);
+        // Shift + ` types a tilde
+        if (keys.shift) keys.shift.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'Hello`~';
+        if (keys.shift) keys.shift.classList.remove('press');
+        await sleep(1400);
+        // ` alone: back to Japanese input
+        await press('grave', 320);
+        setIme(true);
+        text.textContent = '';
+        await sleep(500);
+      }
+    }
+    loop();
+  })();
+</script>
+</body>
+</html>

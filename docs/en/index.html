@@ -9,6 +9,7 @@
 <link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
 <link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/">
+<link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/">
 <link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
@@ -19,6 +20,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ja_JP">
 <meta property="og:locale:alternate" content="zh_TW">
+<meta property="og:locale:alternate" content="ko_KR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="key-remap — Toggle Japanese input with the ` key (Windows 11 / 10)">
 <meta name="twitter:description" content="A tiny Windows utility that swaps ` and Alt+` so a US keyboard gets a one-key IME toggle.">
@@ -55,7 +57,7 @@
   .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
   .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
-  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none}display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
   .lang-sel{border:none;background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer;padding:1px 0}
   .lang-sel:focus{outline:none}
   .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
@@ -156,6 +158,8 @@
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
+  "fileSize": "112 KB",
+  "featureList": "One-key Japanese IME toggle with the ` key, Alt+` types a backquote, no installation, auto-starts at logon, about 1 MB resident memory, open source (MIT License)",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "description": "A Windows utility that swaps the roles of the ` key and Alt+` on a US keyboard layout: ` alone toggles the Japanese IME on/off, Alt+` types the backquote. For US keyboards without a Hankaku/Zenkaku key, including compact 60% keyboards. Windows 11 / 10.",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
@@ -216,6 +220,61 @@
       "@type": "Question",
       "name": "Is key-remap a keymap editor?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. key-remap is not a general keymap editor, and it cannot remap arbitrary keys. It makes exactly one change to the keymap — the ` key and Alt + ` swap roles — and there is no settings screen at all. If you need to remap many keys, a general-purpose tool such as PowerToys Keyboard Manager is the better fit." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I use a Japanese IME on a US keyboard without the Hankaku/Zenkaku key?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows gives you a substitute chord: Alt + ` — the grave accent (backtick) key below Esc, to the left of 1 — toggles the Japanese IME on and off. key-remap turns that into a single key press: ` alone toggles, and Alt + ` types the backquote itself." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I change the Alt + ` hotkey that switches the IME on and off? It conflicts with shortcuts in other programs.",
+      "acceptedAnswer": { "@type": "Answer", "text": "Not to a plain key — the IME's own key customization only accepts combinations such as Ctrl + Space. key-remap takes a different route: it swaps the two keys, so the toggle lives on the plain ` key and Alt + ` becomes the backquote character key instead." }
+    },
+    {
+      "@type": "Question",
+      "name": "Japanese is selected, but I still get English letters. Why?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Look at the taskbar indicator. \"A\" means direct input mode — English letters even while Japanese is selected. \"あ\" means kana input mode. Selecting the language is not the same as turning input on; Alt + ` (or ` alone with key-remap) switches between the two." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between Alt + ` and Shift + Caps Lock?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Alt + ` turns the Japanese IME itself on and off. Shift + Caps Lock switches to alphanumeric (Eisu) input inside the IME, and Ctrl + Caps Lock switches back to hiragana. key-remap changes the on/off toggle — the one you reach for most." }
+    },
+    {
+      "@type": "Question",
+      "name": "I don't have Japanese input installed yet. Where do I start?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Settings → Time & language → Language & region → Add a language → Japanese. After that, Win + Space switches to Japanese, and Alt + ` turns input on and off — the toggle key-remap makes single-key." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this missing-key problem affect other languages too?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Japanese keyboards have Hankaku/Zenkaku, Korean keyboards have a dedicated Hangul key, and US keyboards drop those dedicated input keys — so each language falls back to a chord or a menu. key-remap covers the Japanese case: it gives the Japanese IME its missing toggle key back." }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to use key-remap",
+  "inLanguage": "en",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Download and put it anywhere",
+      "text": "Download key-remap.exe and drop it wherever you like."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run it",
+      "text": "Double-click to run. The swap takes effect immediately, and the tool registers itself for auto-start at the same time."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "To stop",
+      "text": "End key-remap in Task Manager. To also remove the auto-start registration, run key-remap.exe --uninstall first."
     }
   ]
 }
@@ -232,7 +291,7 @@
       <a href="#faq">FAQ</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
     </nav>
-    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="" selected>English</option><option value="../zh-tw/">繁體中文</option></select></label>
+    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="" selected>English</option><option value="../zh-tw/">繁體中文</option><option value="../ko/">한국어</option></select></label>
   </div>
 </header>
 
@@ -411,6 +470,30 @@
           <summary>Is key-remap a keymap editor?</summary>
           <p>No. key-remap is not a general keymap editor, and it cannot remap arbitrary keys. It makes exactly one change to the keymap — the ` key and Alt + ` swap roles — and there is no settings screen at all. If you need to remap many keys, a general-purpose tool such as PowerToys Keyboard Manager is the better fit.</p>
         </details>
+        <details>
+          <summary>How do I use a Japanese IME on a US keyboard without the Hankaku/Zenkaku key?</summary>
+          <p>Windows gives you a substitute chord: <kbd>Alt</kbd> + <kbd>`</kbd> — the grave accent (backtick) key below Esc, to the left of 1 — toggles the Japanese IME on and off. key-remap turns that into a single key press: <kbd>`</kbd> alone toggles, and <kbd>Alt</kbd> + <kbd>`</kbd> types the backquote itself.</p>
+        </details>
+        <details>
+          <summary>Can I change the Alt + ` hotkey that switches the IME on and off? It conflicts with shortcuts in other programs.</summary>
+          <p>Not to a plain key — the IME's own key customization only accepts combinations such as Ctrl + Space. key-remap takes a different route: it swaps the two keys, so the toggle lives on the plain <kbd>`</kbd> key and <kbd>Alt</kbd> + <kbd>`</kbd> becomes the backquote character key instead.</p>
+        </details>
+        <details>
+          <summary>Japanese is selected, but I still get English letters. Why?</summary>
+          <p>Look at the taskbar indicator. &quot;A&quot; means direct input mode — English letters even while Japanese is selected. &quot;あ&quot; means kana input mode. Selecting the language is not the same as turning input on; <kbd>Alt</kbd> + <kbd>`</kbd> (or <kbd>`</kbd> alone with key-remap) switches between the two.</p>
+        </details>
+        <details>
+          <summary>What is the difference between Alt + ` and Shift + Caps Lock?</summary>
+          <p><kbd>Alt</kbd> + <kbd>`</kbd> turns the Japanese IME itself on and off. <kbd>Shift</kbd> + <kbd>Caps Lock</kbd> switches to alphanumeric (Eisu) input inside the IME, and <kbd>Ctrl</kbd> + <kbd>Caps Lock</kbd> switches back to hiragana. key-remap changes the on/off toggle — the one you reach for most.</p>
+        </details>
+        <details>
+          <summary>I don't have Japanese input installed yet. Where do I start?</summary>
+          <p>Settings → Time &amp; language → Language &amp; region → Add a language → Japanese. After that, <kbd>Win</kbd> + <kbd>Space</kbd> switches to Japanese, and <kbd>Alt</kbd> + <kbd>`</kbd> turns input on and off — the toggle key-remap makes single-key.</p>
+        </details>
+        <details>
+          <summary>Does this missing-key problem affect other languages too?</summary>
+          <p>Yes. Japanese keyboards have Hankaku/Zenkaku, Korean keyboards have a dedicated Hangul key, and US keyboards drop those dedicated input keys — so each language falls back to a chord or a menu. key-remap covers the Japanese case: it gives the Japanese IME its missing toggle key back.</p>
+        </details>
       </div>
     </div>
   </section>
@@ -424,7 +507,8 @@
           <thead><tr><th>Approach</th><th>What it takes</th><th>Good to know</th></tr></thead>
           <tbody>
             <tr><td>Windows default</td><td>Nothing — use <kbd>Alt</kbd> + <kbd>`</kbd> as is</td><td>Zero setup, but it stays a two-key chord, every single time</td></tr>
-            <tr><td>PowerToys Keyboard Manager</td><td>Install PowerToys and configure the remap</td><td>A capable general keymap remapper. For this one swap it is a large install, and the setting lives inside a big utility</td></tr>
+            <tr><td>Microsoft IME key settings</td><td>Open "Key and touch customization" in the IME settings</td><td>Lets you assign IME on/off to a combination such as Ctrl + Space, but not to a single plain key</td></tr>
+            <tr><td>PowerToys Keyboard Manager</td><td>Install PowerToys and configure the remap</td><td>A capable general keymap remapper. For this one swap it is a large install, and the setting lives inside a big utility. Keyboard Manager also has a documented conflict with remapping the IME's switching keys (PowerToys issue #5225).</td></tr>
             <tr><td>AutoHotkey</td><td>Install AutoHotkey and write a small script</td><td>Very flexible — but you write and maintain the script, and the AutoHotkey runtime stays resident</td></tr>
             <tr><td>Registry (Scancode Map)</td><td>Edit the registry and reboot</td><td>Built into Windows, but it can only swap one plain key for another. It cannot swap a plain key with an Alt + key combination, so it cannot make this particular swap (checked while building key-remap)</td></tr>
             <tr><td class="after">key-remap</td><td class="after">Run one 112 KB exe</td><td class="after">Single-purpose: only this swap, no settings, about 1 MB resident</td></tr>
@@ -447,7 +531,7 @@
 <footer>
   <div class="foot">
     <span>key-remap — MIT License</span>
-    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">日本語</a> · <a href="../zh-tw/">繁體中文</a></span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">日本語</a> · <a href="../zh-tw/">繁體中文</a> · <a href="../ko/">한국어</a></span>
   </div>
 </footer>
 

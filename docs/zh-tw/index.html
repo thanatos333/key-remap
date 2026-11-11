@@ -9,16 +9,18 @@
 <link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
 <link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/">
+<link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/">
 <link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="key-remap">
 <meta property="og:title" content="key-remap — 在美式鍵盤上，用 ` 鍵一鍵切換日文輸入（Windows 11 / 10）">
-<meta property="og:description" content="美式鍵盤沒有半角/全角鍵。key-remap 讓 ` 鍵代替它來切換日文輸入。免費、免安裝。">
+<meta property="og:description" content="美式鍵盤沒有半形/全形鍵。key-remap 讓 ` 鍵代替它來切換日文輸入。免費、免安裝。">
 <meta property="og:url" content="https://thanatos333.github.io/key-remap/zh-tw/">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:locale:alternate" content="ja_JP">
 <meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="ko_KR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="key-remap — 用 ` 鍵切換日文輸入（Windows 11 / 10）">
 <meta name="twitter:description" content="一款小巧的 Windows 工具，交換 ` 與 Alt+` 的角色，讓美式鍵盤也能一鍵切換 IME。">
@@ -55,7 +57,7 @@
   .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
   .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
-  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none}display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
   .lang-sel{border:none;background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer;padding:1px 0}
   .lang-sel:focus{outline:none}
   .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
@@ -156,8 +158,10 @@
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
+  "fileSize": "112 KB",
+  "featureList": "用 ` 鍵一鍵切換日文輸入（IME）開關、Alt+` 輸入反引號、免安裝、自動啟動、常駐記憶體約 1 MB、開源（MIT 授權）",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
-  "description": "一款 Windows 工具，交換美式鍵盤上 ` 鍵與 Alt+` 的角色：按 ` 切換日文 IME 開關，Alt+` 輸入反引號。適合沒有半角/全角鍵的美式鍵盤，包括小型 60% 鍵盤。Windows 11 / 10。",
+  "description": "一款 Windows 工具，交換美式鍵盤上 ` 鍵與 Alt+` 的角色：按 ` 切換日文 IME 開關，Alt+` 輸入反引號。適合沒有半形/全形鍵的美式鍵盤，包括小型 60% 鍵盤。Windows 11 / 10。",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
   "inLanguage": "zh-TW"
 }
@@ -170,22 +174,22 @@
     {
       "@type": "Question",
       "name": "在美式（英文）鍵盤上，要如何切換日文 IME？",
-      "acceptedAnswer": { "@type": "Answer", "text": "Windows 預設是同時按 Alt + `。執行 key-remap 之後，按一下 ` 就能切換日文輸入，在羅馬字輸入與半形英數之間切換，就像半角/全角鍵一樣。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 預設是同時按 Alt + `。執行 key-remap 之後，按一下 ` 就能切換日文輸入，在羅馬字輸入與半形英數之間切換，就像半形/全形鍵一樣。" }
     },
     {
       "@type": "Question",
       "name": "為什麼在美式鍵盤上無法順利切換到日文輸入？",
-      "acceptedAnswer": { "@type": "Answer", "text": "因為美式鍵盤沒有半角/全角鍵，不像日式鍵盤可以用單一按鍵切換。Windows 的標準快捷鍵是 Alt + `。如果覺得難按或不好觸及，key-remap 讓你按一下 ` 就能切換。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "因為美式鍵盤沒有半形/全形鍵，不像日式鍵盤可以用單一按鍵切換。Windows 的標準快速鍵是 Alt + `。如果覺得難按或不好觸及，key-remap 讓你按一下 ` 就能切換。" }
     },
     {
       "@type": "Question",
-      "name": "沒有半角/全角鍵的鍵盤也能用嗎？",
+      "name": "沒有半形/全形鍵的鍵盤也能用嗎？",
       "acceptedAnswer": { "@type": "Answer", "text": "可以。key-remap 正是為了沒有這個鍵的美式鍵盤而做的，由 ` 鍵來代替它。" }
     },
     {
       "@type": "Question",
       "name": "60% 鍵盤也能用嗎？",
-      "acceptedAnswer": { "@type": "Answer", "text": "可以。在沒有半角/全角鍵的小型英文鍵盤上，` 鍵就是切換鍵。若是 ` 與 Esc 共用、需要搭配 Fn 輸入的機種，key-remap 也能讀到那個輸入並進行切換。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "可以。在沒有半形/全形鍵的小型英文鍵盤上，` 鍵就是切換鍵。若是 ` 與 Esc 共用、需要搭配 Fn 輸入的機種，key-remap 也能讀到那個輸入並進行切換。" }
     },
     {
       "@type": "Question",
@@ -216,6 +220,46 @@
       "@type": "Question",
       "name": "key-remap 是鍵盤對應（keymap）編輯器嗎？",
       "acceptedAnswer": { "@type": "Answer", "text": "不是。key-remap 不是通用的鍵盤對應編輯器，也不能任意重新對應按鍵。它只對鍵盤對應做一項修改——` 鍵與 Alt + ` 交換角色——而且完全沒有設定畫面。如果你需要重新對應很多按鍵，PowerToys Keyboard Manager 這類通用工具會更合適。" }
+    },
+    {
+      "@type": "Question",
+      "name": "注音輸入法和日文輸入法要一直換來換去，可以少按幾次嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "可以省下後半段。用 Win + Space 在注音和日文之間切換輸入法，這部分不變；但進入日文輸入法之後，原本要用 Alt + ` 在平假名和英數模式之間切換，現在只要按一下 ` 就好。來回切換時，每趟少一個組合鍵。" }
+    },
+    {
+      "@type": "Question",
+      "name": "不想改登錄檔、也不想安裝 PowerToys，有更簡單的方法嗎？",
+      "acceptedAnswer": { "@type": "Answer", "text": "key-remap 不需要安裝，下載後直接執行 exe 即可。它不會改動鍵盤對應的登錄檔（Scancode Map），只會把自動啟動註冊在目前使用者的範圍。要移除時，執行 key-remap.exe --uninstall 就好。" }
+    },
+    {
+      "@type": "Question",
+      "name": "美式鍵盤沒有半形/全形鍵，要怎麼開關日文輸入？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows 內建的替代方式是 Alt + `，也就是 Esc 下面那個鍵。執行 key-remap 之後，按一下 ` 就能開關日文輸入，不必再同時按兩個鍵。" }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "如何使用 key-remap",
+  "inLanguage": "zh-TW",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "下載，放在任何地方",
+      "text": "下載 key-remap.exe，放在你喜歡的位置即可。"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "執行它",
+      "text": "雙擊執行。交換立即生效，同時工具會把自己註冊為自動啟動。"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "要停止時",
+      "text": "在工作管理員中結束 key-remap。若要一併移除自動啟動註冊，先執行 key-remap.exe --uninstall。"
     }
   ]
 }
@@ -232,14 +276,14 @@
       <a href="#faq">常見問題</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
     </nav>
-    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="../en/">English</option><option value="" selected>繁體中文</option></select></label>
+    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="../en/">English</option><option value="" selected>繁體中文</option><option value="../ko/">한국어</option></select></label>
   </div>
 </header>
 
 <div class="hero">
   <div class="wrap">
     <h1>在美式鍵盤上，用單一 <span class="mono">`</span> 鍵切換日文輸入。</h1>
-    <p class="lead">在 Windows 上使用美式鍵盤時，開關日文輸入需要同時按 <kbd>Alt</kbd> + <kbd>`</kbd>，每次都要兩隻手，因為美式鍵盤沒有日式鍵盤上的半角/全角鍵。用久了真的很煩。</p>
+    <p class="lead">在 Windows 上使用美式鍵盤時，開關日文輸入需要同時按 <kbd>Alt</kbd> + <kbd>`</kbd>（` 就是 Esc 下面那個鍵），每次都要兩隻手，因為美式鍵盤沒有日式鍵盤上的半形/全形鍵。用久了真的很煩。</p>
     <p class="lead">key-remap 是一款小巧的常駐程式，交換這兩個鍵的角色。按一下 <kbd>`</kbd> 就能切換輸入，反引號本身則改到 <kbd>Alt</kbd> + <kbd>`</kbd>。可以把它想成是對鍵盤對應（keymap）的一行修改：只有這兩個項目互換位置，其他部分完全不動。這是我為了自己每天使用而做的工具，想說有相同困擾的人或許也用得上，就公開了。</p>
     <div class="quick-facts">
       <div class="fact"><div class="k">平台</div><div class="v">Windows 10 / 11</div></div>
@@ -324,7 +368,7 @@
             <tr><td><kbd>`</kbd></td><td>輸入 `</td><td class="after">切換日文輸入開/關</td></tr>
             <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>切換日文輸入開/關</td><td class="after">輸入 `</td></tr>
             <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>輸入 ~</td><td>不變</td></tr>
-            <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> 等</td><td>應用程式快捷鍵</td><td>不變</td></tr>
+            <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> 等</td><td>應用程式快速鍵</td><td>不變</td></tr>
           </tbody>
         </table>
       </div>
@@ -373,19 +417,19 @@
       <div class="faq">
         <details>
           <summary>在美式（英文）鍵盤上，要如何切換日文 IME？</summary>
-          <p>Windows 預設是同時按 Alt + `。執行 key-remap 之後，按一下 ` 就能切換日文輸入，在羅馬字輸入與半形英數之間切換，就像半角/全角鍵一樣。</p>
+          <p>Windows 預設是同時按 Alt + `。執行 key-remap 之後，按一下 ` 就能切換日文輸入，在羅馬字輸入與半形英數之間切換，就像半形/全形鍵一樣。</p>
         </details>
         <details>
           <summary>為什麼在美式鍵盤上無法順利切換到日文輸入？</summary>
-          <p>因為美式鍵盤沒有半角/全角鍵，不像日式鍵盤可以用單一按鍵切換。Windows 的標準快捷鍵是 Alt + `。如果覺得難按或不好觸及，key-remap 讓你按一下 ` 就能切換。</p>
+          <p>因為美式鍵盤沒有半形/全形鍵，不像日式鍵盤可以用單一按鍵切換。Windows 的標準快速鍵是 Alt + `。如果覺得難按或不好觸及，key-remap 讓你按一下 ` 就能切換。</p>
         </details>
         <details>
-          <summary>沒有半角/全角鍵的鍵盤也能用嗎？</summary>
+          <summary>沒有半形/全形鍵的鍵盤也能用嗎？</summary>
           <p>可以。key-remap 正是為了沒有這個鍵的美式鍵盤而做的，由 ` 鍵來代替它。</p>
         </details>
         <details>
           <summary>60% 鍵盤也能用嗎？</summary>
-          <p>可以。在沒有半角/全角鍵的小型英文鍵盤上，` 鍵就是切換鍵。若是 ` 與 Esc 共用、需要搭配 Fn 輸入的機種，key-remap 也能讀到那個輸入並進行切換。</p>
+          <p>可以。在沒有半形/全形鍵的小型英文鍵盤上，` 鍵就是切換鍵。若是 ` 與 Esc 共用、需要搭配 Fn 輸入的機種，key-remap 也能讀到那個輸入並進行切換。</p>
         </details>
         <details>
           <summary>還能輸入反引號（`）和波浪號（~）嗎？</summary>
@@ -411,6 +455,18 @@
           <summary>key-remap 是鍵盤對應（keymap）編輯器嗎？</summary>
           <p>不是。key-remap 不是通用的鍵盤對應編輯器，也不能任意重新對應按鍵。它只對鍵盤對應做一項修改——` 鍵與 Alt + ` 交換角色——而且完全沒有設定畫面。如果你需要重新對應很多按鍵，PowerToys Keyboard Manager 這類通用工具會更合適。</p>
         </details>
+        <details>
+          <summary>注音輸入法和日文輸入法要一直換來換去，可以少按幾次嗎？</summary>
+          <p>可以省下後半段。用 <kbd>Win</kbd> + <kbd>Space</kbd> 在注音和日文之間切換輸入法，這部分不變；但進入日文輸入法之後，原本要用 <kbd>Alt</kbd> + <kbd>`</kbd> 在平假名和英數模式之間切換，現在只要按一下 <kbd>`</kbd> 就好。來回切換時，每趟少一個組合鍵。</p>
+        </details>
+        <details>
+          <summary>不想改登錄檔、也不想安裝 PowerToys，有更簡單的方法嗎？</summary>
+          <p>key-remap 不需要安裝，下載後直接執行 exe 即可。它不會改動鍵盤對應的登錄檔（Scancode Map），只會把自動啟動註冊在目前使用者的範圍。要移除時，執行 key-remap.exe --uninstall 就好。</p>
+        </details>
+        <details>
+          <summary>美式鍵盤沒有半形/全形鍵，要怎麼開關日文輸入？</summary>
+          <p>Windows 內建的替代方式是 <kbd>Alt</kbd> + <kbd>`</kbd>，也就是 Esc 下面那個鍵。執行 key-remap 之後，按一下 <kbd>`</kbd> 就能開關日文輸入，不必再同時按兩個鍵。</p>
+        </details>
       </div>
     </div>
   </section>
@@ -424,7 +480,8 @@
           <thead><tr><th>做法</th><th>需要什麼</th><th>備註</th></tr></thead>
           <tbody>
             <tr><td>Windows 預設</td><td>什麼都不用——照常用 <kbd>Alt</kbd> + <kbd>`</kbd></td><td>零設定，但永遠是兩鍵組合，每次都要按</td></tr>
-            <tr><td>PowerToys Keyboard Manager</td><td>安裝 PowerToys 並設定對應</td><td>功能完整的通用鍵盤對應工具。但只為這一個交換來說，安裝體積偏大，設定也藏在大型工具裡面</td></tr>
+            <tr><td>微軟日文輸入法的快速鍵設定</td><td>在 IME 設定中開啟「鍵盤與觸控自訂」</td><td>可以把 IME 開關指定給 Ctrl + Space 這類組合鍵，但不能指定給單獨一個按鍵</td></tr>
+            <tr><td>PowerToys Keyboard Manager</td><td>安裝 PowerToys 並設定對應</td><td>功能完整的通用鍵盤對應工具。但只為這一個交換來說，安裝體積偏大，設定也藏在大型工具裡面。另外，Keyboard Manager 重新對應 IME 切換鍵時有相容性問題，在 PowerToys 官方儲存庫中有紀錄</td></tr>
             <tr><td>AutoHotkey</td><td>安裝 AutoHotkey 並寫一小段腳本</td><td>非常有彈性——但腳本要自己寫、自己維護，AutoHotkey 執行環境也會常駐</td></tr>
             <tr><td>登錄檔（Scancode Map）</td><td>編輯登錄檔並重新開機</td><td>Windows 內建，但只能把一個普通鍵換成另一個普通鍵，無法把普通鍵與 Alt + 鍵的組合互換，所以做不到這項交換（開發 key-remap 時確認過）</td></tr>
             <tr><td class="after">key-remap</td><td class="after">執行一個 112 KB 的 exe</td><td class="after">單一用途：只有這項交換、沒有設定、常駐約 1 MB</td></tr>
@@ -447,7 +504,7 @@
 <footer>
   <div class="foot">
     <span>key-remap — MIT License</span>
-    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">版本列表</a> · <a href="../">日本語</a> · <a href="../en/">English</a></span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">版本列表</a> · <a href="../">日本語</a> · <a href="../en/">English</a> · <a href="../ko/">한국어</a></span>
   </div>
 </footer>
 

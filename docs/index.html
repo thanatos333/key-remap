@@ -9,6 +9,7 @@
 <link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
 <link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/">
+<link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/">
 <link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/">
 <meta name="robots" content="index, follow">
 <meta name="google-site-verification" content="pkGKsy_cuPoLISQIVBtxgSDSIVatcBdSyz6QyM7DYRg">
@@ -20,6 +21,7 @@
 <meta property="og:locale" content="ja_JP">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="zh_TW">
+<meta property="og:locale:alternate" content="ko_KR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="key-remap — USキーボードの日本語入力切り替えを ` キーひとつで">
 <meta name="twitter:description" content="英語配列にない半角/全角キーの代わりに、` キーで日本語入力を切り替える小さなWindows用ツール。Windows 11対応。">
@@ -56,7 +58,7 @@
   .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
   .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
-  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none}display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
   .lang-sel{border:none;background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer;padding:1px 0}
   .lang-sel:focus{outline:none}
   /* hero */
@@ -165,6 +167,8 @@
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
+  "fileSize": "112 KB",
+  "featureList": "` キー単独で日本語入力（IME）のオン/オフ、Alt+` でバッククォート入力、インストール不要・自動起動、常駐メモリ約1 MB、オープンソース（MIT ライセンス）",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
   "description": "US配列キーボードで ` キー単独を日本語入力（IME）のオン/オフ切り替えに、Alt+` をバッククォート入力に入れ替えるWindows用常駐ユーティリティ。半角/全角キーのない英語配列キーボードや60%キーボード向け。Windows 11 / 10 対応。",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
@@ -220,6 +224,56 @@
       "@type": "Question",
       "name": "対応環境を教えてください。",
       "acceptedAnswer": { "@type": "Answer", "text": "Windows 10 / 11 で、Microsoft IME や Google 日本語入力などの日本語 IME と組み合わせて使えます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "管理者権限がない環境でも使えますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "使えます。管理者権限は不要で、ユーザーレベルのフックで動作します。自動起動の登録も現在のユーザーの範囲（レジストリの HKCU）だけなので、会社や学校の PC でも入れやすい作りです。" }
+    },
+    {
+      "@type": "Question",
+      "name": "トグル式ではなく、IMEオン専用・オフ専用のキーに分けることはできますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "key-remap はトグルのみです。オンとオフを別キーに分けたい場合は、AutoHotkey（alt-ime-ahk など）が向いています。key-remap は「半角/全角キーと同じ感覚のトグル」を1つだけやる道具です。" }
+    },
+    {
+      "@type": "Question",
+      "name": "キーの刻印と違う記号が出ます（Shift + 2 で \" になるなど）",
+      "acceptedAnswer": { "@type": "Answer", "text": "それはキーボードレイアウトの問題で、Windows がキーボードを日本語配列（106/109キー）として認識しているサインです。設定 → 時刻と言語 → 言語と地域 → 日本語の「言語のオプション」→ ハードウェア キーボード レイアウトを「英語キーボード（101/102キー）」に変更し、再起動すると直ります。key-remap の担当範囲ではありませんが、US配列で最初につまずきやすい点なので案内しています。" }
+    },
+    {
+      "@type": "Question",
+      "name": "日本語入力の切り替えショートカットには何がありますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "Alt + `（IME のオン/オフ）、Ctrl + Caps Lock（ひらがな入力）、Shift + Caps Lock（英数入力）、Win + Space（入力言語の切り替え）などがあります。key-remap が変えるのは Alt + ` で、これが ` キー単独の押し心地になります。" }
+    },
+    {
+      "@type": "Question",
+      "name": "専用キーがない問題は、日本語入力だけですか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "いいえ。韓国語配列の 한/영（ハン/ヨン）キーのように、言語ごとの配列には入力切り替え専用のキーを持つものが多く、US配列ではそれらが無くなります。key-remap が対象にしているのは日本語入力の切り替え（Alt + `）です。" }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "key-remap の使い方",
+  "inLanguage": "ja",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "ダウンロードして置く",
+      "text": "key-remap.exe をダウンロードし、好きな場所に置きます。"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "実行する",
+      "text": "ダブルクリックで実行します。この時点で入れ替えが有効になり、自動起動の登録も行われます。"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "やめたいとき",
+      "text": "タスクマネージャーで key-remap を終了します。自動起動も解除する場合は key-remap.exe --uninstall を実行してから終了します。"
     }
   ]
 }
@@ -236,7 +290,7 @@
       <a href="#faq">FAQ</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
     </nav>
-    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="" selected>日本語</option><option value="en/">English</option><option value="zh-tw/">繁體中文</option></select></label>
+    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="" selected>日本語</option><option value="en/">English</option><option value="zh-tw/">繁體中文</option><option value="ko/">한국어</option></select></label>
   </div>
 </header>
 
@@ -259,6 +313,7 @@
       <a href="#install">使い方</a>
       <a href="#spec">仕様と注意</a>
       <a href="#faq">よくある質問</a>
+      <a href="#compare">他の方法との比較</a>
     </nav>
   </div>
 </div>
@@ -410,7 +465,48 @@
           <summary>対応環境を教えてください。</summary>
           <p>Windows 10 / 11 で、Microsoft IME や Google 日本語入力などの日本語 IME と組み合わせて使えます。</p>
         </details>
+        <details>
+          <summary>管理者権限がない環境でも使えますか？</summary>
+          <p>使えます。管理者権限は不要で、ユーザーレベルのフックで動作します。自動起動の登録も現在のユーザーの範囲（レジストリの HKCU）だけなので、会社や学校の PC でも入れやすい作りです。</p>
+        </details>
+        <details>
+          <summary>トグル式ではなく、IMEオン専用・オフ専用のキーに分けることはできますか？</summary>
+          <p>key-remap はトグルのみです。オンとオフを別キーに分けたい場合は、AutoHotkey（alt-ime-ahk など）が向いています。key-remap は「半角/全角キーと同じ感覚のトグル」を1つだけやる道具です。</p>
+        </details>
+        <details>
+          <summary>キーの刻印と違う記号が出ます（Shift + 2 で " になるなど）</summary>
+          <p>それはキーボードレイアウトの問題で、Windows がキーボードを日本語配列（106/109キー）として認識しているサインです。設定 → 時刻と言語 → 言語と地域 → 日本語の「言語のオプション」→ ハードウェア キーボード レイアウトを「英語キーボード（101/102キー）」に変更し、再起動すると直ります。key-remap の担当範囲ではありませんが、US配列で最初につまずきやすい点なので案内しています。</p>
+        </details>
+        <details>
+          <summary>日本語入力の切り替えショートカットには何がありますか？</summary>
+          <p>Alt + `（IME のオン/オフ）、Ctrl + Caps Lock（ひらがな入力）、Shift + Caps Lock（英数入力）、Win + Space（入力言語の切り替え）などがあります。key-remap が変えるのは Alt + ` で、これが ` キー単独の押し心地になります。</p>
+        </details>
+        <details>
+          <summary>専用キーがない問題は、日本語入力だけですか？</summary>
+          <p>いいえ。韓国語配列の 한/영（ハン/ヨン）キーのように、言語ごとの配列には入力切り替え専用のキーを持つものが多く、US配列ではそれらが無くなります。key-remap が対象にしているのは日本語入力の切り替え（Alt + `）です。</p>
+        </details>
       </div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">05</span><h2>他の方法との比較</h2></div>
+      <p class="sec-lead">1キーで日本語入力を切り替える方法はいくつかあります。代表的なものを比べました。</p>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>方法</th><th>必要なもの</th><th>知っておきたいこと</th></tr></thead>
+          <tbody>
+            <tr><td>Windows 標準</td><td>そのまま <kbd>Alt</kbd> + <kbd>`</kbd> を使う</td><td>設定ゼロ。ただし毎回2キーの同時押しになります</td></tr>
+            <tr><td>Microsoft IME のキー設定</td><td>IME の設定で「キーとタッチのカスタマイズ」を開く</td><td>Ctrl + Space など修飾キーとの組み合わせには割り当てられますが、単独キーのトグルにはできません</td></tr>
+            <tr><td>PowerToys Keyboard Manager</td><td>PowerToys をインストールして設定する</td><td>汎用キーリマップとして高機能です。この入れ替えだけのために使うなら大きなインストールで、設定も大きなユーティリティの中にあります。また、IME の切り替えキーのリマップには相性問題の報告があります</td></tr>
+            <tr><td>AutoHotkey</td><td>AutoHotkey をインストールしてスクリプトを書く</td><td>とても柔軟ですが、スクリプトの作成・保守が必要で、AutoHotkey 本体が常駐します</td></tr>
+            <tr><td>レジストリ（Scancode Map）</td><td>レジストリを編集して再起動</td><td>Windows 標準の仕組みですが、入れ替えできるのは単独キー同士だけです。単独キーと Alt + キーの組み合わせは入れ替えできないため、この入れ替えは実現できません（key-remap の開発時に確認）</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">112 KB の exe を実行するだけ</td><td class="after">単機能：この入れ替えだけ、設定なし、常駐メモリ約1 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">PowerToys や AutoHotkey を他のリマップで既に使っているなら、そこにこの入れ替えを足すのも合理的です。key-remap は、変えたいのがこの1点だけという場合のためのものです。</p>
     </div>
   </section>
 
@@ -426,7 +522,7 @@
 <footer>
   <div class="foot">
     <span>key-remap — MIT License</span>
-    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">リリース一覧</a> · <a href="en/">English</a> · <a href="zh-tw/">繁體中文</a></span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">リリース一覧</a> · <a href="en/">English</a> · <a href="zh-tw/">繁體中文</a> · <a href="ko/">한국어</a></span>
   </div>
 </footer>
 

@@ -2,32 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://thanatos333.github.io/key-remap/</loc>
-    <lastmod>2026-11-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/"/>
+    <lastmod>2026-11-12</lastmod>
   </url>
   <url>
     <loc>https://thanatos333.github.io/key-remap/en/</loc>
-    <lastmod>2026-11-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/"/>
+    <lastmod>2026-11-12</lastmod>
   </url>
   <url>
     <loc>https://thanatos333.github.io/key-remap/zh-tw/</loc>
-    <lastmod>2026-11-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/"/>
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/"/>
+    <lastmod>2026-11-12</lastmod>
+  </url>
+  <url>
+    <loc>https://thanatos333.github.io/key-remap/ko/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://thanatos333.github.io/key-remap/zh-tw/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thanatos333.github.io/key-remap/ko/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/"/>
+    <lastmod>2026-11-12</lastmod>
   </url>
 </urlset>

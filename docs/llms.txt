@@ -22,6 +22,15 @@
 - Website (Japanese): https://thanatos333.github.io/key-remap/
 - Website (English): https://thanatos333.github.io/key-remap/en/
 - Website (Traditional Chinese): https://thanatos333.github.io/key-remap/zh-tw/
+- Website (Korean): https://thanatos333.github.io/key-remap/ko/
 - Download (latest, key-remap.exe): https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe
 - Source code: https://github.com/thanatos333/key-remap
 - Releases: https://github.com/thanatos333/key-remap/releases
+
+## Short answers
+
+- How do I toggle Japanese input on a US keyboard in Windows? By default, Alt + `. With key-remap running, a single press of ` toggles the Japanese IME on/off, like the Hankaku/Zenkaku key on a Japanese keyboard.
+- Can the Windows registry (Scancode Map) do this swap? No. Scancode Map can only swap one plain key for another; it cannot swap a plain key with an Alt + key combination.
+- Is key-remap a general keymap editor? No. It makes exactly one keymap change (the ` key and Alt + ` swap roles) and has no settings. For many remaps, use PowerToys Keyboard Manager or AutoHotkey.
+- Does key-remap need installation or network access? No installation: a single 112 KB exe. It makes no network connections; it works locally with a low-level keyboard hook (WH_KEYBOARD_LL) and SendInput.
+- What does it cost? Free and open source (MIT License).

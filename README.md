@@ -4,6 +4,8 @@ Swap the roles of `` ` `` and `Alt+`` ` `` on a US keyboard under Windows + Japa
 
 **Website: https://thanatos333.github.io/key-remap/**
 
+**Languages:** [日本語](https://thanatos333.github.io/key-remap/) · [English](https://thanatos333.github.io/key-remap/en/) · [繁體中文](https://thanatos333.github.io/key-remap/zh-tw/) · [한국어](https://thanatos333.github.io/key-remap/ko/)
+
 ## Download
 
 **[key-remap.exe (latest)](https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe)** — single-file binary, no installation needed. All releases: [Releases](https://github.com/thanatos333/key-remap/releases)
