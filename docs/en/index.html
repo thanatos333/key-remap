@@ -55,6 +55,9 @@
   .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
   .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
+  .nav-links .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .lang-sel{border:none;background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer;padding:1px 0}
+  .lang-sel:focus{outline:none}
   .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
   .hero h1{font-size:clamp(26px,4.6vw,34px);line-height:1.5;font-weight:800}
   .hero h1 .mono{font-family:ui-monospace,Consolas,monospace;color:var(--key-accent)}
@@ -222,8 +225,7 @@
       <a href="#install">How to use</a>
       <a href="#faq">FAQ</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
-      <a class="lang" href="../">Language: 日本語</a>
-      <a class="lang" href="../zh-tw/">Language: 繁體中文</a>
+<label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="" selected>English</option><option value="../zh-tw/">繁體中文</option></select></label>
     </nav>
   </div>
 </header>
@@ -439,7 +441,7 @@
 <footer>
   <div class="foot">
     <span>key-remap — MIT License</span>
-    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">Language: 日本語</a> · <a href="../zh-tw/">Language: 繁體中文</a></span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">日本語</a> · <a href="../zh-tw/">繁體中文</a></span>
   </div>
 </footer>
 
