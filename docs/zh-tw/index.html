@@ -50,12 +50,12 @@
   .wrap{max-width:780px;margin:0 auto;padding:0 22px}
   header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
-  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
+  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none;white-space:nowrap;flex:none}
   .nav-links{display:flex;gap:20px;font-size:13.5px;align-items:center}
   .nav-links a{color:var(--muted);text-decoration:none}
   .nav-links a:hover{color:var(--text)}
   .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
-  .nav-links .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none}display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
   .lang-sel{border:none;background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer;padding:1px 0}
   .lang-sel:focus{outline:none}
   .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
@@ -101,7 +101,7 @@
   .cap-box{text-align:center}
   .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px;font-weight:600}
   .arrow{font-size:20px;color:var(--accent);font-weight:700}
-  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:auto;box-shadow:var(--shadow)}
   table{width:100%;border-collapse:collapse;font-size:14.5px}
   th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
   th{color:var(--muted);font-weight:600;font-size:13px;background:var(--band)}
@@ -134,6 +134,12 @@
   footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--muted)}
   .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:780px;margin:0 auto;padding:0 22px}
   footer a{color:var(--muted)}
+  @media (max-width:640px){
+    .nav{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;gap:8px 14px}
+    .nav-links{order:3;flex-basis:100%;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{white-space:nowrap}
+  }
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
     .kb-key{transition:none}
@@ -225,8 +231,8 @@
       <a href="#install">使用方法</a>
       <a href="#faq">常見問題</a>
       <a href="https://github.com/thanatos333/key-remap">GitHub</a>
-<label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="../en/">English</option><option value="" selected>繁體中文</option></select></label>
     </nav>
+    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="../">日本語</option><option value="../en/">English</option><option value="" selected>繁體中文</option></select></label>
   </div>
 </header>
 
