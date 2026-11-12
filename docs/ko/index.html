@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>key-remap — 미국식 키보드에서 ` 키 하나로 일본어 입력 전환 (Windows 11 / 10)</title>
-<meta name="description" content="미국식(영문) 키보드에서 일본어 입력 전환이 잘 안 되거나 Alt+` 조합 키가 지겹다면? key-remap은 작고 무료인 Windows 11 / 10 도구입니다. ` 한 번으로 일본어 입력(IME)을 켜고 끄고, Alt+` 로는 백쿼트를 입력합니다. 작은 60% 키보드에서도 쓸 수 있습니다. 설치 불필요, 오픈소스.">
+<title>key-remap — 미국식 키보드에서 ` 키 하나로 한/영 전환과 일본어 입력 전환 (Windows 11 / 10)</title>
+<meta name="description" content="미국식 키보드에는 한/영 키도 일본어의 반각/전각 키도 없습니다. key-remap은 지금 켜진 입력 언어를 보고 ` 한 번으로 알맞은 전환 키를 눌러 줍니다. 한국어는 한/영, 일본어는 반각/전각, 그 밖의 언어는 다음 입력 언어로 전환합니다. 무료, 설치 불필요, 오픈소스.">
 <link rel="canonical" href="https://thanatos333.github.io/key-remap/ko/">
 <link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/">
 <link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/en/">
@@ -14,16 +14,16 @@
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="key-remap">
-<meta property="og:title" content="key-remap — 미국식 키보드에서 ` 키 하나로 일본어 입력 전환 (Windows 11 / 10)">
-<meta property="og:description" content="미국식 키보드에는 반각/전각 키가 없습니다. key-remap이 ` 키로 그 역할을 대신해 일본어 입력을 전환합니다. 무료, 설치 불필요.">
+<meta property="og:title" content="key-remap — 미국식 키보드에서 ` 키 하나로 한/영 전환과 일본어 입력 전환">
+<meta property="og:description" content="미국식 키보드에는 한/영 키도, 반각/전각 키도 없습니다. key-remap이 ` 키 하나로 둘 다 되돌려 줍니다. 무료, 설치 불필요.">
 <meta property="og:url" content="https://thanatos333.github.io/key-remap/ko/">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:locale:alternate" content="ja_JP">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="zh_TW">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="key-remap — ` 키로 일본어 입력 전환 (Windows 11 / 10)">
-<meta name="twitter:description" content="작은 Windows 도구. ` 와 Alt+` 의 역할을 맞바꿔, 미국식 키보드에서도 한 번에 IME를 전환합니다.">
+<meta name="twitter:title" content="key-remap — ` 키 하나로 한/영 전환과 일본어 입력 전환 (Windows 11 / 10)">
+<meta name="twitter:description" content="작은 Windows 도구. 지금 켜진 입력 언어에 따라 ` 키가 한/영 키가 되기도, 반각/전각 키가 되기도 합니다.">
 <style>
   :root{
     color-scheme:light;
@@ -154,14 +154,14 @@
   "name": "key-remap",
   "url": "https://thanatos333.github.io/key-remap/ko/",
   "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
-  "softwareVersion": "0.2.0",
+  "softwareVersion": "0.3.0",
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
-  "fileSize": "112 KB",
-  "featureList": "` 키 하나로 일본어 입력(IME) 켜기/끄기, Alt+` 로 백쿼트 입력, 설치 불필요, 자동 시작, 상주 메모리 약 1 MB, 오픈소스(MIT 라이선스)",
+  "fileSize": "113 KB",
+  "featureList": "` 키 하나로 지금 쓰는 언어의 전환 키(한국어면 한/영, 일본어면 반각/전각), 그 밖의 언어에서는 다음 입력 언어로 한 번에 전환, Alt+` 로 백쿼트 입력, 설치 불필요, 자동 시작, 상주 메모리 약 1 MB, 오픈소스(MIT 라이선스)",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
-  "description": "미국식 키보드에서 ` 키와 Alt+` 의 역할을 맞바꾸는 Windows 도구입니다. ` 를 누르면 일본어 IME가 전환되고, Alt+` 로는 백쿼트를 입력합니다. 반각/전각 키가 없는 미국식 키보드에 적합하며, 작은 60% 키보드에서도 쓸 수 있습니다. Windows 11 / 10.",
+  "description": "미국식 키보드에서 ` 키를 지금 켜진 입력 언어의 전환 키로 바꿔 주는 Windows 도구입니다. 한국어 입력에서는 한/영 키로, 일본어 입력에서는 반각/전각 키로 동작하고, 그 밖의 언어에서는 다음 입력 언어로 전환합니다. Alt+` 로는 백쿼트를 입력합니다. Windows 11 / 10.",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
   "inLanguage": "ko"
 }
@@ -224,7 +224,7 @@
     {
       "@type": "Question",
       "name": "한국어 입력과 일본어 입력을 자주 오가는데, 누를 키를 줄일 수 있나요?",
-      "acceptedAnswer": { "@type": "Answer", "text": "줄일 수 있는 건 후반부입니다. Win + Space로 한국어와 일본어 사이를 오가는 부분은 그대로지만, 일본어 입력으로 들어간 뒤에는 원래 Alt + ` 로 하던 히라가나와 영숫자 사이의 전환이 ` 한 번으로 끝납니다. 오갈 때마다 조합 키 하나가 줄어듭니다." }
+      "acceptedAnswer": { "@type": "Answer", "text": "양쪽 다 줄어듭니다. 한국어가 켜져 있을 때는 ` 한 번이 한/영 키가 되고, 일본어가 켜져 있을 때는 ` 한 번이 반각/전각 키가 됩니다. 언어를 오가는 Win + Space만 그대로지만, 각 언어 안에 들어간 뒤의 전환은 양쪽 다 조합 키 없이 끝납니다." }
     },
     {
       "@type": "Question",
@@ -239,7 +239,7 @@
     {
       "@type": "Question",
       "name": "이렇게 전용 키가 없는 문제는 다른 언어에도 있나요?",
-      "acceptedAnswer": { "@type": "Answer", "text": "네. 일본어의 반각/전각 키, 한국어의 한/영 키처럼 언어마다 입력 전환 전용 키가 있는데, 미국식 키보드는 그런 키들을 빼놓습니다. 그래서 각 언어가 조합 키나 메뉴로 대신하게 됩니다. key-remap이 다루는 것은 일본어 입력의 전환입니다." }
+      "acceptedAnswer": { "@type": "Answer", "text": "네. 그런데 살펴보면 입력 전환 전용 키를 가진 언어는 일본어(반각/전각)와 한국어(한/영)가 사실상 전부입니다. 미국식 키보드는 이 두 키를 모두 빼놓았고, key-remap은 둘 다 다룹니다. 전용 키가 없는 다른 언어가 켜져 있을 때는 ` 가 다음 입력 언어로 넘어가는 전환 키로 동작합니다." }
     }
   ]
 }
@@ -287,13 +287,13 @@
 
 <div class="hero">
   <div class="wrap">
-    <h1>미국식 키보드에서, <span class="mono">`</span> 키 하나로 일본어 입력을 전환합니다.</h1>
-    <p class="lead">Windows에서 미국식 키보드를 쓰면 일본어 입력을 켜고 끌 때마다 <kbd>Alt</kbd> + <kbd>`</kbd>(` 는 Esc 아래에 있는 키)를 동시에 눌러야 합니다. 미국식 키보드에는 일본어 키보드의 반각/전각 키가 없기 때문입니다. 한국어의 한/영 키가 미국식 키보드에서 사라지는 것과 똑같은 일이고, 쓰다 보면 정말 번거롭습니다.</p>
-    <p class="lead">key-remap은 이 두 키의 역할을 맞바꾸는 작은 상주 프로그램입니다. <kbd>`</kbd> 한 번이면 입력이 전환되고, 백쿼트 자체는 <kbd>Alt</kbd> + <kbd>`</kbd> 로 입력합니다. 키맵으로 치면 딱 한 줄의 변경입니다. 두 항목만 자리를 바꾸고 나머지는 전혀 건드리지 않습니다. 매일 직접 쓰려고 만든 도구를, 같은 불편을 겪는 분들께도 도움이 될까 싶어 공개합니다.</p>
+    <h1>미국식 키보드에서 사라진 한/영 키와 반각/전각 키를, <span class="mono">`</span> 키 하나로 되돌립니다.</h1>
+    <p class="lead">Windows에서 미국식 키보드를 쓰면, 한국어 키보드에 있던 한/영 키도, 일본어 키보드에 있던 반각/전각 키도 없습니다. 한/영 전환은 오른쪽 Alt나 <kbd>Win</kbd> + <kbd>Space</kbd>로 대신하고, 일본어 입력 켜고 끄기는 <kbd>Alt</kbd> + <kbd>`</kbd>(` 는 Esc 아래에 있는 키) 조합 키로 대신하게 됩니다. 어느 쪽도 키 하나로는 끝나지 않습니다.</p>
+    <p class="lead">key-remap은 지금 켜져 있는 입력 언어를 보고 <kbd>`</kbd> 키의 역할을 바꿔 주는 작은 상주 프로그램입니다. 한국어가 켜져 있으면 <kbd>`</kbd> 가 한/영 키가 되고, 일본어가 켜져 있으면 반각/전각 키가 됩니다. 백쿼트 자체는 <kbd>Alt</kbd> + <kbd>`</kbd> 로 입력합니다. 사라진 전환 키를 언어마다 되돌려 주는 도구로, 매일 직접 쓰려고 만들었다가 같은 불편을 겪는 분들께도 도움이 될까 싶어 공개합니다.</p>
     <div class="quick-facts">
       <div class="fact"><div class="k">플랫폼</div><div class="v">Windows 10 / 11</div></div>
       <div class="fact"><div class="k">가격</div><div class="v">무료, 오픈소스</div></div>
-      <div class="fact"><div class="k">크기 / 상주 메모리</div><div class="v">112 KB / 약 1 MB</div></div>
+      <div class="fact"><div class="k">크기 / 상주 메모리</div><div class="v">113 KB / 약 1 MB</div></div>
     </div>
     <div class="download">
       <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe 다운로드</a>
@@ -305,6 +305,7 @@
       <a href="#spec">상세 및 주의 사항</a>
       <a href="#faq">자주 묻는 질문</a>
       <a href="#compare">다른 방법들</a>
+      <a href="../switch/">다른 언어 전환</a>
     </nav>
   </div>
 </div>
@@ -313,7 +314,7 @@
   <section id="keys">
     <div class="wrap">
       <div class="sec-head"><span class="sec-num">01</span><h2>키 동작 방식</h2></div>
-      <p class="sec-lead">두 개의 키만 바꾸고, 나머지 키는 전부 그대로입니다.</p>
+      <p class="sec-lead">바꾸는 것은 <kbd>`</kbd> 키 하나입니다. 지금 어떤 언어로 입력 중인지에 따라 그 언어의 전환 키처럼 동작하고, 나머지 키는 전부 그대로입니다.</p>
 
       <div class="kb" aria-hidden="true">
         <div class="kb-screen">
@@ -370,7 +371,9 @@
         <table>
           <thead><tr><th>입력</th><th>바꾸기 전</th><th>바꾼 뒤</th></tr></thead>
           <tbody>
-            <tr><td><kbd>`</kbd></td><td>` 입력</td><td class="after">일본어 입력 켜기/끄기</td></tr>
+            <tr><td><kbd>`</kbd> (한국어 입력 중)</td><td>` 입력</td><td class="after">한/영 전환</td></tr>
+            <tr><td><kbd>`</kbd> (일본어 입력 중)</td><td>` 입력</td><td class="after">일본어 입력 켜기/끄기</td></tr>
+            <tr><td><kbd>`</kbd> (그 밖의 언어)</td><td>` 입력</td><td class="after">다음 입력 언어로 전환</td></tr>
             <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>일본어 입력 켜기/끄기</td><td class="after">` 입력</td></tr>
             <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>~ 입력</td><td>변경 없음</td></tr>
             <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd> 등</td><td>앱 단축키</td><td>변경 없음</td></tr>
@@ -407,6 +410,7 @@
       <p class="sec-lead">사용하기 전에 알아 두면 좋은 것들입니다.</p>
       <ul class="plain">
         <li>Windows 10 / 11을 지원합니다. Microsoft IME와 Google 일본어 입력에서 동작을 확인했습니다.</li>
+        <li><kbd>`</kbd> 키는 지금 켜진 입력 언어를 자동으로 보고 동작합니다. 일본어면 반각/전각 키, 한국어면 한/영 키로 동작하고, 그 밖의 언어에서는 다음 입력 언어로 전환합니다. 입력 언어가 하나뿐인 환경에서는 <kbd>`</kbd> 가 그대로 문자로 입력됩니다.</li>
         <li>상주 메모리는 약 1 MB. 키를 누를 때만 처리하고, 대기 중에는 CPU를 쓰지 않습니다.</li>
         <li>관리자 권한으로 실행 중인 창의 키 입력은 읽을 수 없습니다. Windows의 제한입니다. 그런 창에서도 쓰려면 key-remap도 관리자 권한으로 실행하세요.</li>
         <li><kbd>`</kbd> 를 길게 눌러도 전환은 한 번만 일어납니다(반복해서 켜고 꺼지지 않습니다). <kbd>Alt</kbd> + <kbd>`</kbd> 를 길게 누르면 일반 키처럼 연속 입력됩니다.</li>
@@ -462,7 +466,7 @@
         </details>
         <details>
           <summary>한국어 입력과 일본어 입력을 자주 오가는데, 누를 키를 줄일 수 있나요?</summary>
-          <p>줄일 수 있는 건 후반부입니다. <kbd>Win</kbd> + <kbd>Space</kbd>로 한국어와 일본어 사이를 오가는 부분은 그대로지만, 일본어 입력으로 들어간 뒤에는 원래 <kbd>Alt</kbd> + <kbd>`</kbd> 로 하던 히라가나와 영숫자 사이의 전환이 <kbd>`</kbd> 한 번으로 끝납니다. 오갈 때마다 조합 키 하나가 줄어듭니다.</p>
+          <p>양쪽 다 줄어듭니다. 한국어가 켜져 있을 때는 <kbd>`</kbd> 한 번이 한/영 키가 되고, 일본어가 켜져 있을 때는 <kbd>`</kbd> 한 번이 반각/전각 키가 됩니다. 언어를 오가는 <kbd>Win</kbd> + <kbd>Space</kbd>만 그대로지만, 각 언어 안에 들어간 뒤의 전환은 양쪽 다 조합 키 없이 끝납니다.</p>
         </details>
         <details>
           <summary>레지스트리를 건드리기 싫고 PowerToys도 설치하기 싫습니다. 더 간단한 방법이 있나요?</summary>
@@ -471,9 +475,10 @@
         <details>
           <summary>미국식 키보드에는 반각/전각 키가 없는데, 일본어 입력은 어떻게 켜고 끄나요?</summary>
           <p>Windows에 내장된 대체 방법은 <kbd>Alt</kbd> + <kbd>`</kbd>, 즉 Esc 아래에 있는 그 키입니다. key-remap을 실행한 뒤에는 <kbd>`</kbd> 한 번으로 일본어 입력을 켜고 끌 수 있어, 두 키를 동시에 누를 필요가 없습니다.</p>
-                <details>
+        </details>
+        <details>
           <summary>이렇게 전용 키가 없는 문제는 다른 언어에도 있나요?</summary>
-          <p>네. 일본어의 반각/전각 키, 한국어의 한/영 키처럼 언어마다 입력 전환 전용 키가 있는데, 미국식 키보드는 그런 키들을 빼놓습니다. 그래서 각 언어가 조합 키나 메뉴로 대신하게 됩니다. key-remap이 다루는 것은 일본어 입력의 전환입니다.</p>
+          <p>네. 그런데 살펴보면 입력 전환 전용 키를 가진 언어는 일본어(반각/전각)와 한국어(한/영)가 사실상 전부입니다. 미국식 키보드는 이 두 키를 모두 빼놓았고, key-remap은 둘 다 다룹니다. 전용 키가 없는 다른 언어가 켜져 있을 때는 ` 가 다음 입력 언어로 넘어가는 전환 키로 동작합니다.</p>
         </details>
       </div>
     </div>
@@ -492,11 +497,19 @@
             <tr><td>PowerToys Keyboard Manager</td><td>PowerToys를 설치하고 매핑 설정</td><td>기능이 완전한 범용 키보드 매핑 도구입니다. 하지만 이 한 가지 교환만을 위해서는 설치가 크고, 설정이 큰 도구 안에 있습니다. 또 Keyboard Manager로 IME 전환 키를 다시 매핑할 때의 호환성 문제가 PowerToys 공식 저장소에 기록되어 있습니다</td></tr>
             <tr><td>AutoHotkey</td><td>AutoHotkey를 설치하고 짧은 스크립트 작성</td><td>매우 유연하지만, 스크립트를 직접 쓰고 유지해야 하고 AutoHotkey 런타임이 상주합니다</td></tr>
             <tr><td>레지스트리(Scancode Map)</td><td>레지스트리를 편집하고 재부팅</td><td>Windows 내장 방식이지만 일반 키끼리의 교환만 가능합니다. 일반 키와 Alt + 키 조합은 맞바꿀 수 없어 이 교환은 할 수 없습니다(key-remap 개발 과정에서 확인)</td></tr>
-            <tr><td class="after">key-remap</td><td class="after">112 KB exe를 실행할 뿐</td><td class="after">단일 용도: 이 교환 하나, 설정 없음, 상주 약 1 MB</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">113 KB exe를 실행할 뿐</td><td class="after">단일 용도: 이 교환 하나, 설정 없음, 상주 약 1 MB</td></tr>
           </tbody>
         </table>
       </div>
       <p class="note">이미 PowerToys나 AutoHotkey로 다른 매핑을 쓰고 있다면, 이 교환을 거기에 더하는 것도 충분히 합리적입니다. key-remap은 "바꾸고 싶은 게 이 한 가지뿐"인 경우를 위한 도구입니다.</p>
+    </div>
+  </section>
+
+  <section id="switch">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">06</span><h2>다른 언어 사이의 전환도 키 하나로</h2></div>
+      <p class="sec-lead">v0.3.0부터 key-remap은 지금 켜진 입력 언어를 보고 <kbd>`</kbd> 키의 동작을 바꿉니다. 한국어에서는 한/영 키로, 그 밖의 언어에서는 다음 입력 언어로의 전환으로 동작합니다. Alt + Shift나 Win + Space로 여러 언어를 오가는 분들을 위한 안내를 따로 정리했습니다.</p>
+      <p><a href="../switch/">` 키 한 번으로 입력 언어 전환하기 — 다국어 사용자를 위한 페이지</a></p>
     </div>
   </section>
 

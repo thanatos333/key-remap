@@ -163,12 +163,12 @@
   "name": "key-remap",
   "url": "https://thanatos333.github.io/key-remap/",
   "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
-  "softwareVersion": "0.2.0",
+  "softwareVersion": "0.3.0",
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
-  "fileSize": "112 KB",
-  "featureList": "` キー単独で日本語入力（IME）のオン/オフ、Alt+` でバッククォート入力、インストール不要・自動起動、常駐メモリ約1 MB、オープンソース（MIT ライセンス）",
+  "fileSize": "113 KB",
+  "featureList": "` キー単独で日本語入力（IME）のオン/オフ、韓国語入力では 한/영 キーとして動作、それ以外の言語では次の入力言語へ1キーで切り替え、Alt+` でバッククォート入力、インストール不要・自動起動、常駐メモリ約1 MB、オープンソース（MIT ライセンス）",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
   "description": "US配列キーボードで ` キー単独を日本語入力（IME）のオン/オフ切り替えに、Alt+` をバッククォート入力に入れ替えるWindows用常駐ユーティリティ。半角/全角キーのない英語配列キーボードや60%キーボード向け。Windows 11 / 10 対応。",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
@@ -248,7 +248,7 @@
     {
       "@type": "Question",
       "name": "専用キーがない問題は、日本語入力だけですか？",
-      "acceptedAnswer": { "@type": "Answer", "text": "いいえ。韓国語配列の 한/영（ハン/ヨン）キーのように、言語ごとの配列には入力切り替え専用のキーを持つものが多く、US配列ではそれらが無くなります。key-remap が対象にしているのは日本語入力の切り替え（Alt + `）です。" }
+      "acceptedAnswer": { "@type": "Answer", "text": "あります。ただし切り替え専用のキーを持つ言語は、実は日本語（半角/全角）と韓国語（한/영）くらいです。v0.3.0 から key-remap は韓国語にも対応し、韓国語がアクティブなときは ` が 한/영 キーとして働きます。専用キーのない言語でも、アクティブなときに ` を押せば次の入力言語へ切り替わります。中国語のように IME の中で Shift キーで切り替えられる言語は、そのまま従来どおり使えます。" }
     }
   ]
 }
@@ -302,7 +302,7 @@
     <div class="quick-facts">
       <div class="fact"><div class="k">対応環境</div><div class="v">Windows 10 / 11</div></div>
       <div class="fact"><div class="k">価格</div><div class="v">無料（オープンソース）</div></div>
-      <div class="fact"><div class="k">大きさ・常駐時メモリ</div><div class="v">112 KB / 約 1 MB</div></div>
+      <div class="fact"><div class="k">大きさ・常駐時メモリ</div><div class="v">113 KB / 約 1 MB</div></div>
     </div>
     <div class="download">
       <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe をダウンロード</a>
@@ -314,6 +314,7 @@
       <a href="#spec">仕様と注意</a>
       <a href="#faq">よくある質問</a>
       <a href="#compare">他の方法との比較</a>
+      <a href="switch/">他の言語への切り替え</a>
     </nav>
   </div>
 </div>
@@ -416,6 +417,7 @@
       <p class="sec-lead">使う前に知っておいてほしいことをまとめました。</p>
       <ul class="plain">
         <li>対応 OS は Windows 10 / 11 です。Microsoft IME、Google 日本語入力で動作を確認しています。</li>
+        <li>今アクティブな入力言語は自動で見分けます。日本語のときは半角/全角キー、韓国語のときは 한/영 キー、それ以外の言語のときは次の入力言語への切り替え（Alt + Shift や Win + Space の1キー版）として働きます。入力言語が1つしかインストールされていない環境では、<kbd>`</kbd> はそのまま文字として入力されます。</li>
         <li>常駐時のメモリ使用量は約 1 MB です。キー入力があったときだけ処理が走るので、待機中に CPU を使うことはありません。</li>
         <li>管理者権限で実行されているウィンドウの上ではキー入力を拾えません。これは Windows の仕様によるもので、その場合は key-remap 側も管理者権限で実行してください。</li>
         <li><kbd>`</kbd> の長押しでは切り替えは1回だけです（押しっぱなしでオン/オフを繰り返しません）。<kbd>Alt</kbd> + <kbd>`</kbd> の長押しは、通常のキーと同じく連続入力になります。</li>
@@ -483,7 +485,7 @@
         </details>
         <details>
           <summary>専用キーがない問題は、日本語入力だけですか？</summary>
-          <p>いいえ。韓国語配列の 한/영（ハン/ヨン）キーのように、言語ごとの配列には入力切り替え専用のキーを持つものが多く、US配列ではそれらが無くなります。key-remap が対象にしているのは日本語入力の切り替え（Alt + `）です。</p>
+          <p>あります。ただし切り替え専用のキーを持つ言語は、実は日本語（半角/全角）と韓国語（한/영）くらいです。v0.3.0 から key-remap は韓国語にも対応し、韓国語がアクティブなときは ` が 한/영 キーとして働きます。専用キーのない言語でも、アクティブなときに ` を押せば次の入力言語へ切り替わります。中国語のように IME の中で Shift キーで切り替えられる言語は、そのまま従来どおり使えます。</p>
         </details>
       </div>
     </div>
@@ -502,11 +504,19 @@
             <tr><td>PowerToys Keyboard Manager</td><td>PowerToys をインストールして設定する</td><td>汎用キーリマップとして高機能です。この入れ替えだけのために使うなら大きなインストールで、設定も大きなユーティリティの中にあります。また、IME の切り替えキーのリマップには相性問題の報告があります</td></tr>
             <tr><td>AutoHotkey</td><td>AutoHotkey をインストールしてスクリプトを書く</td><td>とても柔軟ですが、スクリプトの作成・保守が必要で、AutoHotkey 本体が常駐します</td></tr>
             <tr><td>レジストリ（Scancode Map）</td><td>レジストリを編集して再起動</td><td>Windows 標準の仕組みですが、入れ替えできるのは単独キー同士だけです。単独キーと Alt + キーの組み合わせは入れ替えできないため、この入れ替えは実現できません（key-remap の開発時に確認）</td></tr>
-            <tr><td class="after">key-remap</td><td class="after">112 KB の exe を実行するだけ</td><td class="after">単機能：この入れ替えだけ、設定なし、常駐メモリ約1 MB</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">113 KB の exe を実行するだけ</td><td class="after">単機能：この入れ替えだけ、設定なし、常駐メモリ約1 MB</td></tr>
           </tbody>
         </table>
       </div>
       <p class="note">PowerToys や AutoHotkey を他のリマップで既に使っているなら、そこにこの入れ替えを足すのも合理的です。key-remap は、変えたいのがこの1点だけという場合のためのものです。</p>
+    </div>
+  </section>
+
+  <section id="switch">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">06</span><h2>他の言語への切り替えも、1キーで</h2></div>
+      <p class="sec-lead">v0.3.0 から、key-remap はアクティブな入力言語を見分けて <kbd>`</kbd> キーの働きを変えます。韓国語では 한/영 キーに、それ以外の言語では「次の入力言語への切り替え」になります。Alt + Shift や Win + Space でいろいろな言語を行き来している人向けの案内は、別のページにまとめました。</p>
+      <p><a href="switch/">` キー単押しで入力言語を切り替える — 多言語ユーザー向けのページはこちら</a></p>
     </div>
   </section>
 

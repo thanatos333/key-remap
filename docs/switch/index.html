@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Switch input languages with one key — key-remap (an Alt+Shift alternative for Windows)</title>
+<meta name="description" content="Change your input language with a single key instead of Alt+Shift or Win+Space. key-remap makes the ` key (below Esc) switch to the next keyboard language on Windows 10/11 — Russian, Arabic, Hebrew, Hindi, Greek, Chinese and more. Free, no installation.">
+<link rel="canonical" href="https://thanatos333.github.io/key-remap/switch/">
+<link rel="alternate" hreflang="en" href="https://thanatos333.github.io/key-remap/switch/">
+<link rel="alternate" hreflang="ja" href="https://thanatos333.github.io/key-remap/switch/ja/">
+<link rel="alternate" hreflang="x-default" href="https://thanatos333.github.io/key-remap/switch/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="key-remap">
+<meta property="og:title" content="Switch input languages with one key — key-remap (an Alt+Shift alternative for Windows)">
+<meta property="og:description" content="One press of the ` key below Esc moves to your next input language. No more Alt+Shift or Win+Space chords. Free, no installation.">
+<meta property="og:url" content="https://thanatos333.github.io/key-remap/switch/">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Switch input languages with one key — key-remap">
+<meta name="twitter:description" content="A tiny Windows utility that puts the input-language switch on the single ` key below Esc, instead of Alt+Shift or Win+Space.">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#ffffff; --band:#f4f6f9; --panel:#ffffff;
+    --line:#dde2ea; --line-strong:#c6cdd9;
+    --text:#1f2328; --muted:#4d5561;
+    --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e9effe; --key-accent:#e8590c;
+    --key-top:#ffffff; --key-edge:#c3c9d4; --key-text:#1f2328;
+    --code-bg:#eef0f3; --shadow:0 1px 3px rgba(20,30,60,.08),0 4px 14px rgba(20,30,60,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --bg:#121a2a; --band:#172136; --panel:#1a2740;
+      --line:#2b3c5e; --line-strong:#3a4f78;
+      --text:#e9edf7; --muted:#a3b0ca;
+      --accent:#93aaff; --accent-ink:#101828; --accent-soft:#243354; --key-accent:#ffa94d;
+      --key-top:#22304e; --key-edge:#0c1322; --key-text:#e9edf7;
+      --code-bg:#1e2c47; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
+  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none;white-space:nowrap;flex:none}
+  .nav-links{display:flex;gap:20px;font-size:13.5px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a.lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 12px}
+  .lang{border:1px solid var(--line-strong);border-radius:999px;padding:2px 8px 2px 12px;flex:none;display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .lang-sel{border:none;background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer;padding:1px 0}
+  .lang-sel:focus{outline:none}
+  .hero{background:var(--band);border-bottom:1px solid var(--line);padding:58px 0 46px}
+  .hero h1{font-size:clamp(26px,4.6vw,34px);line-height:1.5;font-weight:800}
+  .hero h1 .mono{font-family:ui-monospace,Consolas,monospace;color:var(--key-accent)}
+  .hero .lead{margin-top:20px;max-width:640px}
+  .hero .lead + .lead{margin-top:12px}
+  .quick-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  .fact{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow)}
+  .fact .k{font-size:12px;color:var(--muted);letter-spacing:.05em}
+  .fact .v{font-size:16.5px;font-weight:700;margin-top:2px}
+  @media (max-width:560px){ .quick-facts{grid-template-columns:1fr} }
+  .download{margin-top:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;min-height:50px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;padding:10px 26px;border-radius:9px;font-size:15.5px;box-shadow:var(--shadow)}
+  .btn:hover{opacity:.9}
+  .download .meta{font-size:13px;color:var(--muted)}
+  .toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+  .toc a{font-size:13px;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:999px;padding:4px 14px;background:var(--panel)}
+  .toc a:hover{color:var(--text);border-color:var(--muted)}
+  section{padding:52px 0}
+  section.band{background:var(--band);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{font-family:ui-monospace,Consolas,monospace;font-size:13px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 9px;flex:none}
+  h2{font-size:22px;font-weight:800}
+  .sec-lead{color:var(--muted);margin-bottom:24px;max-width:640px}
+  .kb{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin:4px 0 10px}
+  .kb-screen{display:flex;align-items:center;gap:12px;background:var(--band);border:1px solid var(--line);border-radius:9px;padding:8px 14px;margin-bottom:14px;min-height:48px}
+  .kb-badge{font-weight:700;font-size:15px;width:38px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);flex:none}
+  .kb-badge.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .kb-text{font-family:ui-monospace,Consolas,monospace;font-size:15.5px;min-height:1.4em;white-space:pre}
+  .kb-row{display:flex;gap:5px;margin-bottom:5px}
+  .kb-row:last-child{margin-bottom:0}
+  .kb-key{flex:var(--u,1) 1 0;height:38px;display:flex;align-items:center;justify-content:center;background:var(--key-top);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:6px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace;color:var(--key-text);transition:background .12s ease,transform .12s ease;user-select:none}
+  .kb-key.mod{font-size:10.5px;color:var(--muted);font-family:inherit}
+  .kb-key.grave{border-color:var(--accent);color:var(--accent);font-weight:700}
+  .kb-key.press{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);transform:translateY(2px)}
+  .kb-caption{font-size:13px;color:var(--muted);margin-bottom:24px}
+  @media (max-width:560px){ .kb-key{height:29px;font-size:9.5px;border-radius:4px} .kb-key.mod{font-size:8px} .kb{padding:10px} }
+  .swap{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:6px 0 22px}
+  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:64px;padding:0 17px;background:var(--key-top);color:var(--key-text);border:1px solid var(--key-edge);border-bottom:3px solid var(--key-edge);border-radius:10px;font-family:ui-monospace,Consolas,monospace;font-size:25px;font-weight:700;box-shadow:var(--shadow)}
+  .keycap.wide{font-size:16px;gap:7px}
+  .keycap .plus{color:var(--muted);font-size:15px}
+  .cap-box{text-align:center}
+  .cap-label{font-size:12.5px;color:var(--muted);margin-top:9px;font-weight:600}
+  .arrow{font-size:20px;color:var(--accent);font-weight:700}
+  .table-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:auto;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;background:var(--band)}
+  tbody tr:nth-child(even){background:var(--band)}
+  tr:last-child td{border-bottom:none}
+  td.after{font-weight:700}
+  kbd{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 7px;font-size:13px}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:13.5px}
+  .demo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:22px;box-shadow:var(--shadow)}
+  .demo .demo-title{font-size:13.5px;font-weight:700;margin-bottom:12px}
+  .demo-row{display:flex;align-items:center;gap:13px}
+  .ime-indicator{font-weight:700;font-size:18px;width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--band);border:1px solid var(--line);flex:none}
+  .ime-indicator.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+  .demo-input{flex:1;background:var(--band);border:1px solid var(--line);border-radius:8px;min-height:48px;padding:10px 13px;font-family:ui-monospace,Consolas,monospace;font-size:15px;overflow:hidden;white-space:nowrap}
+  .demo p{font-size:13px;color:var(--muted);margin-top:12px}
+  .steps{display:grid;gap:14px}
+  .step{display:flex;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);align-items:flex-start}
+  .step .n{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:3px}
+  .step h3{font-size:16px;font-weight:700;margin-bottom:4px}
+  .step p{font-size:14.5px;color:var(--muted)}
+  ul.plain{padding-left:20px;display:grid;gap:9px}
+  .note{font-size:13.5px;color:var(--muted);margin-top:16px}
+  .faq{display:grid;gap:10px}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:15px 20px;box-shadow:var(--shadow)}
+  .faq summary{font-weight:700;font-size:15.5px;cursor:pointer}
+  .faq p{font-size:14.5px;color:var(--muted);margin-top:8px}
+  .final-cta{text-align:center;padding:56px 0 64px}
+  .final-cta h2{font-size:24px;margin-bottom:10px}
+  .final-cta p{color:var(--muted);margin-bottom:24px}
+  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;max-width:780px;margin:0 auto;padding:0 22px}
+  footer a{color:var(--muted)}
+  @media (max-width:640px){
+    .nav{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;gap:8px 14px}
+    .nav-links{order:3;flex-basis:100%;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{white-space:nowrap}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .kb-key{transition:none}
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "key-remap",
+  "url": "https://thanatos333.github.io/key-remap/switch/",
+  "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
+  "softwareVersion": "0.3.0",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "UtilitiesApplication",
+  "license": "https://opensource.org/licenses/MIT",
+  "fileSize": "113 KB",
+  "featureList": "One-key input language switching with the ` key below Esc, cycles through installed languages in the same order as Alt+Shift, dedicated-key behavior for Japanese (Hankaku/Zenkaku) and Korean (Hangul key), Alt+` types a backquote, no installation, auto-starts at logon, about 1 MB resident memory, open source (MIT License)",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "A tiny Windows utility that puts the input-language switch on a single key: press ` (below Esc) to move to the next installed input language, instead of the Alt+Shift or Win+Space chords. Works with any language Windows supports, including Russian, Arabic, Hebrew, Hindi, Greek and Chinese. Windows 11 / 10.",
+  "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
+  "inLanguage": "en"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does it work with my language?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Very likely, yes. key-remap does not handle any language itself — each press of ` simply asks Windows to move to the next installed input language, the same switch Alt + Shift performs. Russian, Arabic, Hebrew, Hindi, Greek, Ukrainian, Thai, Vietnamese, Chinese — if it is in your Windows language list, ` cycles to it. Japanese and Korean are special cases: there, ` presses the language's own dedicated key (Hankaku/Zenkaku, or the Hangul key) instead." }
+    },
+    {
+      "@type": "Question",
+      "name": "How is this different from Win + Space?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Win + Space is built into Windows and opens a language switcher panel; you hold Win and tap Space to pick. key-remap skips the panel and the second key: one press of ` switches immediately. If Win + Space already feels fine, you honestly do not need this tool — it exists for people who switch dozens of times a day and want it on one key." }
+    },
+    {
+      "@type": "Question",
+      "name": "How is it different from turning Caps Lock into a language switch?",
+      "acceptedAnswer": { "@type": "Answer", "text": "That is the classic workaround, usually done with AutoHotkey or a registry remap. It works, but Caps Lock is a stateful key — its indicator and on/off state get confusing — and you either lose the key or maintain a script. key-remap instead uses `, a key most people rarely type, keeps the character available on Alt + `, and needs no script or registry edit: one small exe." }
+    },
+    {
+      "@type": "Question",
+      "name": "I use three or more languages. What happens?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Each press moves one step forward through your installed languages, in the same order as Alt + Shift — with three languages it cycles A → B → C → A. With exactly two languages, that same cycle is simply a back-and-forth toggle." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I still type the ` character?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The backquote moves to Alt + `, and the tilde stays on Shift + `, unchanged. And if only one input language is installed on your PC, ` is not repurposed at all — it types a backquote exactly as before." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need administrator rights?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. key-remap runs as a normal user program and registers its auto-start under your own account (HKCU), so there is nothing to install and no admin prompt. One Windows limitation: it cannot see keystrokes in windows that themselves run as administrator, unless you also run key-remap as administrator." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work in games and full-screen apps?",
+      "acceptedAnswer": { "@type": "Answer", "text": "In most cases, yes — it works system-wide, including full-screen apps. Two honest exceptions: some games with anti-cheat systems block injected keys, and games that use ` itself (the developer console in many PC games) will switch your language instead of opening the console. For those games, quit key-remap while you play." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I uninstall it?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Run key-remap.exe --uninstall once to remove the auto-start registration, end key-remap in Task Manager if it is still running, and delete the exe file. Nothing else is changed or left behind." }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to use key-remap",
+  "inLanguage": "en",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Download and put it anywhere",
+      "text": "Download key-remap.exe and drop it wherever you like."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run it",
+      "text": "Double-click to run. The language switch takes effect immediately, and the tool registers itself for auto-start at the same time, so from your next logon it starts on its own."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "To stop or uninstall",
+      "text": "End key-remap in Task Manager. To also remove the auto-start registration, run key-remap.exe --uninstall first, then delete the file."
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="./">` key-remap</a>
+    <nav class="nav-links">
+      <a href="#keys">How it works</a>
+      <a href="#install">How to use</a>
+      <a href="#faq">FAQ</a>
+      <a href="../">For Japanese input on a US keyboard →</a>
+      <a href="https://github.com/thanatos333/key-remap">GitHub</a>
+    </nav>
+    <label class="lang">Language:<select class="lang-sel" onchange="if(this.value)location.href=this.value"><option value="" selected>English</option><option value="ja/">日本語</option></select></label>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Switch input languages with a single <span class="mono">`</span> key.</h1>
+    <p class="lead">If you type in two or more languages, you know the drill: <kbd>Alt</kbd> + <kbd>Shift</kbd>, or <kbd>Win</kbd> + <kbd>Space</kbd> — two keys at once, dozens of times a day. Miss the chord, and you have typed a whole sentence in the wrong language before you notice, and your train of thought is gone with it.</p>
+    <p class="lead">key-remap puts the switch on one key: <kbd>`</kbd>, the key below Esc. Each press moves to your next input language, and the backquote character itself moves to <kbd>Alt</kbd> + <kbd>`</kbd>, so nothing is lost. It is a tiny resident program — one 113 KB exe, no installation. I built it for my own multilingual desktop and published it in case it helps anyone with the same annoyance.</p>
+    <div class="quick-facts">
+      <div class="fact"><div class="k">Platform</div><div class="v">Windows 10 / 11</div></div>
+      <div class="fact"><div class="k">Price</div><div class="v">Free, open source</div></div>
+      <div class="fact"><div class="k">Size / resident memory</div><div class="v">113 KB / about 1 MB</div></div>
+    </div>
+    <div class="download">
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">Download key-remap.exe</a>
+      <span class="meta">No installation. Just run it.</span>
+    </div>
+    <nav class="toc">
+      <a href="#keys">How it works</a>
+      <a href="#install">How to use</a>
+      <a href="#spec">Details &amp; notes</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section id="keys">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">01</span><h2>How it works</h2></div>
+      <p class="sec-lead">One key takes over the switch. The chords you already know keep working too.</p>
+
+      <div class="kb" aria-hidden="true">
+        <div class="kb-screen">
+          <div class="kb-badge" id="kbIme">EN</div>
+          <div class="kb-text" id="kbText"></div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key grave" data-k="grave">`</div>
+          <div class="kb-key">1</div><div class="kb-key">2</div><div class="kb-key">3</div><div class="kb-key">4</div><div class="kb-key">5</div><div class="kb-key">6</div><div class="kb-key">7</div><div class="kb-key">8</div><div class="kb-key">9</div><div class="kb-key">0</div>
+          <div class="kb-key">-</div><div class="kb-key">=</div>
+          <div class="kb-key mod" style="--u:2">Backspace</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.5">Tab</div>
+          <div class="kb-key">Q</div><div class="kb-key">W</div><div class="kb-key" data-k="e">E</div><div class="kb-key" data-k="r">R</div><div class="kb-key" data-k="t">T</div><div class="kb-key">Y</div><div class="kb-key">U</div><div class="kb-key" data-k="i">I</div><div class="kb-key" data-k="o">O</div><div class="kb-key" data-k="p">P</div>
+          <div class="kb-key">[</div><div class="kb-key">]</div>
+          <div class="kb-key" style="--u:1.5">\</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.75">Caps</div>
+          <div class="kb-key" data-k="a">A</div><div class="kb-key">S</div><div class="kb-key">D</div><div class="kb-key">F</div><div class="kb-key" data-k="g">G</div><div class="kb-key" data-k="h">H</div><div class="kb-key">J</div><div class="kb-key" data-k="k">K</div><div class="kb-key" data-k="l">L</div>
+          <div class="kb-key">;</div><div class="kb-key">'</div>
+          <div class="kb-key mod" style="--u:2.25">Enter</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" data-k="shift" style="--u:2.25">Shift</div>
+          <div class="kb-key">Z</div><div class="kb-key">X</div><div class="kb-key">C</div><div class="kb-key" data-k="v">V</div><div class="kb-key">B</div><div class="kb-key" data-k="n">N</div><div class="kb-key">M</div>
+          <div class="kb-key">,</div><div class="kb-key">.</div><div class="kb-key">/</div>
+          <div class="kb-key mod" style="--u:2.75">Shift</div>
+        </div>
+        <div class="kb-row">
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+          <div class="kb-key mod" style="--u:1.25">Win</div>
+          <div class="kb-key mod" data-k="alt" style="--u:1.25">Alt</div>
+          <div class="kb-key" style="--u:6.25"></div>
+          <div class="kb-key mod" style="--u:1.25">Alt</div>
+          <div class="kb-key mod" style="--u:1.25">Ctrl</div>
+        </div>
+      </div>
+      <p class="kb-caption">The animation loops the idea: type in English, tap <kbd>`</kbd> for Spanish, again for Russian, again for Japanese — where the same key toggles the IME instead — and <kbd>Alt</kbd> + <kbd>`</kbd> still types a backquote.</p>
+
+      <div class="swap">
+        <div class="cap-box">
+          <div class="keycap">`</div>
+          <div class="cap-label">press: next input language</div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="cap-box">
+          <div class="keycap wide"><span>Alt</span><span class="plus">+</span><span>`</span></div>
+          <div class="cap-label">press: type `</div>
+        </div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Input</th><th>Before</th><th>After</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>`</kbd></td><td>types a backquote</td><td class="after">switches to the next input language</td></tr>
+            <tr><td><kbd>Alt</kbd> + <kbd>Shift</kbd></td><td>switches input language</td><td>unchanged</td></tr>
+            <tr><td><kbd>Win</kbd> + <kbd>Space</kbd></td><td>switches input language</td><td>unchanged</td></tr>
+            <tr><td><kbd>Alt</kbd> + <kbd>`</kbd></td><td>no standard role</td><td class="after">types a backquote</td></tr>
+            <tr><td><kbd>Shift</kbd> + <kbd>`</kbd></td><td>types ~</td><td>unchanged</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Each press moves one step through the languages installed in Windows: with two languages it toggles back and forth, and with three or more it cycles in the same order as <kbd>Alt</kbd> + <kbd>Shift</kbd>. Two languages get their own dedicated-key behavior instead of a language hop: in Japanese, <kbd>`</kbd> presses the Hankaku/Zenkaku key and toggles the IME on and off; in Korean, it presses the Hangul key (한/영) and toggles between Hangul and Latin letters. And if only one input language is installed, <kbd>`</kbd> is not repurposed at all — it types a backquote, exactly as before.</p>
+      <div class="demo">
+        <div class="demo-title">Try it — press the ` key while this page is focused</div>
+        <div class="demo-row">
+          <div class="ime-indicator" id="imeBox">EN</div>
+          <div class="demo-input" id="demoInput"></div>
+        </div>
+        <p>Each press of ` alone cycles the indicator through EN → ES → RU → AR → あ → 한; Alt + ` types a backquote into the box. Best tried in a desktop browser.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">02</span><h2>How to use</h2></div>
+      <p class="sec-lead">Download, run, done. There are no settings to fiddle with.</p>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><div><h3>Download and put it anywhere</h3><p>Download <a href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe</a> and drop it wherever you like.</p></div></div>
+        <div class="step"><div class="n">2</div><div><h3>Run it</h3><p>Double-click to run. The language switch takes effect immediately, and the tool registers itself for auto-start at the same time, so from your next logon it starts on its own — no need to launch it again.</p></div></div>
+        <div class="step"><div class="n">3</div><div><h3>To stop or uninstall</h3><p>End key-remap in Task Manager. To also remove the auto-start registration, run <code>key-remap.exe --uninstall</code> first, then delete the file.</p></div></div>
+      </div>
+      <p class="note">Auto-start registration writes the exe's own path to <code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run</code> in the registry. No administrator rights are involved. If you move the exe, it re-registers the new location the next time it runs.</p>
+    </div>
+  </section>
+
+  <section id="spec">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">03</span><h2>Details and notes</h2></div>
+      <p class="sec-lead">A few things worth knowing before you use it.</p>
+      <ul class="plain">
+        <li>Runs on Windows 10 / 11, with any input languages Windows offers. Apart from the Japanese and Korean special cases, nothing in the tool is language-specific.</li>
+        <li>If only one input language is installed, <kbd>`</kbd> keeps typing a backquote as usual — the key is only repurposed when there is somewhere to switch to.</li>
+        <li>The backquote itself moves to <kbd>Alt</kbd> + <kbd>`</kbd>, and the tilde stays on <kbd>Shift</kbd> + <kbd>`</kbd>, unchanged.</li>
+        <li>Switching inside an IME is untouched: for example, the <kbd>Shift</kbd> key that flips a Chinese IME between Chinese and English input keeps doing exactly that.</li>
+        <li>If your setup already uses the grave key itself as the language-switch hotkey in Windows settings — a common configuration for Thai — the key keeps its job: key-remap performs the same move to the next language when you press it.</li>
+        <li>Holding <kbd>`</kbd> switches only once per press; it will not spin through your languages.</li>
+        <li>It cannot see keystrokes in windows that run with administrator privileges — that is a Windows restriction. If you need it there, run key-remap itself as administrator.</li>
+        <li>Resident memory use is about 1 MB. It only does work when a key is pressed, so it uses no CPU while idle.</li>
+        <li>Written in Rust with no external libraries. It uses a low-level keyboard hook to perform the switch. Source is on <a href="https://github.com/thanatos333/key-remap">GitHub</a> under the MIT License.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq" class="band">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">04</span><h2>FAQ</h2></div>
+      <p class="sec-lead">These might answer it before you have to ask.</p>
+      <div class="faq">
+        <details>
+          <summary>Does it work with my language?</summary>
+          <p>Very likely, yes. key-remap does not handle any language itself — each press of <kbd>`</kbd> simply asks Windows to move to the next installed input language, the same switch <kbd>Alt</kbd> + <kbd>Shift</kbd> performs. Russian, Arabic, Hebrew, Hindi, Greek, Ukrainian, Thai, Vietnamese, Chinese — if it is in your Windows language list, <kbd>`</kbd> cycles to it. Japanese and Korean are special cases: there, <kbd>`</kbd> presses the language's own dedicated key (Hankaku/Zenkaku, or the Hangul key) instead.</p>
+        </details>
+        <details>
+          <summary>How is this different from Win + Space?</summary>
+          <p><kbd>Win</kbd> + <kbd>Space</kbd> is built into Windows and opens a language switcher panel; you hold Win and tap Space to pick. key-remap skips the panel and the second key: one press of <kbd>`</kbd> switches immediately. If <kbd>Win</kbd> + <kbd>Space</kbd> already feels fine, you honestly do not need this tool — it exists for people who switch dozens of times a day and want it on one key.</p>
+        </details>
+        <details>
+          <summary>How is it different from turning Caps Lock into a language switch?</summary>
+          <p>That is the classic workaround, usually done with AutoHotkey or a registry remap. It works, but Caps Lock is a stateful key — its indicator and on/off state get confusing — and you either lose the key or maintain a script. key-remap instead uses <kbd>`</kbd>, a key most people rarely type, keeps the character available on <kbd>Alt</kbd> + <kbd>`</kbd>, and needs no script or registry edit: one small exe.</p>
+        </details>
+        <details>
+          <summary>I use three or more languages. What happens?</summary>
+          <p>Each press moves one step forward through your installed languages, in the same order as <kbd>Alt</kbd> + <kbd>Shift</kbd> — with three languages it cycles A → B → C → A. With exactly two languages, that same cycle is simply a back-and-forth toggle.</p>
+        </details>
+        <details>
+          <summary>Can I still type the ` character?</summary>
+          <p>Yes. The backquote moves to <kbd>Alt</kbd> + <kbd>`</kbd>, and the tilde stays on <kbd>Shift</kbd> + <kbd>`</kbd>, unchanged. And if only one input language is installed on your PC, <kbd>`</kbd> is not repurposed at all — it types a backquote exactly as before.</p>
+        </details>
+        <details>
+          <summary>Do I need administrator rights?</summary>
+          <p>No. key-remap runs as a normal user program and registers its auto-start under your own account (HKCU), so there is nothing to install and no admin prompt. One Windows limitation: it cannot see keystrokes in windows that themselves run as administrator, unless you also run key-remap as administrator.</p>
+        </details>
+        <details>
+          <summary>Does it work in games and full-screen apps?</summary>
+          <p>In most cases, yes — it works system-wide, including full-screen apps. Two honest exceptions: some games with anti-cheat systems block injected keys, and games that use <kbd>`</kbd> itself (the developer console in many PC games) will switch your language instead of opening the console. For those games, quit key-remap while you play.</p>
+        </details>
+        <details>
+          <summary>How do I uninstall it?</summary>
+          <p>Run <code>key-remap.exe --uninstall</code> once to remove the auto-start registration, end key-remap in Task Manager if it is still running, and delete the exe file. Nothing else is changed or left behind.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="wrap">
+      <h2>Just try running it</h2>
+      <p>If it is not for you, quit it and delete the file. That is all.</p>
+      <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">Download key-remap.exe</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <span>key-remap — MIT License</span>
+    <span><a href="https://github.com/thanatos333/key-remap">GitHub</a> · <a href="https://github.com/thanatos333/key-remap/releases">Releases</a> · <a href="../">For Japanese input on a US keyboard</a> · <a href="ja/">日本語</a></span>
+  </div>
+</footer>
+
+<script>
+  // Interactive demo: ` cycles the language indicator, Alt + ` types a backquote
+  const imeBox = document.getElementById('imeBox');
+  const demoInput = document.getElementById('demoInput');
+  const demoLangs = ['EN', 'ES', 'RU', 'AR', 'あ', '한'];
+  let demoIdx = 0;
+  let demoTyped = '';
+  document.addEventListener('keydown', (e) => {
+    if (e.code !== 'Backquote') return;
+    e.preventDefault();
+    if (e.altKey) {
+      demoTyped += '`';
+    } else if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      if (e.repeat) return;
+      demoIdx = (demoIdx + 1) % demoLangs.length;
+      imeBox.textContent = demoLangs[demoIdx];
+      imeBox.classList.toggle('on', demoLangs[demoIdx] === 'あ');
+    }
+    demoInput.textContent = demoTyped;
+  });
+
+  // Keyboard animation: one key cycles through the languages
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const keys = {};
+    document.querySelectorAll('.kb-key[data-k]').forEach((el) => { keys[el.dataset.k] = el; });
+    const badge = document.getElementById('kbIme');
+    const text = document.getElementById('kbText');
+    if (!keys.grave || !badge || !text) return;
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    async function press(name, hold) {
+      const el = keys[name];
+      if (!el) return;
+      el.classList.add('press');
+      await sleep(hold || 220);
+      el.classList.remove('press');
+    }
+    function setLang(label, on) {
+      badge.textContent = label;
+      badge.classList.toggle('on', !!on);
+    }
+    async function typeKeys(seq) {
+      for (const [k, shown] of seq) {
+        await press(k, 150);
+        text.textContent = shown;
+        await sleep(100);
+      }
+    }
+    async function loop() {
+      for (;;) {
+        // English
+        setLang('EN', false); text.textContent = '';
+        await sleep(800);
+        await typeKeys([['h', 'H'], ['e', 'He'], ['l', 'Hel'], ['l', 'Hell'], ['o', 'Hello']]);
+        await sleep(1100);
+        // ` alone: Spanish
+        await press('grave', 320);
+        setLang('ES', false); text.textContent = '';
+        await sleep(400);
+        await typeKeys([['h', 'H'], ['o', 'Ho'], ['l', 'Hol'], ['a', 'Hola']]);
+        await sleep(1100);
+        // ` alone: Russian
+        await press('grave', 320);
+        setLang('RU', false); text.textContent = '';
+        await sleep(400);
+        await typeKeys([['p', 'П'], ['r', 'Пр'], ['i', 'При'], ['v', 'Прив'], ['e', 'Приве'], ['t', 'Привет']]);
+        await sleep(1100);
+        // ` alone: Japanese — here the same key toggles the IME instead
+        await press('grave', 320);
+        setLang('あ', true); text.textContent = '';
+        await sleep(400);
+        await typeKeys([['k', 'k'], ['o', 'こ'], ['n', 'こn'], ['n', 'こん'], ['i', 'こんに'], ['t', 'こんにt'], ['i', 'こんにち'], ['h', 'こんにちh'], ['a', 'こんにちは']]);
+        await sleep(1100);
+        // Alt + ` types a backquote
+        if (keys.alt) keys.alt.classList.add('press');
+        await sleep(120);
+        await press('grave', 300);
+        text.textContent = 'こんにちは`';
+        if (keys.alt) keys.alt.classList.remove('press');
+        await sleep(1300);
+        // ` alone: back to English
+        await press('grave', 320);
+        setLang('EN', false); text.textContent = '';
+        await sleep(500);
+      }
+    }
+    loop();
+  })();
+</script>
+</body>
+</html>

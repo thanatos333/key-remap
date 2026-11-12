@@ -154,12 +154,12 @@
   "name": "key-remap",
   "url": "https://thanatos333.github.io/key-remap/zh-tw/",
   "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
-  "softwareVersion": "0.2.0",
+  "softwareVersion": "0.3.0",
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
-  "fileSize": "112 KB",
-  "featureList": "用 ` 鍵一鍵切換日文輸入（IME）開關、Alt+` 輸入反引號、免安裝、自動啟動、常駐記憶體約 1 MB、開源（MIT 授權）",
+  "fileSize": "113 KB",
+  "featureList": "用 ` 鍵一鍵切換日文輸入（IME）開關、韓語輸入時作為 한/영 鍵、其他語言時一鍵切換到下一個輸入語言、Alt+` 輸入反引號、免安裝、自動啟動、常駐記憶體約 1 MB、開源（MIT 授權）",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "TWD" },
   "description": "一款 Windows 工具，交換美式鍵盤上 ` 鍵與 Alt+` 的角色：按 ` 切換日文 IME 開關，Alt+` 輸入反引號。適合沒有半形/全形鍵的美式鍵盤，包括小型 60% 鍵盤。Windows 11 / 10。",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
@@ -288,7 +288,7 @@
     <div class="quick-facts">
       <div class="fact"><div class="k">平台</div><div class="v">Windows 10 / 11</div></div>
       <div class="fact"><div class="k">價格</div><div class="v">免費、開源</div></div>
-      <div class="fact"><div class="k">大小 / 常駐記憶體</div><div class="v">112 KB / 約 1 MB</div></div>
+      <div class="fact"><div class="k">大小 / 常駐記憶體</div><div class="v">113 KB / 約 1 MB</div></div>
     </div>
     <div class="download">
       <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">下載 key-remap.exe</a>
@@ -402,6 +402,7 @@
       <p class="sec-lead">使用前值得知道的幾件事。</p>
       <ul class="plain">
         <li>支援 Windows 10 / 11。已在 Microsoft IME 與 Google 日文輸入法上確認運作。</li>
+        <li>v0.3.0 起，<kbd>`</kbd> 鍵也會配合其他輸入語言：韓語輸入時作為 한/영 鍵使用；在其他語言時，按一下即可切換到下一個輸入語言。日文輸入的切換方式維持不變。</li>
         <li>常駐記憶體約 1 MB。只有在按鍵時才處理，待機時不耗 CPU。</li>
         <li>無法讀取以系統管理員權限執行的視窗中的按鍵——這是 Windows 的限制。若需要在那種視窗使用，請讓 key-remap 也以系統管理員權限執行。</li>
         <li>長按 <kbd>`</kbd> 只會切換一次（不會反覆開關）。長按 <kbd>Alt</kbd> + <kbd>`</kbd> 則和一般按鍵一樣連續輸入。</li>
@@ -484,7 +485,7 @@
             <tr><td>PowerToys Keyboard Manager</td><td>安裝 PowerToys 並設定對應</td><td>功能完整的通用鍵盤對應工具。但只為這一個交換來說，安裝體積偏大，設定也藏在大型工具裡面。另外，Keyboard Manager 重新對應 IME 切換鍵時有相容性問題，在 PowerToys 官方儲存庫中有紀錄</td></tr>
             <tr><td>AutoHotkey</td><td>安裝 AutoHotkey 並寫一小段腳本</td><td>非常有彈性——但腳本要自己寫、自己維護，AutoHotkey 執行環境也會常駐</td></tr>
             <tr><td>登錄檔（Scancode Map）</td><td>編輯登錄檔並重新開機</td><td>Windows 內建，但只能把一個普通鍵換成另一個普通鍵，無法把普通鍵與 Alt + 鍵的組合互換，所以做不到這項交換（開發 key-remap 時確認過）</td></tr>
-            <tr><td class="after">key-remap</td><td class="after">執行一個 112 KB 的 exe</td><td class="after">單一用途：只有這項交換、沒有設定、常駐約 1 MB</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">執行一個 113 KB 的 exe</td><td class="after">單一用途：只有這項交換、沒有設定、常駐約 1 MB</td></tr>
           </tbody>
         </table>
       </div>

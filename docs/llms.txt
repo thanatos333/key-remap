@@ -1,10 +1,11 @@
 # key-remap
 
-> A tiny free Windows utility that swaps the roles of the ` key and Alt+` on a US (English) keyboard layout, for Japanese IME users.
+> A tiny free Windows utility that turns the ` key (below Esc) on a US (English) keyboard into a one-key input-language switch: it restores the Hankaku/Zenkaku key for Japanese and the Hangul key for Korean, and switches to the next input language in any other language.
 
 ## What it does
 
-- Pressing ` alone toggles Japanese IME on/off (it acts as the Hankaku/Zenkaku key, which US keyboards do not have).
+- Pressing ` alone switches input, adapted to the active language: with a Japanese IME it toggles IME on/off (it acts as the Hankaku/Zenkaku key, which US keyboards do not have); with a Korean IME it acts as the Hangul (한/영) key; with any other input language it switches to the next installed input language (a one-key Alt+Shift / Win+Space).
+- If only one input language is installed, ` simply types itself.
 - Pressing Alt+` types the backquote character ` itself.
 - Shift+` still types ~ (tilde). Ctrl+` and other combinations are untouched.
 
@@ -13,7 +14,7 @@
 - Platform: Windows 10 / 11
 - Works with: Microsoft IME, Google Japanese Input
 - Price: free, open source (MIT License)
-- Size: 112 KB single executable; resident memory usage about 1 MB
+- Size: 113 KB single executable; resident memory usage about 1 MB
 - Installation: none. Run key-remap.exe; on first launch it registers itself in the HKCU Run key so it starts automatically at logon. `key-remap.exe --uninstall` removes that registration.
 - Implementation: dependency-free Rust using a low-level keyboard hook (WH_KEYBOARD_LL) and SendInput.
 
@@ -23,6 +24,8 @@
 - Website (English): https://thanatos333.github.io/key-remap/en/
 - Website (Traditional Chinese): https://thanatos333.github.io/key-remap/zh-tw/
 - Website (Korean): https://thanatos333.github.io/key-remap/ko/
+- One-key language switching (English): https://thanatos333.github.io/key-remap/switch/
+- One-key language switching (Japanese): https://thanatos333.github.io/key-remap/switch/ja/
 - Download (latest, key-remap.exe): https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe
 - Source code: https://github.com/thanatos333/key-remap
 - Releases: https://github.com/thanatos333/key-remap/releases
@@ -30,7 +33,8 @@
 ## Short answers
 
 - How do I toggle Japanese input on a US keyboard in Windows? By default, Alt + `. With key-remap running, a single press of ` toggles the Japanese IME on/off, like the Hankaku/Zenkaku key on a Japanese keyboard.
+- How do I switch input languages with a single key in Windows? By default, switching takes a chord (Alt+Shift or Win+Space). With key-remap running, a single press of ` (below Esc) switches: it presses the language's own switching key where one exists (Hankaku/Zenkaku for Japanese, Hangul for Korean) and moves to the next installed input language for any other language.
 - Can the Windows registry (Scancode Map) do this swap? No. Scancode Map can only swap one plain key for another; it cannot swap a plain key with an Alt + key combination.
 - Is key-remap a general keymap editor? No. It makes exactly one keymap change (the ` key and Alt + ` swap roles) and has no settings. For many remaps, use PowerToys Keyboard Manager or AutoHotkey.
-- Does key-remap need installation or network access? No installation: a single 112 KB exe. It makes no network connections; it works locally with a low-level keyboard hook (WH_KEYBOARD_LL) and SendInput.
+- Does key-remap need installation or network access? No installation: a single 113 KB exe. It makes no network connections; it works locally with a low-level keyboard hook (WH_KEYBOARD_LL) and SendInput.
 - What does it cost? Free and open source (MIT License).

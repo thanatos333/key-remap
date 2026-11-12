@@ -1,6 +1,15 @@
 //! key-remap: swap the roles of ` and Alt+` on a US keyboard.
 //!
-//! - ` alone        -> toggle IME on/off (sends the Hankaku/Zenkaku key)
+//! - ` alone        -> one-key input switching, adapted to the language
+//!                     that is active in the foreground window:
+//!                     Hankaku/Zenkaku when a Japanese IME is active, the
+//!                     Hangul key when a Korean IME is active (the two
+//!                     dedicated switching keys a US layout lacks), and
+//!                     a switch to the next installed input language for
+//!                     any other language (the one-key version of
+//!                     Alt+Shift / Win+Space). When only one input
+//!                     language is installed there is nothing to switch
+//!                     to, and ` simply types itself.
 //! - Alt + `        -> type the ` character itself
 //! - Shift + ` (~), Ctrl+`, Win+` etc. are left untouched.
 //!
@@ -24,6 +33,9 @@ const WM_SYSKEYUP: u32 = 0x0105;
 const WM_APP: u32 = 0x8000;
 const MSG_TOGGLE_IME: u32 = WM_APP + 1;
 const MSG_TYPE_BACKQUOTE: u32 = WM_APP + 2;
+const MSG_TOGGLE_HANGUL: u32 = WM_APP + 3;
+const MSG_SWITCH_LAYOUT: u32 = WM_APP + 4;
+const WM_INPUTLANGCHANGEREQUEST: u32 = 0x0050;
 
 const VK_OEM_3: u32 = 0xC0; // ` key on the US layout
 const VK_MENU: i32 = 0x12;
@@ -35,6 +47,7 @@ const VK_LWIN: i32 = 0x5B;
 const VK_RWIN: i32 = 0x5C;
 const VK_ZENKAKU: u16 = 0xF3; // Hankaku/Zenkaku virtual key
 const SC_ZENKAKU: u16 = 0x29; // Hankaku/Zenkaku scan code
+const VK_HANGUL: u16 = 0x15; // Hangul (한/영) virtual key
 
 const INPUT_KEYBOARD: u32 = 1;
 const KEYEVENTF_KEYUP: u32 = 0x0002;
@@ -96,6 +109,19 @@ struct Point {
 }
 
 #[repr(C)]
+struct GuiThreadInfo {
+    cb_size: u32,
+    flags: u32,
+    hwnd_active: *mut c_void,
+    hwnd_focus: *mut c_void,
+    hwnd_capture: *mut c_void,
+    hwnd_menu_owner: *mut c_void,
+    hwnd_move_size: *mut c_void,
+    hwnd_caret: *mut c_void,
+    rc_caret: [i32; 4],
+}
+
+#[repr(C)]
 struct Msg {
     hwnd: *mut c_void,
     message: u32,
@@ -117,6 +143,13 @@ extern "system" {
     fn GetModuleHandleW(name: *const u16) -> *mut c_void;
     fn SendInput(n: u32, inputs: *const Input, cb_size: i32) -> u32;
     fn GetAsyncKeyState(vkey: i32) -> i16;
+    fn GetForegroundWindow() -> *mut c_void;
+    fn GetAncestor(hwnd: *mut c_void, flags: u32) -> *mut c_void;
+    fn GetGUIThreadInfo(id_thread: u32, info: *mut GuiThreadInfo) -> i32;
+    fn GetWindowThreadProcessId(hwnd: *mut c_void, pid: *mut u32) -> u32;
+    fn GetKeyboardLayout(thread_id: u32) -> *mut c_void;
+    fn GetKeyboardLayoutList(n: i32, list: *mut c_void) -> i32;
+    fn PostMessageW(hwnd: *mut c_void, msg: u32, w_param: usize, l_param: isize) -> i32;
     fn CreateMutexW(attrs: *mut c_void, initial_owner: i32, name: *const u16) -> *mut c_void;
     fn GetLastError() -> u32;
     fn GetModuleFileNameW(hmod: *mut c_void, buf: *mut u16, size: u32) -> u32;
@@ -182,9 +215,72 @@ fn key_is_down(vk: i32) -> bool {
     (unsafe { GetAsyncKeyState(vk) } as u16 & 0x8000) != 0
 }
 
-fn post(msg: u32) {
+/// What a plain ` press should do, given the input language that is
+/// active in the foreground window. When detection fails, fall back to
+/// Japanese (the original behavior of this tool).
+#[derive(PartialEq)]
+enum Target {
+    Japanese,
+    Korean,
+    /// No dedicated key to restore for this language: ask the focus
+    /// window to move to the next installed input language instead
+    /// (the one-key version of Alt+Shift / Win+Space).
+    SwitchLayout,
+    /// Only one input language is installed: nothing to switch to,
+    /// so leave ` untouched and let it type itself.
+    PassThrough,
+}
+
+/// The active input language's action, plus the focus window (the
+/// destination of a layout-switch request).
+fn foreground_target() -> (Target, *mut c_void) {
     unsafe {
-        PostThreadMessageW(MAIN_THREAD.load(Ordering::SeqCst), msg, 0, 0);
+        // The window that actually has keyboard focus. For packaged
+        // (Store) apps the foreground window belongs to the frame host,
+        // whose thread reports the wrong layout; the focus window from
+        // GetGUIThreadInfo resolves to the app's own input thread.
+        let mut gti: GuiThreadInfo = std::mem::zeroed();
+        gti.cb_size = std::mem::size_of::<GuiThreadInfo>() as u32;
+        let mut hwnd: *mut std::ffi::c_void = std::ptr::null_mut();
+        if GetGUIThreadInfo(0, &mut gti) != 0 && !gti.hwnd_focus.is_null() {
+            hwnd = gti.hwnd_focus;
+        }
+        if hwnd.is_null() {
+            hwnd = GetForegroundWindow();
+        }
+        if hwnd.is_null() {
+            return (Target::Japanese, std::ptr::null_mut());
+        }
+        let tid = GetWindowThreadProcessId(hwnd, std::ptr::null_mut());
+        if tid == 0 {
+            return (Target::Japanese, hwnd);
+        }
+        let hkl = GetKeyboardLayout(tid) as usize;
+        if hkl == 0 {
+            return (Target::Japanese, hwnd);
+        }
+        let target = match hkl & 0xFFFF {
+            0x0411 => Target::Japanese, // ja-JP
+            0x0412 => Target::Korean,   // ko-KR
+            _ => {
+                if GetKeyboardLayoutList(0, std::ptr::null_mut()) > 1 {
+                    Target::SwitchLayout
+                } else {
+                    Target::PassThrough
+                }
+            }
+        };
+        (target, hwnd)
+    }
+}
+
+fn post(msg: u32) {
+    post_with(msg, 0);
+}
+
+fn post_with(msg: u32, l_param: isize) {
+    unsafe {
+        PostThreadMessageW(MAIN_THREAD.load(Ordering::SeqCst), msg, 0, l_param);
     }
 }
 
@@ -205,12 +301,30 @@ unsafe extern "system" fn hook_proc(code: i32, w_param: usize, l_param: isize) -
                     SWALLOWED.store(true, Ordering::SeqCst);
                     return 1;
                 } else if !ctrl && !win && !alt && !key_is_down(VK_SHIFT) {
-                    // Plain ` -> toggle IME, once per physical press.
-                    if !TOGGLE_SENT.swap(true, Ordering::SeqCst) {
-                        post(MSG_TOGGLE_IME);
+                    // Plain ` -> the active language's one-key switch,
+                    // once per physical press. With nothing to switch
+                    // (single-language setup) ` simply types itself.
+                    match foreground_target() {
+                        (Target::PassThrough, _) => {}
+                        (Target::SwitchLayout, hwnd) => {
+                            if !TOGGLE_SENT.swap(true, Ordering::SeqCst) {
+                                post_with(MSG_SWITCH_LAYOUT, hwnd as isize);
+                            }
+                            SWALLOWED.store(true, Ordering::SeqCst);
+                            return 1;
+                        }
+                        (target, _) => {
+                            if !TOGGLE_SENT.swap(true, Ordering::SeqCst) {
+                                post(if target == Target::Korean {
+                                    MSG_TOGGLE_HANGUL
+                                } else {
+                                    MSG_TOGGLE_IME
+                                });
+                            }
+                            SWALLOWED.store(true, Ordering::SeqCst);
+                            return 1;
+                        }
                     }
-                    SWALLOWED.store(true, Ordering::SeqCst);
-                    return 1;
                 }
             } else if is_up && SWALLOWED.swap(false, Ordering::SeqCst) {
                 TOGGLE_SENT.store(false, Ordering::SeqCst);
@@ -235,6 +349,57 @@ fn send_inputs(inputs: &[Input]) {
     unsafe {
         SendInput(inputs.len() as u32, inputs.as_ptr(), std::mem::size_of::<Input>() as i32);
     }
+}
+
+/// Ask the focus window to activate the next installed input language
+/// (HKL_NEXT). This is the documented per-window equivalent of the
+/// Alt+Shift hotkey and does not depend on the user's hotkey settings.
+///
+/// The request must go to the TOP-LEVEL window: posted to a child
+/// control (which is what the focus window usually is) it is silently
+/// ignored. HKL_NEXT (-1) as the requested layout is likewise ignored
+/// by some apps, so the next layout is resolved explicitly from the
+/// installed list and passed by value — both verified on device,
+/// 2026-11-12.
+fn switch_layout(hwnd: *mut c_void) {
+    if hwnd.is_null() {
+        return;
+    }
+    unsafe {
+        const GA_ROOT: u32 = 2;
+        let root = GetAncestor(hwnd, GA_ROOT);
+        let target = if root.is_null() { hwnd } else { root };
+        let tid = GetWindowThreadProcessId(target, std::ptr::null_mut());
+        if tid == 0 {
+            return;
+        }
+        let current = GetKeyboardLayout(tid) as usize;
+        let count = GetKeyboardLayoutList(0, std::ptr::null_mut());
+        if count <= 1 {
+            return;
+        }
+        let mut list: Vec<usize> = vec![0; count as usize];
+        let got = GetKeyboardLayoutList(count, list.as_mut_ptr() as *mut c_void);
+        if got <= 1 {
+            return;
+        }
+        list.truncate(got as usize);
+        let next = match list.iter().position(|&h| h == current) {
+            Some(i) => list[(i + 1) % list.len()],
+            None => list[0],
+        };
+        PostMessageW(target, WM_INPUTLANGCHANGEREQUEST, 0, next as isize);
+    }
+}
+
+fn toggle_hangul() {
+    send_inputs(&[
+        // Scan code 0 on purpose: with a virtual-key send the Korean IME
+        // accepts the toggle as-is, while a forced scan code can make it
+        // ignore the press (verified on device, 2026-11-12).
+        key_input(VK_HANGUL, 0, 0),
+        key_input(VK_HANGUL, 0, KEYEVENTF_KEYUP),
+    ]);
 }
 
 fn toggle_ime() {
@@ -304,7 +469,9 @@ fn main() {
             }
             match msg.message {
                 MSG_TOGGLE_IME => toggle_ime(),
+                MSG_TOGGLE_HANGUL => toggle_hangul(),
                 MSG_TYPE_BACKQUOTE => type_backquote(),
+                MSG_SWITCH_LAYOUT => switch_layout(msg.l_param as *mut c_void),
                 _ => {}
             }
         }

@@ -154,12 +154,12 @@
   "name": "key-remap",
   "url": "https://thanatos333.github.io/key-remap/en/",
   "downloadUrl": "https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe",
-  "softwareVersion": "0.2.0",
+  "softwareVersion": "0.3.0",
   "operatingSystem": "Windows 10, Windows 11",
   "applicationCategory": "UtilitiesApplication",
   "license": "https://opensource.org/licenses/MIT",
-  "fileSize": "112 KB",
-  "featureList": "One-key Japanese IME toggle with the ` key, Alt+` types a backquote, no installation, auto-starts at logon, about 1 MB resident memory, open source (MIT License)",
+  "fileSize": "113 KB",
+  "featureList": "One-key Japanese IME toggle with the ` key, acts as the Hangul key while Korean is active, switches to the next input language with one key for other languages, Alt+` types a backquote, no installation, auto-starts at logon, about 1 MB resident memory, open source (MIT License)",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "description": "A Windows utility that swaps the roles of the ` key and Alt+` on a US keyboard layout: ` alone toggles the Japanese IME on/off, Alt+` types the backquote. For US keyboards without a Hankaku/Zenkaku key, including compact 60% keyboards. Windows 11 / 10.",
   "author": { "@type": "Person", "name": "thanatos333", "url": "https://github.com/thanatos333" },
@@ -249,7 +249,7 @@
     {
       "@type": "Question",
       "name": "Does this missing-key problem affect other languages too?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Japanese keyboards have Hankaku/Zenkaku, Korean keyboards have a dedicated Hangul key, and US keyboards drop those dedicated input keys — so each language falls back to a chord or a menu. key-remap covers the Japanese case: it gives the Japanese IME its missing toggle key back." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes — and it turns out very few languages have a dedicated switching key at all: Japanese (Hankaku/Zenkaku) and Korean (the Hangul key) are essentially it. Since v0.3.0, key-remap restores the missing key for both: while Korean is active, ` works as the Hangul key. For languages without a dedicated key, ` instead switches to the next input language — Alt + Shift or Win + Space as a single key. Languages that already switch inside the IME with one key, such as Chinese with Shift, keep working as before." }
     }
   ]
 }
@@ -303,7 +303,7 @@
     <div class="quick-facts">
       <div class="fact"><div class="k">Platform</div><div class="v">Windows 10 / 11</div></div>
       <div class="fact"><div class="k">Price</div><div class="v">Free, open source</div></div>
-      <div class="fact"><div class="k">Size / resident memory</div><div class="v">112 KB / about 1 MB</div></div>
+      <div class="fact"><div class="k">Size / resident memory</div><div class="v">113 KB / about 1 MB</div></div>
     </div>
     <div class="download">
       <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">Download key-remap.exe</a>
@@ -315,6 +315,7 @@
       <a href="#spec">Details &amp; notes</a>
       <a href="#faq">FAQ</a>
       <a href="#compare">Other approaches</a>
+      <a href="../switch/">Other languages</a>
     </nav>
   </div>
 </div>
@@ -417,6 +418,7 @@
       <p class="sec-lead">A few things worth knowing before you use it.</p>
       <ul class="plain">
         <li>Runs on Windows 10 / 11. Tested with Microsoft IME and Google Japanese Input.</li>
+        <li>The <kbd>`</kbd> key adapts to whichever input language is currently active, detected automatically. Japanese: the Hankaku/Zenkaku key. Korean: the dedicated Hangul key. Any other language: a switch to the next input language — the Alt + Shift / Win + Space move, on a single key. If only one input language is installed, <kbd>`</kbd> simply types itself.</li>
         <li>Resident memory use is about 1 MB. It only does work when a key is pressed, so it uses no CPU while idle.</li>
         <li>It cannot see keystrokes in windows that run with administrator privileges — that is a Windows restriction. If you need it there, run key-remap itself as administrator.</li>
         <li>Holding <kbd>`</kbd> toggles only once (it will not flip on/off repeatedly). Holding <kbd>Alt</kbd> + <kbd>`</kbd> repeats the backquote like a normal key.</li>
@@ -492,7 +494,7 @@
         </details>
         <details>
           <summary>Does this missing-key problem affect other languages too?</summary>
-          <p>Yes. Japanese keyboards have Hankaku/Zenkaku, Korean keyboards have a dedicated Hangul key, and US keyboards drop those dedicated input keys — so each language falls back to a chord or a menu. key-remap covers the Japanese case: it gives the Japanese IME its missing toggle key back.</p>
+          <p>Yes — and it turns out very few languages have a dedicated switching key at all: Japanese (Hankaku/Zenkaku) and Korean (the Hangul key) are essentially it. Since v0.3.0, key-remap restores the missing key for both: while Korean is active, <kbd>`</kbd> works as the Hangul key. For languages without a dedicated key, <kbd>`</kbd> instead switches to the next input language — <kbd>Alt</kbd> + <kbd>Shift</kbd> or <kbd>Win</kbd> + <kbd>Space</kbd> as a single key. Languages that already switch inside the IME with one key, such as Chinese with <kbd>Shift</kbd>, keep working as before.</p>
         </details>
       </div>
     </div>
@@ -511,11 +513,19 @@
             <tr><td>PowerToys Keyboard Manager</td><td>Install PowerToys and configure the remap</td><td>A capable general keymap remapper. For this one swap it is a large install, and the setting lives inside a big utility. Keyboard Manager also has a documented conflict with remapping the IME's switching keys (PowerToys issue #5225).</td></tr>
             <tr><td>AutoHotkey</td><td>Install AutoHotkey and write a small script</td><td>Very flexible — but you write and maintain the script, and the AutoHotkey runtime stays resident</td></tr>
             <tr><td>Registry (Scancode Map)</td><td>Edit the registry and reboot</td><td>Built into Windows, but it can only swap one plain key for another. It cannot swap a plain key with an Alt + key combination, so it cannot make this particular swap (checked while building key-remap)</td></tr>
-            <tr><td class="after">key-remap</td><td class="after">Run one 112 KB exe</td><td class="after">Single-purpose: only this swap, no settings, about 1 MB resident</td></tr>
+            <tr><td class="after">key-remap</td><td class="after">Run one 113 KB exe</td><td class="after">Single-purpose: only this swap, no settings, about 1 MB resident</td></tr>
           </tbody>
         </table>
       </div>
       <p class="note">If you already use PowerToys or AutoHotkey for other remaps, adding this swap there is perfectly reasonable. key-remap exists for the case where this is the only change you want.</p>
+    </div>
+  </section>
+
+  <section id="switch">
+    <div class="wrap">
+      <div class="sec-head"><span class="sec-num">06</span><h2>Switching other languages, on one key too</h2></div>
+      <p class="sec-lead">Since v0.3.0, key-remap checks which input language is active and changes what <kbd>`</kbd> does: the Hangul key while Korean is active, and a switch to the next input language for everything else. If you move between languages with Alt + Shift or Win + Space, there is a page for you.</p>
+      <p><a href="../switch/">Switch input languages with a single ` press — the page for multilingual users</a></p>
     </div>
   </section>
 

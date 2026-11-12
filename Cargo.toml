@@ -1,8 +1,8 @@
 [package]
 name = "key-remap"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
-description = "Swap ` and Alt+` on a US keyboard: ` alone toggles IME, Alt+` types `"
+description = "One-key input switching on a US keyboard: ` presses the missing Hankaku/Zenkaku (Japanese) or Hangul (Korean) key, and switches to the next input language in any other language. Alt+` types `"
 license = "MIT"
 
 [profile.release]
