@@ -4,6 +4,10 @@ One-key input switching on a US keyboard under Windows: `` ` `` presses the
 switching key your active language is missing — and swaps roles with
 `Alt+`` ` `` for typing the character itself.
 
+> 日本語: US配列キーボードで `` ` `` キー単独を、半角/全角キー相当の IME オン/オフ切り替えにします。`` ` `` 自体は `Alt+`` ` `` で打てます。インストール不要・単一ファイル 113 KB・常駐メモリ約 1 MB。
+
+![key-remap demo](assets/demo.svg)
+
 **Website: https://thanatos333.github.io/key-remap/**
 
 **Languages:** [日本語](https://thanatos333.github.io/key-remap/) · [English](https://thanatos333.github.io/key-remap/en/) · [繁體中文](https://thanatos333.github.io/key-remap/zh-tw/) · [한국어](https://thanatos333.github.io/key-remap/ko/)
