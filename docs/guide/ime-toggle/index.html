@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>US配列キーボードに半角/全角キーがない問題を、` キーで解決した話｜key-remap 開発ノート</title>
+<meta name="description" content="US配列（英語配列）キーボードには半角/全角キーがなく、日本語入力（IME）の切り替えは Alt+` の同時押し。押しにくいこの操作を、` キー単独のトグルに変える小さなWindowsツールを Rust で作った話。Scancode Map では実現できない理由や、入力言語の判定方法など実装の勘所もまとめました。">
+<link rel="canonical" href="https://thanatos333.github.io/key-remap/guide/ime-toggle/">
+<meta name="robots" content="index, follow">
+<meta name="google-site-verification" content="pkGKsy_cuPoLISQIVBtxgSDSIVatcBdSyz6QyM7DYRg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="key-remap">
+<meta property="og:title" content="US配列キーボードに半角/全角キーがない問題を、` キーで解決した話">
+<meta property="og:description" content="IME切り替えの Alt+` が押しにくい。` キー単独を半角/全角キー相当のトグルに変える小さなツールを Rust で作った開発ノート。">
+<meta property="og:url" content="https://thanatos333.github.io/key-remap/guide/ime-toggle/">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="US配列キーボードに半角/全角キーがない問題を、` キーで解決した話">
+<meta name="twitter:description" content="IME切り替えの Alt+` が押しにくい。` キー単独を半角/全角キー相当のトグルに変える小さなツールを Rust で作った開発ノート。">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"US配列キーボードに半角/全角キーがない問題を、` キーで解決した話","description":"US配列キーボードで日本語入力（IME）の切り替えを ` キー単独にするWindows用ツール key-remap の開発ノート。","datePublished":"2026-11-16","dateModified":"2026-11-16","author":{"@type":"Person","name":"thanatos333"},"publisher":{"@type":"Organization","name":"key-remap"},"mainEntityOfPage":"https://thanatos333.github.io/key-remap/guide/ime-toggle/"}
+</script>
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#ffffff; --band:#f4f6f9; --panel:#ffffff;
+    --line:#dde2ea; --line-strong:#c6cdd9;
+    --text:#1f2328; --muted:#4d5561;
+    --accent:#1f4fd8; --accent-ink:#ffffff; --accent-soft:#e9effe; --key-accent:#e8590c;
+    --code-bg:#eef0f3; --shadow:0 1px 3px rgba(20,30,60,.08),0 4px 14px rgba(20,30,60,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      color-scheme:dark;
+      --bg:#121a2a; --band:#172136; --panel:#1a2740;
+      --line:#2b3c5e; --line-strong:#3a4f78;
+      --text:#e9edf7; --muted:#a3b0ca;
+      --accent:#93aaff; --accent-ink:#101828; --accent-soft:#243354; --key-accent:#ffa94d;
+      --code-bg:#1e2c47; --shadow:0 1px 3px rgba(0,0,0,.35),0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Noto Sans JP","Yu Gothic UI","Meiryo",sans-serif;line-height:1.9;font-size:16px;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+  header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:58px;max-width:780px;margin:0 auto;padding:0 22px}
+  .logo{font-family:ui-monospace,Consolas,monospace;font-weight:700;font-size:16px;color:var(--text);text-decoration:none}
+  .nav-links{display:flex;gap:20px;font-size:13.5px}
+  .nav-links a{color:var(--muted);text-decoration:none}
+  .nav-links a:hover{color:var(--text)}
+  .hero{background:var(--band);border-bottom:1px solid var(--line);padding:52px 0 40px}
+  .kicker{font-size:13px;color:var(--accent);font-weight:700;letter-spacing:.06em}
+  .hero h1{font-size:clamp(24px,4.4vw,32px);line-height:1.6;font-weight:800;margin-top:10px}
+  .hero h1 .mono{font-family:ui-monospace,Consolas,monospace;color:var(--key-accent)}
+  .meta{margin-top:16px;font-size:13.5px;color:var(--muted)}
+  .hero img{width:100%;height:auto;margin-top:26px;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow)}
+  article{padding:44px 0 10px}
+  article h2{font-size:21px;font-weight:800;margin:38px 0 12px;line-height:1.6}
+  article h2:first-child{margin-top:0}
+  article p{margin:12px 0}
+  article ul{margin:12px 0 12px 1.4em}
+  article li{margin:6px 0}
+  code{font-family:ui-monospace,Consolas,monospace;background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:.92em}
+  table{border-collapse:collapse;width:100%;margin:18px 0;font-size:15px}
+  th,td{border:1px solid var(--line);padding:9px 13px;text-align:left;vertical-align:top}
+  th{background:var(--band);font-weight:700}
+  .cta{background:var(--band);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:30px 0}
+  .cta .btn{display:inline-flex;align-items:center;min-height:48px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;padding:9px 24px;border-radius:9px;margin-top:10px;box-shadow:var(--shadow)}
+  .cta .btn:hover{opacity:.9}
+  .cta .sub{font-size:13px;color:var(--muted);margin-top:10px}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 40px;font-size:13.5px;color:var(--muted)}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="logo" href="../../">key-remap</a>
+    <nav class="nav-links">
+      <a href="../../">トップ</a>
+      <a href="https://github.com/thanatos333/key-remap">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="kicker">開発ノート</div>
+    <h1>US配列キーボードに半角/全角キーがない問題を、<span class="mono">`</span> キーで解決した話</h1>
+    <p class="meta">2026年11月16日 ・ Windows 10 / 11 ・ Rust</p>
+    <img src="https://raw.githubusercontent.com/thanatos333/key-remap/main/assets/demo.svg" alt="key-remap のデモ。` キーを押すたびに IME のオン/オフ（あ / A）が切り替わり、Alt+` でバッククォートが入力される" width="760" height="420">
+  </div>
+</div>
+
+<div class="wrap">
+<article>
+
+<h2>困っていたこと</h2>
+<p>US配列（英語配列）のキーボードには、日本語キーボードにある半角/全角キーがありません。Windows で日本語入力（IME）を切り替える標準の方法は <code>Alt</code> + <code>`</code> の同時押しです。これが地味に押しにくい。左上の端にある <code>`</code>（バッククォート）と Alt を同時に狙う操作を、文章を書くたびに何十回も繰り返すことになります。</p>
+<p>60%キーボードのような小型の英語配列だと、さらに事情は悪くなります。「日本語入力の切り替えだけ、半角/全角キーと同じ感覚で1キーにしたい」。欲しいのはそれだけでした。</p>
+
+<h2>既存の方法を全部試して分かったこと</h2>
+<table>
+  <tr><th>方法</th><th>結果</th></tr>
+  <tr><td>Windows 標準（<code>Alt</code> + <code>`</code>）</td><td>設定ゼロだが、毎回2キーの同時押しになる</td></tr>
+  <tr><td>Microsoft IME のキーカスタマイズ</td><td>修飾キーとの組み合わせには割り当てられるが、単独キーのトグルにはできない</td></tr>
+  <tr><td>PowerToys Keyboard Manager</td><td>汎用には高機能だが、この入れ替えだけのために大きなユーティリティを常駐させることになる。IME切り替えキーのリマップには相性問題の報告もある</td></tr>
+  <tr><td>AutoHotkey</td><td>柔軟だが、スクリプトの作成・保守と本体の常駐が必要</td></tr>
+  <tr><td>レジストリの Scancode Map</td><td><strong>この入れ替えは実現できない</strong>（後述）</td></tr>
+</table>
+<p>一番意外だったのが Scancode Map です。Windows 標準の仕組みで再起動すれば効くので最初に試したのですが、入れ替えできるのは「単独キー同士」だけでした。<code>`</code> 単独と <code>Alt</code> + <code>`</code> のように、「単独キー」と「修飾キーとの組み合わせ」の入れ替えは、仕組み上できない。これは実際に試して初めて分かりました。</p>
+<p>つまり、この入れ替えをやるには「キー入力をフックして、押された組み合わせを見てから別の入力に置き換える」常駐プログラムが要ります。やることが1つに決まっているなら、汎用ツールではなく単機能の小さな道具を作るのが早い。そうして作ったのが <strong>key-remap</strong> です。</p>
+
+<h2>作ったもの：key-remap</h2>
+<p>変えるのは2つだけです。それ以外は一切触りません。</p>
+<table>
+  <tr><th>入力</th><th>導入前</th><th>導入後</th></tr>
+  <tr><td><code>`</code></td><td><code>`</code> が入力される</td><td>日本語入力のオン/オフ（半角/全角キー相当）</td></tr>
+  <tr><td><code>Alt</code> + <code>`</code></td><td>日本語入力のオン/オフ</td><td><code>`</code> が入力される</td></tr>
+  <tr><td><code>Shift</code> + <code>`</code></td><td>~ が入力される</td><td>そのまま</td></tr>
+  <tr><td><code>Ctrl</code> + <code>`</code> など</td><td>各アプリのショートカット</td><td>そのまま</td></tr>
+</table>
+<p>exe を実行するだけで有効になり、あわせて自動起動も登録されます。インストール不要、単一ファイル 113 KB、常駐時のメモリ使用量は約 1 MB です。</p>
+
+<div class="cta">
+  <strong>ダウンロードと詳細はこちら</strong><br>
+  <a class="btn" href="https://github.com/thanatos333/key-remap/releases/latest/download/key-remap.exe">key-remap.exe をダウンロード</a>
+  <div class="sub">無料 ・ MIT ライセンスで<a href="https://github.com/thanatos333/key-remap">ソースコードも公開</a>しています。使い方や FAQ は<a href="../../">公式ページ</a>にまとめました。</div>
+</div>
+
+<h2>実装の勘所</h2>
+<p>作り自体は Rust で、低レベルキーボードフック（<code>WH_KEYBOARD_LL</code>）で <code>`</code> のキー（<code>VK_OEM_3</code>）を拾い、SendInput で置き換える、という素直なものです。ただ、実際に使い物にするまでにいくつか工夫が要りました。</p>
+<ul>
+  <li><strong>入力言語はフォーカス中のウィンドウから判定する</strong>：アクティブな入力言語は、前面ウィンドウのスレッドから取得します（<code>GetGUIThreadInfo</code> + <code>GetKeyboardLayout</code>）。これでストアアプリ等でも正しく判定できます。</li>
+  <li><strong>言語ごとに「切り替えキー」が違う</strong>：日本語には半角/全角キー、韓国語には 한/영 キーという専用キーがありますが、他の言語には専用キーがありません。そこで v0.3.0 から3分岐にしました。日本語なら半角/全角キー（<code>vkF3</code> / <code>sc029</code>）、韓国語なら 한/영 キー（<code>vk15</code>）、それ以外はトップレベルウィンドウへ <code>WM_INPUTLANGCHANGEREQUEST</code> で次の言語（<code>HKL_NEXT</code>）を明示する。最後のは <code>Alt</code> + <code>Shift</code> の「次の言語へ」を、対象ウィンドウ限定で確実に行う方法です。</li>
+  <li><strong>バッククォートの入力で Alt をマスクする</strong>：<code>Alt</code> + <code>`</code> で <code>`</code> の文字を送るとき、そのままではアプリが Alt ショートカットと誤認します。Unicode 文字として送出し、その間 Alt の影響を抑えることで回避しています。</li>
+  <li><strong>長押しの扱いを分ける</strong>：<code>`</code> の長押しでは切り替えは1回だけ（押しっぱなしでオン/オフを繰り返さない）。<code>Alt</code> + <code>`</code> の長押しは通常のキーと同じく連続入力にします。</li>
+  <li><strong>自動起動は自分で登録し直す</strong>：起動時に <code>HKCU</code> の Run キーへ自分のパスを書き込むので、exe を移動しても次回起動時に新しい場所で登録し直されます。解除は <code>key-remap.exe --uninstall</code> です。</li>
+</ul>
+<p>外部ライブラリは使っていません（raw Win32 FFI）。ポーリングもタイマーもなく、待機中はメッセージループで眠っているだけなので、CPU は使いません。</p>
+
+<h2>向いていない人</h2>
+<p>key-remap はトグル式だけです。IME の「オン専用キー」と「オフ専用キー」を別々に割り当てたい場合は、AutoHotkey 系（alt-ime-ahk など）の方が向いています。また、管理者権限で実行されているウィンドウの上では、ユーザーレベルのフックでは入力を拾えません（これは Windows の仕様で、その場合は key-remap 側も管理者権限で実行してください）。</p>
+<p>逆に、「変えたいのはこの1点だけ」「設定画面を開きたくない」という人には、単機能であることがそのまま利点になると思います。</p>
+
+<h2>まとめ</h2>
+<p>US配列キーボードの日本語入力切り替えは、小さいけれど毎日触る不便です。既存の方法では埋まらなかった「<code>`</code> 単独を半角/全角キーにする」という一点を、113 KB の単機能ツールで埋めました。同じことで引っかかっている人の参考になれば幸いです。</p>
+<p>多言語を行き来する人向けには、<a href="../../switch/ja/">` キー単押しで入力言語を切り替えるページ</a>も用意しています。</p>
+
+</article>
+
+<footer>
+  <a href="../../">key-remap トップ</a> ・ <a href="https://github.com/thanatos333/key-remap">GitHub リポジトリ</a> ・ <a href="../../switch/ja/">入力言語の切り替えについて</a>
+</footer>
+</div>
+</body>
+</html>
